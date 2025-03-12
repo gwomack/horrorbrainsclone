@@ -1,0 +1,10 @@
+---
+description: 
+globs: *
+alwaysApply: false
+---
+at all times:
+
+do a TDD approach, you can plan first but the very firt code that you show me must be the test of the file
+create a stack document in docs folder and keep track of the app stack over there
+insert into the @README.md file, whatever you find applicable, like installation instructions, app functioning considerations. Update it whenever the app updates
