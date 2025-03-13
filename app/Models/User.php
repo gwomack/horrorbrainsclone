@@ -3,31 +3,40 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+use Filament\Models\Contracts\FilamentUser;
+use Filament\Models\Contracts\HasAvatar;
+use Filament\Panel;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
+use Jeffgreco13\FilamentBreezy\Traits\TwoFactorAuthenticatable;
+use Laravel\Sanctum\HasApiTokens;
+use Spatie\Permission\Traits\HasRoles;
 
-class User extends Authenticatable
+class User extends Authenticatable implements FilamentUser, HasAvatar, MustVerifyEmail
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable, HasRoles, TwoFactorAuthenticatable, HasApiTokens;
 
     /**
      * The attributes that are mass assignable.
      *
-     * @var list<string>
+     * @var array<int, string>
      */
     protected $fillable = [
         'name',
         'email',
         'password',
+        'avatar_url',
     ];
 
     /**
      * The attributes that should be hidden for serialization.
      *
-     * @var list<string>
+     * @var array<int, string>
      */
     protected $hidden = [
         'password',
@@ -47,14 +56,18 @@ class User extends Authenticatable
         ];
     }
 
-    /**
-     * Get the user's initials
-     */
-    public function initials(): string
+    // public function getFilamentAvatarUrl(): ?string
+    // {
+    //     return asset($this->avatar_url);
+    // }
+
+    public function getFilamentAvatarUrl(): ?string
     {
-        return Str::of($this->name)
-            ->explode(' ')
-            ->map(fn (string $name) => Str::of($name)->substr(0, 1))
-            ->implode('');
+        return $this->avatar_url ? Storage::url($this->avatar_url) : null;
+    }
+
+    public function canAccessPanel(Panel $panel): bool
+    {
+        return true;
     }
 }
