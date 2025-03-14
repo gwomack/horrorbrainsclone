@@ -135,6 +135,7 @@ class UserResource extends Resource
             'edit' => Pages\EditUser::route('/{record}/edit'),
         ];
     }
+
     public static function infolist(Infolist $infolist): Infolist
     {
         return $infolist
