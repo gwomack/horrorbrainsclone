@@ -23,11 +23,11 @@
     }
 
     .movie-card {
-        @apply transition-all duration-300 border border-gray-800;
+        @apply transition-transform duration-300 border-0;
     }
 
     .movie-card:hover {
-        @apply transform -translate-y-1 shadow-lg shadow-red-900/30;
+        @apply transform scale-105;
     }
 
     .nav-link {

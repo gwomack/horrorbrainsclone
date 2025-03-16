@@ -34,8 +34,8 @@
     </section>
 
     <!-- Latest Releases Section -->
-    <section id="latest" class="py-12 bg-gray-900">
-        <div class="container px-4 mx-auto">
+    <section id="latest" class="py-12 bg-black">
+        <div class="px-4 mx-auto lg:container">
             <div class="flex justify-between items-center mb-8">
                 <h2 class="text-2xl font-bold text-white md:text-3xl">Latest <span class="blood-red">Releases</span></h2>
                 <a href="#" class="flex items-center text-sm text-gray-400 hover:text-white">
@@ -43,131 +43,167 @@
                 </a>
             </div>
 
-            <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-                <!-- Movie Card 1 -->
-                <div class="overflow-hidden bg-gray-800 rounded-lg movie-card">
-                    <div class="relative">
+            <!-- First Row - 2 Large Squares -->
+            <div class="grid gap-2 mb-2 md:grid-cols-2">
+                <!-- Large Movie Card 1 -->
+                <div class="bg-black movie-card">
+                    <div class="relative aspect-[16/9]">
                         <img src="https://m.media-amazon.com/images/M/MV5BMTg1OTkxMDQwNV5BMl5BanBnXkFtZTgwMjA1NDkxMzI@._V1_.jpg"
                              alt="A Quiet Place"
-                             class="object-cover w-full h-64">
-                        <div class="absolute top-2 right-2 px-2 py-1 text-xs text-white bg-red-800 rounded">
+                             class="object-cover w-full h-full">
+                        <div class="absolute top-2 right-2 px-2 py-1 text-xs text-white bg-red-800">
                             NEW
                         </div>
-                    </div>
-                    <div class="p-4">
-                        <h3 class="mb-1 text-lg font-semibold text-white">A Quiet Place</h3>
-                        <div class="flex items-center mb-2">
-                            <div class="flex text-yellow-500">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star-half-alt"></i>
+                        <div class="absolute bottom-0 left-0 p-4 w-full">
+                            <h3 class="mb-2 text-xl font-semibold text-white">A Quiet Place</h3>
+                            <div class="flex items-center mb-2">
+                                <div class="flex text-yellow-500">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star-half-alt"></i>
+                                </div>
+                                <span class="ml-2 text-sm text-gray-400">4.5/5</span>
                             </div>
-                            <span class="ml-2 text-sm text-gray-400">4.5/5</span>
-                        </div>
-                        <p class="mb-3 text-sm text-gray-400">A family struggles to survive in a world where most humans have been killed by blind but noise-sensitive creatures.</p>
-                        <div class="flex justify-between items-center">
-                            <span class="text-xs text-gray-500">2018 • Horror/Thriller</span>
-                            <a href="#" class="text-sm text-red-600 hover:text-red-500">
-                                <i class="mr-1 fas fa-info-circle"></i> Details
-                            </a>
+                            <p class="text-sm text-gray-300">A family struggles to survive in a world where most humans have been killed by blind but noise-sensitive creatures.</p>
+                            <div class="flex justify-between items-center mt-3">
+                                <span class="text-xs text-gray-400">2018 • Horror/Thriller</span>
+                                <a href="#" class="text-sm text-red-600 hover:text-red-500">
+                                    <i class="mr-1 fas fa-info-circle"></i> Details
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Movie Card 2 -->
-                <div class="overflow-hidden bg-gray-800 rounded-lg movie-card">
-                    <div class="relative">
+                <!-- Large Movie Card 2 -->
+                <div class="bg-black movie-card">
+                    <div class="relative aspect-[16/9]">
                         <img src="https://m.media-amazon.com/images/M/MV5BZDVkZmI0YzAtNzdjYi00ZjhhLWE1ODEtMWMzMWMzNDA0NmQ4XkEyXkFqcGdeQXVyNzYzODM3Mzg@._V1_.jpg"
                              alt="IT"
-                             class="object-cover w-full h-64">
-                        <div class="absolute top-2 right-2 px-2 py-1 text-xs text-white bg-red-800 rounded">
+                             class="object-cover w-full h-full">
+                        <div class="absolute top-2 right-2 px-2 py-1 text-xs text-white bg-red-800">
                             NEW
                         </div>
-                    </div>
-                    <div class="p-4">
-                        <h3 class="mb-1 text-lg font-semibold text-white">IT</h3>
-                        <div class="flex items-center mb-2">
-                            <div class="flex text-yellow-500">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="far fa-star"></i>
+                        <div class="absolute bottom-0 left-0 p-4 w-full">
+                            <h3 class="mb-2 text-xl font-semibold text-white">IT</h3>
+                            <div class="flex items-center mb-2">
+                                <div class="flex text-yellow-500">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="far fa-star"></i>
+                                </div>
+                                <span class="ml-2 text-sm text-gray-400">4.0/5</span>
                             </div>
-                            <span class="ml-2 text-sm text-gray-400">4.0/5</span>
-                        </div>
-                        <p class="mb-3 text-sm text-gray-400">In the summer of 1989, a group of bullied kids band together to destroy a shape-shifting monster.</p>
-                        <div class="flex justify-between items-center">
-                            <span class="text-xs text-gray-500">2017 • Horror/Supernatural</span>
-                            <a href="#" class="text-sm text-red-600 hover:text-red-500">
-                                <i class="mr-1 fas fa-info-circle"></i> Details
-                            </a>
+                            <p class="text-sm text-gray-300">In the summer of 1989, a group of bullied kids band together to destroy a shape-shifting monster.</p>
+                            <div class="flex justify-between items-center mt-3">
+                                <span class="text-xs text-gray-400">2017 • Horror/Supernatural</span>
+                                <a href="#" class="text-sm text-red-600 hover:text-red-500">
+                                    <i class="mr-1 fas fa-info-circle"></i> Details
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
+            </div>
 
+            <!-- Second Row and Beyond - 3 Squares -->
+            <div class="grid grid-cols-2 gap-2 md:grid-cols-4 lg:grid-cols-5">
                 <!-- Movie Card 3 -->
-                <div class="overflow-hidden bg-gray-800 rounded-lg movie-card">
-                    <div class="relative">
+                <div class="bg-black movie-card">
+                    <div class="relative aspect-square">
                         <img src="https://m.media-amazon.com/images/M/MV5BNzM0OGZiZWItYmZiNC00NDgzLTg1MjMtYjM4MWZhOGZhMDUwXkEyXkFqcGdeQXVyMTkxNjUyNQ@@._V1_.jpg"
                              alt="Midsommar"
-                             class="object-cover w-full h-64">
-                        <div class="absolute top-2 right-2 px-2 py-1 text-xs text-white bg-red-800 rounded">
+                             class="object-cover w-full h-full">
+                        <div class="absolute top-2 right-2 px-2 py-1 text-xs text-white bg-red-800">
                             NEW
                         </div>
-                    </div>
-                    <div class="p-4">
-                        <h3 class="mb-1 text-lg font-semibold text-white">Midsommar</h3>
-                        <div class="flex items-center mb-2">
-                            <div class="flex text-yellow-500">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star-half-alt"></i>
-                                <i class="far fa-star"></i>
+                        <div class="absolute bottom-0 left-0 p-4 w-full">
+                            <h3 class="mb-2 text-lg font-semibold text-white">Midsommar</h3>
+                            <div class="flex items-center mb-2">
+                                <div class="flex text-yellow-500">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star-half-alt"></i>
+                                    <i class="far fa-star"></i>
+                                </div>
+                                <span class="ml-2 text-sm text-gray-400">3.5/5</span>
                             </div>
-                            <span class="ml-2 text-sm text-gray-400">3.5/5</span>
-                        </div>
-                        <p class="mb-3 text-sm text-gray-400">A couple travels to Northern Europe to visit a rural hometown's fabled Swedish mid-summer festival.</p>
-                        <div class="flex justify-between items-center">
-                            <span class="text-xs text-gray-500">2019 • Horror/Folk</span>
-                            <a href="#" class="text-sm text-red-600 hover:text-red-500">
-                                <i class="mr-1 fas fa-info-circle"></i> Details
-                            </a>
+                            <p class="text-sm text-gray-300">A couple travels to Northern Europe to visit a rural hometown's fabled Swedish mid-summer festival.</p>
+                            <div class="flex justify-between items-center mt-3">
+                                <span class="text-xs text-gray-400">2019 • Horror/Folk</span>
+                                <a href="#" class="text-sm text-red-600 hover:text-red-500">
+                                    <i class="mr-1 fas fa-info-circle"></i> Details
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
 
                 <!-- Movie Card 4 -->
-                <div class="overflow-hidden bg-gray-800 rounded-lg movie-card">
-                    <div class="relative">
+                <div class="bg-black movie-card">
+                    <div class="relative aspect-square">
                         <img src="https://m.media-amazon.com/images/M/MV5BMjI0MDMzNTQ0M15BMl5BanBnXkFtZTgwMTM5NzM3NDM@._V1_.jpg"
-                             alt="A Quiet Place"
-                             class="object-cover w-full h-64">
-                        <div class="absolute top-2 right-2 px-2 py-1 text-xs text-white bg-red-800 rounded">
+                             alt="Hereditary"
+                             class="object-cover w-full h-full">
+                        <div class="absolute top-2 right-2 px-2 py-1 text-xs text-white bg-red-800">
                             NEW
                         </div>
-                    </div>
-                    <div class="p-4">
-                        <h3 class="mb-1 text-lg font-semibold text-white">Hereditary</h3>
-                        <div class="flex items-center mb-2">
-                            <div class="flex text-yellow-500">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
+                        <div class="absolute bottom-0 left-0 p-4 w-full">
+                            <h3 class="mb-2 text-lg font-semibold text-white">Hereditary</h3>
+                            <div class="flex items-center mb-2">
+                                <div class="flex text-yellow-500">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                <span class="ml-2 text-sm text-gray-400">5.0/5</span>
                             </div>
-                            <span class="ml-2 text-sm text-gray-400">5.0/5</span>
+                            <p class="text-sm text-gray-300">A grieving family is haunted by tragic and disturbing occurrences after the death of their secretive grandmother.</p>
+                            <div class="flex justify-between items-center mt-3">
+                                <span class="text-xs text-gray-400">2018 • Horror/Supernatural</span>
+                                <a href="#" class="text-sm text-red-600 hover:text-red-500">
+                                    <i class="mr-1 fas fa-info-circle"></i> Details
+                                </a>
+                            </div>
                         </div>
-                        <p class="mb-3 text-sm text-gray-400">A grieving family is haunted by tragic and disturbing occurrences after the death of their secretive grandmother.</p>
-                        <div class="flex justify-between items-center">
-                            <span class="text-xs text-gray-500">2018 • Horror/Supernatural</span>
-                            <a href="#" class="text-sm text-red-600 hover:text-red-500">
-                                <i class="mr-1 fas fa-info-circle"></i> Details
-                            </a>
+                    </div>
+                </div>
+
+                <!-- Movie Card 5 -->
+                <div class="bg-black movie-card">
+                    <div class="relative aspect-square">
+                        <img src="https://m.media-amazon.com/images/M/MV5BYTJlNDlkZTktNjEwOS00NzI5LTlkNDAtZmEwZDFmYmM2MjU2XkEyXkFqcGdeQXVyNjg2NjQwMDQ@._V1_.jpg"
+                             alt="Us"
+                             class="object-cover w-full h-full">
+                        <div class="absolute top-2 right-2 px-2 py-1 text-xs text-white bg-red-800">
+                            NEW
+                        </div>
+                        <div class="absolute bottom-0 left-0 p-4 w-full">
+                            <h3 class="mb-2 text-lg font-semibold text-white">Us</h3>
+                            <div class="flex items-center mb-2">
+                                <div class="flex text-yellow-500">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star-half-alt"></i>
+                                </div>
+                                <span class="ml-2 text-sm text-gray-400">4.5/5</span>
+                            </div>
+                            <p class="text-sm text-gray-300">A family's serene beach vacation turns to chaos when their doppelgängers appear and begin to terrorize them.</p>
+                            <div class="flex justify-between items-center mt-3">
+                                <span class="text-xs text-gray-400">2019 • Horror/Thriller</span>
+                                <a href="#" class="text-sm text-red-600 hover:text-red-500">
+                                    <i class="mr-1 fas fa-info-circle"></i> Details
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
