@@ -1,3 +1,49 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Horror Theme Custom Styles */
+@layer base {
+    body {
+        @apply bg-gray-900 text-gray-100;
+    }
+}
+
+@layer components {
+    .horror-title {
+        font-family: "Creepster", cursive;
+    }
+
+    .horror-text {
+        font-family: "Special Elite", cursive;
+    }
+
+    .blood-red {
+        @apply text-red-800;
+    }
+
+    .movie-card {
+        @apply transition-all duration-300 border border-gray-800;
+    }
+
+    .movie-card:hover {
+        @apply transform -translate-y-1 shadow-lg shadow-red-900/30;
+    }
+
+    .nav-link {
+        @apply relative transition-all duration-300;
+    }
+
+    .nav-link:after {
+        content: "";
+        @apply absolute w-0 h-0.5 bottom-0 left-0 bg-red-800 transition-all duration-300;
+    }
+
+    .nav-link:hover:after {
+        @apply w-full;
+    }
+
+    .nav-link:hover {
+        @apply text-red-800;
+    }
+}
