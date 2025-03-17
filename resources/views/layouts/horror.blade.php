@@ -75,50 +75,46 @@
 </head>
 <body class="flex flex-col min-h-screen antialiased">
     <!-- Header -->
-    <header class="bg-black border-b border-gray-800">
-        <div class="container px-4 py-4 mx-auto">
-            <div class="flex justify-between items-center">
-                <a href="/" class="flex items-center">
-                    <span class="text-3xl horror-title md:text-4xl blood-red">Horror Brains</span>
-                </a>
-
-                <nav class="hidden space-x-8 md:flex">
-                    <a href="/" class="text-gray-300 nav-link hover:text-white">Home</a>
-                    <a href="#" class="text-gray-300 nav-link hover:text-white">Movies</a>
-                    <a href="#" class="text-gray-300 nav-link hover:text-white">Reviews</a>
-                    <a href="#" class="text-gray-300 nav-link hover:text-white">News</a>
-                    <a href="#" class="text-gray-300 nav-link hover:text-white">About</a>
-                </nav>
-
-                <div class="flex items-center space-x-4">
+    <header class="top-0 z-50 bg-black border-b border-gray-800">
+        <section class="py-8 bg-black">
+            <div class="container px-4 mx-auto">
+                <div class="mx-auto max-w-3xl text-center">
+                    <h1 class="mb-2 text-4xl horror-title md:text-6xl blood-red">Horror Brains</h1>
+                    <p class="mb-4 text-xl text-gray-300">Your ultimate resource for horror movie enthusiasts</p>
+                    <!-- Navigation Menu -->
+                    <nav class="bg-black">
+                        <div class="container px-4 mx-auto">
+                            <div class="flex justify-center items-center h-12">
+                                <div class="hidden space-x-8 md:flex">
+                                    <a href="#" class="text-gray-300 hover:text-white">Movies</a>
+                                    <a href="#" class="text-gray-300 hover:text-white">Reviews</a>
+                                    <a href="#" class="text-gray-300 hover:text-white">News</a>
+                                    <a href="#" class="text-gray-300 hover:text-white">Community</a>
+                                    <button class="text-gray-300 hover:text-white">
+                                        <i class="fas fa-user"></i>
+                                    </button>
+                                </div>
+                                <button class="text-gray-300 hover:text-white md:hidden">
+                                    <i class="fas fa-bars"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </nav>
                     <div class="relative">
-                        <input type="text" placeholder="Search..." class="px-4 py-2 w-32 text-sm text-white bg-gray-900 rounded-full focus:outline-none focus:ring-2 focus:ring-red-700 md:w-48">
-                        <button class="absolute top-2.5 right-3 text-gray-400">
+                        <input type="text"
+                            placeholder="Search for horror movies, reviews, or discussions..."
+                            class="px-6 py-4 w-full text-lg text-white bg-black border border-gray-700 focus:outline-none focus:ring-2 focus:ring-red-700 focus:border-transparent">
+                        <button class="absolute right-4 top-1/2 px-6 py-2 text-white bg-red-800 rounded-md transform -translate-y-1/2 hover:bg-red-700">
                             <i class="fas fa-search"></i>
                         </button>
                     </div>
-
-                    <button class="text-white md:hidden">
-                        <i class="fas fa-bars"></i>
-                    </button>
                 </div>
             </div>
+        </section>
 
-            <!-- Mobile Menu (Hidden by default) -->
-            <div class="hidden pb-2 mt-4 md:hidden">
-                <nav class="flex flex-col space-y-3">
-                    <a href="/" class="text-gray-300 hover:text-white">Home</a>
-                    <a href="#" class="text-gray-300 hover:text-white">Movies</a>
-                    <a href="#" class="text-gray-300 hover:text-white">Reviews</a>
-                    <a href="#" class="text-gray-300 hover:text-white">News</a>
-                    <a href="#" class="text-gray-300 hover:text-white">About</a>
-                </nav>
-            </div>
-        </div>
     </header>
 
-    <!-- Main Content -->
-    <main class="flex-grow">
+    <main>
         @yield('content')
     </main>
 

@@ -9,6 +9,17 @@
     }
 }
 
+@layer utilities {
+    .scrollbar-hide {
+        -ms-overflow-style: none; /* IE and Edge */
+        scrollbar-width: none; /* Firefox */
+    }
+
+    .scrollbar-hide::-webkit-scrollbar {
+        display: none; /* Chrome, Safari and Opera */
+    }
+}
+
 @layer components {
     .horror-title {
         font-family: "Creepster", cursive;
@@ -28,6 +39,10 @@
 
     .movie-card:hover {
         @apply transform scale-105;
+    }
+
+    .movie-card-aspect {
+        @apply aspect-[16/9];
     }
 
     .nav-link {
