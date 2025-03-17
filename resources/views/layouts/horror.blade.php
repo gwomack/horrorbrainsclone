@@ -16,7 +16,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <!-- Styles -->
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @filamentStyles
+    @vite('resources/css/app.css')
 
     <!-- Custom Horror Styles -->
     <style>
@@ -183,5 +184,8 @@
             });
         });
     </script>
+
+    @filamentScripts
+    @vite('resources/js/app.js')
 </body>
 </html>

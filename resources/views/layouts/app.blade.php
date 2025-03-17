@@ -16,7 +16,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
     <!-- Styles -->
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @filamentStyles
+    @vite('resources/css/app.css')
 </head>
 <body class="font-sans antialiased bg-black">
     <!-- Navigation -->
@@ -31,7 +32,7 @@
                 </div>
 
                 <!-- Navigation Links -->
-                <div class="hidden md:flex space-x-8">
+                <div class="hidden space-x-8 md:flex">
                     <a href="/" class="text-gray-300 hover:text-white">Home</a>
                     <a href="/categories" class="text-gray-300 hover:text-white">Categories</a>
                     <a href="/years" class="text-gray-300 hover:text-white">Years</a>
@@ -44,9 +45,9 @@
                         <input type="text"
                                name="q"
                                placeholder="Search movies..."
-                               class="w-64 px-4 py-2 text-white bg-gray-800 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500">
+                               class="px-4 py-2 w-64 text-white bg-gray-800 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500">
                         <button type="submit" class="absolute right-3 top-1/2 transform -translate-y-1/2">
-                            <i class="fas fa-search text-gray-400"></i>
+                            <i class="text-gray-400 fas fa-search"></i>
                         </button>
                     </form>
                 </div>
@@ -106,5 +107,8 @@
             </div>
         </div>
     </footer>
+
+    @filamentScripts
+    @vite('resources/js/app.js')
 </body>
 </html>

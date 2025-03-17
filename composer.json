@@ -17,6 +17,7 @@
         "dedoc/scramble": "^0.11.33",
         "dutchcodingcompany/filament-socialite": "^2.3",
         "filament/filament": "^3.2",
+        "filament/forms": "^3.2",
         "filament/spatie-laravel-media-library-plugin": "^3.2",
         "filament/spatie-laravel-settings-plugin": "^3.2",
         "hasnayeen/themes": "*",
