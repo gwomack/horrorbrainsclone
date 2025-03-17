@@ -79,8 +79,8 @@
         <section class="py-8 bg-black">
             <div class="container px-4 mx-auto">
                 <div class="mx-auto max-w-3xl text-center">
-                    <h1 class="mb-2 text-4xl horror-title md:text-6xl blood-red">Horror Brains</h1>
-                    <p class="mb-4 text-xl text-gray-300">Your ultimate resource for horror movie enthusiasts</p>
+                    <h1 class="mb-2 text-4xl horror-title md:text-6xl blood-red">{{ config('app.name', 'Horror Brains') }}</h1>
+                    {{-- <p class="mb-4 text-xl text-gray-300">Your ultimate resource for horror movie enthusiasts</p> --}}
                     <!-- Navigation Menu -->
                     <nav class="bg-black">
                         <div class="container px-4 mx-auto">
@@ -157,7 +157,7 @@
                     </div>
                     <p class="mt-4 text-sm text-gray-400">Subscribe to our newsletter for the latest horror updates.</p>
                     <div class="flex mt-2">
-                        <input type="email" placeholder="Your email" class="px-3 py-2 w-full text-sm text-white bg-gray-900 rounded-l focus:outline-none focus:ring-1 focus:ring-red-700">
+                        <input type="email" placeholder="Your email" class="px-3 py-2 w-full text-sm text-white bg-black border border-r-0 border-gray-800 focus:outline-none focus:ring-1 focus:ring-red-700">
                         <button class="px-3 py-2 text-sm text-white bg-red-800 rounded-r hover:bg-red-700">
                             Subscribe
                         </button>

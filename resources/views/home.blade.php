@@ -160,78 +160,149 @@
                 </div>
             </div>
 
-            <!-- Additional Movie Rows -->
-            @for ($i = 1; $i <= 9; $i++)
-            <div class="grid grid-cols-2 gap-2 mb-2 md:grid-cols-4">
-                <!-- Movie Card -->
-                <div class="bg-black movie-card">
-                    <div class="relative movie-card-aspect">
-                        <img src="https://m.media-amazon.com/images/M/MV5BNzM0OGZiZWItYmZiNC00NDgzLTg1MjMtYjM4MWZhOGZhMDUwXkEyXkFqcGdeQXVyMTkxNjUyNQ@@._V1_.jpg"
-                             alt="Movie {{ $i }}"
-                             class="object-cover w-full h-full">
-                        <div class="absolute top-2 right-2 px-2 py-1 text-xs text-white bg-red-800">
-                            NEW
-                        </div>
-                        <div class="absolute bottom-0 left-0 p-4 w-full">
-                            <h3 class="mb-2 text-lg font-semibold text-white">Movie Title {{ $i }}</h3>
-                            <div class="flex items-center mb-2">
-                                <div class="flex text-yellow-500">
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star-half-alt"></i>
+            <!-- Mood-Based Tags Section -->
+            <section class="py-12 bg-black">
+                <div class="px-4 mx-auto lg:container">
+                    <div class="flex justify-between items-center mb-8">
+                        <h2 class="text-2xl font-bold text-white md:text-3xl">Disturbing <span class="blood-red">& Unsettling</span></h2>
+                        <a href="#" class="flex items-center text-sm text-gray-400 hover:text-white">
+                            View All <i class="ml-2 fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                    <!-- Two rows of movie blocks -->
+                    <div class="grid grid-cols-2 gap-2 mb-2 md:grid-cols-3 lg:grid-cols-4">
+                        @for ($j = 1; $j <= 6; $j++)
+                        <div class="bg-black movie-card">
+                            <div class="relative movie-card-aspect">
+                                <img src="https://m.media-amazon.com/images/M/MV5BNzM0OGZiZWItYmZiNC00NDgzLTg1MjMtYjM4MWZhOGZhMDUwXkEyXkFqcGdeQXVyMTkxNjUyNQ@@._V1_.jpg"
+                                     alt="Mood Movie {{ $j }}"
+                                     class="object-cover w-full h-full">
+                                <div class="absolute top-2 right-2 px-2 py-1 text-xs text-white bg-red-800">
+                                    NEW
                                 </div>
-                                <span class="ml-2 text-sm text-gray-400">4.5/5</span>
-                            </div>
-                            <p class="text-sm text-gray-300">A gripping horror story that will keep you on the edge of your seat.</p>
-                            <div class="flex justify-between items-center mt-3">
-                                <span class="text-xs text-gray-400">2024 • Horror/Thriller</span>
-                                <a href="#" class="text-sm text-red-600 hover:text-red-500">
-                                    <i class="mr-1 fas fa-info-circle"></i> Details
-                                </a>
+                                <div class="absolute bottom-0 left-0 p-4 w-full">
+                                    <h3 class="mb-2 text-lg font-semibold text-white">Mood Movie {{ $j }}</h3>
+                                    <div class="flex items-center mb-2">
+                                        <div class="flex text-yellow-500">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star-half-alt"></i>
+                                        </div>
+                                        <span class="ml-2 text-sm text-gray-400">4.5/5</span>
+                                    </div>
+                                    <p class="text-sm text-gray-300">A gripping horror story that will keep you on the edge of your seat.</p>
+                                    <div class="flex justify-between items-center mt-3">
+                                        <span class="text-xs text-gray-400">2024 • Horror/Thriller</span>
+                                        <a href="#" class="text-sm text-red-600 hover:text-red-500">
+                                            <i class="mr-1 fas fa-info-circle"></i> Details
+                                        </a>
+                                    </div>
+                                </div>
                             </div>
                         </div>
+                        @endfor
                     </div>
                 </div>
-                <!-- Repeat Movie Card 3 more times for the row -->
-                @for ($j = 1; $j <= 3; $j++)
-                <div class="bg-black movie-card">
-                    <div class="relative movie-card-aspect">
-                        <img src="https://m.media-amazon.com/images/M/MV5BMjI0MDMzNTQ0M15BMl5BanBnXkFtZTgwMTM5NzM3NDM@._V1_.jpg"
-                             alt="Movie {{ $i }}-{{ $j }}"
-                             class="object-cover w-full h-full">
-                        <div class="absolute top-2 right-2 px-2 py-1 text-xs text-white bg-red-800">
-                            NEW
-                        </div>
-                        <div class="absolute bottom-0 left-0 p-4 w-full">
-                            <h3 class="mb-2 text-lg font-semibold text-white">Movie Title {{ $i }}-{{ $j }}</h3>
-                            <div class="flex items-center mb-2">
-                                <div class="flex text-yellow-500">
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star-half-alt"></i>
+            </section>
+
+            <!-- Unique Themes Section -->
+            <section class="py-12 bg-black">
+                <div class="px-4 mx-auto lg:container">
+                    <div class="flex justify-between items-center mb-8">
+                        <h2 class="text-2xl font-bold text-white md:text-3xl">Retro Horror <span class="blood-red">Classics</span></h2>
+                        <a href="#" class="flex items-center text-sm text-gray-400 hover:text-white">
+                            View All <i class="ml-2 fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                    <!-- Two rows of movie blocks -->
+                    <div class="grid grid-cols-2 gap-2 mb-2 md:grid-cols-3 lg:grid-cols-4">
+                        @for ($j = 1; $j <= 6; $j++)
+                        <div class="bg-black movie-card">
+                            <div class="relative movie-card-aspect">
+                                <img src="https://m.media-amazon.com/images/M/MV5BMjI0MDMzNTQ0M15BMl5BanBnXkFtZTgwMTM5NzM3NDM@._V1_.jpg"
+                                     alt="Theme Movie {{ $j }}"
+                                     class="object-cover w-full h-full">
+                                <div class="absolute top-2 right-2 px-2 py-1 text-xs text-white bg-red-800">
+                                    NEW
                                 </div>
-                                <span class="ml-2 text-sm text-gray-400">4.5/5</span>
-                            </div>
-                            <p class="text-sm text-gray-300">A gripping horror story that will keep you on the edge of your seat.</p>
-                            <div class="flex justify-between items-center mt-3">
-                                <span class="text-xs text-gray-400">2024 • Horror/Thriller</span>
-                                <a href="#" class="text-sm text-red-600 hover:text-red-500">
-                                    <i class="mr-1 fas fa-info-circle"></i> Details
-                                </a>
+                                <div class="absolute bottom-0 left-0 p-4 w-full">
+                                    <h3 class="mb-2 text-lg font-semibold text-white">Theme Movie {{ $j }}</h3>
+                                    <div class="flex items-center mb-2">
+                                        <div class="flex text-yellow-500">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star-half-alt"></i>
+                                        </div>
+                                        <span class="ml-2 text-sm text-gray-400">4.5/5</span>
+                                    </div>
+                                    <p class="text-sm text-gray-300">A gripping horror story that will keep you on the edge of your seat.</p>
+                                    <div class="flex justify-between items-center mt-3">
+                                        <span class="text-xs text-gray-400">2024 • Horror/Thriller</span>
+                                        <a href="#" class="text-sm text-red-600 hover:text-red-500">
+                                            <i class="mr-1 fas fa-info-circle"></i> Details
+                                        </a>
+                                    </div>
+                                </div>
                             </div>
                         </div>
+                        @endfor
                     </div>
                 </div>
-                @endfor
-            </div>
-            @endfor
+            </section>
+
+            <!-- Specific Situations Section -->
+            <section class="py-12 bg-black">
+                <div class="px-4 mx-auto lg:container">
+                    <div class="flex justify-between items-center mb-8">
+                        <h2 class="text-2xl font-bold text-white md:text-3xl">Small Town <span class="blood-red">Terrors</span></h2>
+                        <a href="#" class="flex items-center text-sm text-gray-400 hover:text-white">
+                            View All <i class="ml-2 fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                    <!-- Two rows of movie blocks -->
+                    <div class="grid grid-cols-2 gap-2 mb-2 md:grid-cols-3 lg:grid-cols-4">
+                        @for ($j = 1; $j <= 6; $j++)
+                        <div class="bg-black movie-card">
+                            <div class="relative movie-card-aspect">
+                                <img src="https://m.media-amazon.com/images/M/MV5BYTJlNDlkZTktNjEwOS00NzI5LTlkNDAtZmEwZDFmYmM2MjU2XkEyXkFqcGdeQXVyNjg2NjQwMDQ@._V1_.jpg"
+                                     alt="Situation Movie {{ $j }}"
+                                     class="object-cover w-full h-full">
+                                <div class="absolute top-2 right-2 px-2 py-1 text-xs text-white bg-red-800">
+                                    NEW
+                                </div>
+                                <div class="absolute bottom-0 left-0 p-4 w-full">
+                                    <h3 class="mb-2 text-lg font-semibold text-white">Situation Movie {{ $j }}</h3>
+                                    <div class="flex items-center mb-2">
+                                        <div class="flex text-yellow-500">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star-half-alt"></i>
+                                        </div>
+                                        <span class="ml-2 text-sm text-gray-400">4.5/5</span>
+                                    </div>
+                                    <p class="text-sm text-gray-300">A gripping horror story that will keep you on the edge of your seat.</p>
+                                    <div class="flex justify-between items-center mt-3">
+                                        <span class="text-xs text-gray-400">2024 • Horror/Thriller</span>
+                                        <a href="#" class="text-sm text-red-600 hover:text-red-500">
+                                            <i class="mr-1 fas fa-info-circle"></i> Details
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        @endfor
+                    </div>
+                </div>
+            </section>
 
             <!-- Pagination -->
-            <div class="flex justify-center items-center mt-8 space-x-2">
+            {{-- <div class="flex justify-center items-center mt-8 space-x-2">
                 <a href="#" class="px-4 py-2 text-sm text-gray-400 bg-gray-800 rounded-md hover:bg-gray-700">
                     <i class="fas fa-chevron-left"></i>
                 </a>
@@ -243,12 +314,12 @@
                 <a href="#" class="px-4 py-2 text-sm text-gray-400 bg-gray-800 rounded-md hover:bg-gray-700">
                     <i class="fas fa-chevron-right"></i>
                 </a>
-            </div>
+            </div> --}}
         </div>
     </section>
 
     <!-- Categories Section -->
-    <section class="py-12 bg-gray-900">
+    <section class="py-12">
         <div class="container px-4 mx-auto">
             <h2 class="mb-8 text-2xl font-bold text-white md:text-3xl">Browse by <span class="blood-red">Category</span></h2>
 
