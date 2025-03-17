@@ -4,7 +4,7 @@
 
 ### Primary Colors
 
--   **Background**: `#0a0a0a` (Deep Black)
+-   **Background**: `#000000` (Black)
 -   **Text**: `#f8f8f8` (Off White)
 -   **Accent**: `#b91c1c` (Blood Red)
 -   **Secondary Accent**: `#2d2d2d` (Dark Gray)
