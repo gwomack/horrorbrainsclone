@@ -4,7 +4,7 @@
 
 @section('content')
     <!-- Featured Tags Section -->
-    <section class="py-6 bg-black border-b border-gray-800">
+    <section class="pb-6 bg-black border-b light-border">
         <div class="container px-4 mx-auto">
             <div class="flex overflow-x-auto gap-2 pb-2 scrollbar-hide">
                 <a href="#" class="flex-none px-6 py-3 border border-red-800 transition-colors duration-300 bg-red-800/20 hover:bg-red-800/30">
@@ -94,7 +94,7 @@
             </div>
 
             <!-- First Row - 2 Large Squares -->
-            <div class="grid gap-2 mb-2 md:grid-cols-2">
+            <div class="grid grid-cols-2 gap-2 mb-2 md:grid-cols-3">
                 <!-- Large Movie Card 1 -->
                 <div class="bg-black movie-card">
                     <div class="relative movie-card-aspect">
@@ -128,6 +128,37 @@
                 </div>
 
                 <!-- Large Movie Card 2 -->
+                <div class="bg-black movie-card">
+                    <div class="relative movie-card-aspect">
+                        <img src="https://m.media-amazon.com/images/M/MV5BZDVkZmI0YzAtNzdjYi00ZjhhLWE1ODEtMWMzMWMzNDA0NmQ4XkEyXkFqcGdeQXVyNzYzODM3Mzg@._V1_.jpg"
+                             alt="IT"
+                             class="object-cover w-full h-full">
+                        <div class="absolute top-2 right-2 px-2 py-1 text-xs text-white bg-red-800">
+                            NEW
+                        </div>
+                        <div class="absolute bottom-0 left-0 p-4 w-full">
+                            <h3 class="mb-2 text-xl font-semibold text-white">IT</h3>
+                            <div class="flex items-center mb-2">
+                                <div class="flex text-yellow-500">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="far fa-star"></i>
+                                </div>
+                                <span class="ml-2 text-sm text-gray-400">4.0/5</span>
+                            </div>
+                            <p class="text-sm text-gray-300">In the summer of 1989, a group of bullied kids band together to destroy a shape-shifting monster.</p>
+                            <div class="flex justify-between items-center mt-3">
+                                <span class="text-xs text-gray-400">2017 • Horror/Supernatural</span>
+                                <a href="#" class="text-sm text-red-600 hover:text-red-500">
+                                    <i class="mr-1 fas fa-info-circle"></i> Details
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="bg-black movie-card">
                     <div class="relative movie-card-aspect">
                         <img src="https://m.media-amazon.com/images/M/MV5BZDVkZmI0YzAtNzdjYi00ZjhhLWE1ODEtMWMzMWMzNDA0NmQ4XkEyXkFqcGdeQXVyNzYzODM3Mzg@._V1_.jpg"

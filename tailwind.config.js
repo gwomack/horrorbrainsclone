@@ -1,4 +1,5 @@
 import preset from './vendor/filament/support/tailwind.config.preset'
+const colors = require('tailwindcss/colors')
 
 /** @type {import('tailwindcss').Config} */
 export default {
@@ -21,6 +22,7 @@ export default {
                 typewriter: ['Special Elite', 'cursive'],
             },
             colors: {
+                ...colors,
                 'blood': {
                     50: '#fef2f2',
                     100: '#fee2e2',

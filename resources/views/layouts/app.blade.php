@@ -16,7 +16,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
     <!-- Styles -->
-    @filamentStyles
+    {{-- @filamentStyles --}}
     @vite('resources/css/app.css')
 </head>
 <body class="font-sans antialiased bg-black">
@@ -108,7 +108,7 @@
         </div>
     </footer>
 
-    @filamentScripts
+    {{-- @filamentScripts --}}
     @vite('resources/js/app.js')
 </body>
 </html>

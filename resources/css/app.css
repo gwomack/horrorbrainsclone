@@ -1,12 +1,19 @@
+[x-cloak] {
+    display: none !important;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 @tailwind variants;
 
 /* Horror Theme Custom Styles */
+
 @layer base {
     body {
-        @apply bg-gray-900 text-gray-100;
+        @apply bg-black text-gray-100;
+        /* color: #f8f8f8; */
+        font-family: "Figtree", sans-serif;
     }
 }
 
@@ -35,11 +42,14 @@
     }
 
     .movie-card {
-        @apply transition-transform duration-300 border-0;
+        @apply transition-transform duration-300 border light-border;
+        transition: all 0.3s ease;
     }
 
     .movie-card:hover {
         @apply transform scale-105;
+        transform: translateY(-5px);
+        box-shadow: 0 10px 15px -3px rgba(180, 0, 0, 0.3);
     }
 
     .movie-card-aspect {
@@ -53,6 +63,13 @@
     .nav-link:after {
         content: "";
         @apply absolute w-0 h-0.5 bottom-0 left-0 bg-red-800 transition-all duration-300;
+        content: "";
+        position: absolute;
+        width: 0;
+        height: 2px;
+        bottom: -2px;
+        left: 0;
+        transition: width 0.3s ease;
     }
 
     .nav-link:hover:after {
@@ -61,5 +78,14 @@
 
     .nav-link:hover {
         @apply text-red-800;
+        color: #b91c1c;
+    }
+
+    .thick-border {
+        @apply border-gray-300;
+    }
+
+    .light-border {
+        border-color: #2d2d2d;
     }
 }

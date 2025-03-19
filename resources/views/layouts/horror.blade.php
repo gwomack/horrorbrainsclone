@@ -16,74 +16,19 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <!-- Styles -->
-    @filamentStyles
+    {{-- @filamentStyles --}}
     @vite('resources/css/app.css')
-
-    <!-- Custom Horror Styles -->
-    <style>
-        body {
-            background-color: #0a0a0a;
-            color: #f8f8f8;
-            font-family: 'Figtree', sans-serif;
-        }
-
-        .horror-title {
-            font-family: 'Creepster', cursive;
-        }
-
-        .horror-text {
-            font-family: 'Special Elite', cursive;
-        }
-
-        .blood-red {
-            color: #b91c1c;
-        }
-
-        .movie-card {
-            transition: all 0.3s ease;
-            border: 1px solid #2d2d2d;
-        }
-
-        .movie-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 15px -3px rgba(180, 0, 0, 0.3);
-        }
-
-        .nav-link {
-            position: relative;
-            transition: all 0.3s ease;
-        }
-
-        .nav-link:after {
-            content: '';
-            position: absolute;
-            width: 0;
-            height: 2px;
-            bottom: -2px;
-            left: 0;
-            background-color: #b91c1c;
-            transition: width 0.3s ease;
-        }
-
-        .nav-link:hover:after {
-            width: 100%;
-        }
-
-        .nav-link:hover {
-            color: #b91c1c;
-        }
-    </style>
 </head>
-<body class="flex flex-col min-h-screen antialiased">
+<body class="flex flex-col min-h-screen antialiased bg-black">
     <!-- Header -->
-    <header class="top-0 z-50 bg-black border-b border-gray-800">
-        <section class="py-8 bg-black">
+    <header class="top-0 z-50">
+        <section class="py-8">
             <div class="container px-4 mx-auto">
                 <div class="mx-auto max-w-3xl text-center">
                     <h1 class="mb-2 text-4xl horror-title md:text-6xl blood-red">{{ config('app.name', 'Horror Brains') }}</h1>
                     {{-- <p class="mb-4 text-xl text-gray-300">Your ultimate resource for horror movie enthusiasts</p> --}}
                     <!-- Navigation Menu -->
-                    <nav class="bg-black">
+                    <nav class="">
                         <div class="container px-4 mx-auto">
                             <div class="flex justify-center items-center h-12">
                                 <div class="hidden space-x-8 md:flex">
@@ -104,7 +49,7 @@
                     <div class="relative">
                         <input type="text"
                             placeholder="Search for horror movies, reviews, or discussions..."
-                            class="px-6 py-4 w-full text-lg text-white bg-black border border-gray-700 focus:outline-none focus:ring-2 focus:ring-red-700 focus:border-transparent">
+                            class="px-6 py-4 w-full text-lg text-white bg-black thick-border focus:outline-none focus:ring-2 focus:ring-red-700 focus:border-transparent">
                         <button class="absolute right-4 top-1/2 px-6 py-2 text-white bg-red-800 rounded-md transform -translate-y-1/2 hover:bg-red-700">
                             <i class="fas fa-search"></i>
                         </button>
@@ -120,7 +65,7 @@
     </main>
 
     <!-- Footer -->
-    <footer class="py-8 bg-black border-t border-gray-800">
+    <footer class="py-8 mt-8 border-t thick-border">
         <div class="container px-4 mx-auto">
             <div class="grid grid-cols-1 gap-8 md:grid-cols-4">
                 <div>
@@ -158,7 +103,7 @@
                     </div>
                     <p class="mt-4 text-sm text-gray-400">Subscribe to our newsletter for the latest horror updates.</p>
                     <div class="flex mt-2">
-                        <input type="email" placeholder="Your email" class="px-3 py-2 w-full text-sm text-white bg-black border border-r-0 border-gray-800 focus:outline-none focus:ring-1 focus:ring-red-700">
+                        <input type="email" placeholder="Your email" class="px-3 py-2 w-full text-sm text-white bg-black border-r-0 thick-border focus:outline-none focus:ring-1 focus:ring-red-700">
                         <button class="px-3 py-2 text-sm text-white bg-red-800 rounded-r hover:bg-red-700">
                             Subscribe
                         </button>
@@ -166,7 +111,7 @@
                 </div>
             </div>
 
-            <div class="pt-6 mt-8 text-sm text-center text-gray-500 border-t border-gray-800">
+            <div class="pt-6 mt-8 text-sm text-center text-gray-500 border-t light-border">
                 <p>&copy; {{ date('Y') }} Horror Brains. All rights reserved.</p>
             </div>
         </div>
@@ -185,7 +130,7 @@
         });
     </script>
 
-    @filamentScripts
+    {{-- @filamentScripts --}}
     @vite('resources/js/app.js')
 </body>
 </html>
