@@ -10,7 +10,9 @@
     class="grid grid-cols-12 gap-2"
 >
     <!-- Main Content -->
-    <div class="col-span-12 lg:col-span-11">
+    <div class="col-span-0 lg:col-span-1"></div>
+
+    <div class="col-span-12 lg:col-span-10">
         <!-- Main Slider -->
         <div class="overflow-hidden relative h-96 shadow-xl">
             <div class="relative h-full">
