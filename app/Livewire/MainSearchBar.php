@@ -4,8 +4,6 @@ namespace App\Livewire;
 
 use Livewire\Component;
 use Livewire\Attributes\On;
-use Livewire\Attributes\Validate;
-use Illuminate\Support\Facades\Log;
 
 class MainSearchBar extends Component
 {
@@ -22,33 +20,39 @@ class MainSearchBar extends Component
         $this->input = trim($this->input);
 
         if (!in_array($this->input, $this->selectedTags)) {
-            $this->selectedTags[] = $this->input;
+            $this->selectedTags[] = ['id' => 0, 'content' => $this->input, 'type' => 'input'];
         }
 
         $this->reset('input');
     }
 
     #[On('tagSelected')]
-    public function handleTagSelected($tag)
+    public function handleTagSelected($id, $content, $type)
     {
-        if (!in_array($tag, $this->selectedTags)) {
-            $this->selectedTags[] = $tag;
+        $tagarr = ['id' => $id, 'content' => $content, 'type' => $type];
+
+        if (!in_array($tagarr, $this->selectedTags)) {
+            $this->selectedTags[] = ['id' => $id, 'content' => $content, 'type' => $type];
         }
     }
 
     #[On('tagRemoved')]
-    public function handleTagRemoved($tag)
+    public function handleTagRemoved($id, $content, $type)
     {
-        $this->selectedTags = array_diff($this->selectedTags, [$tag]);
+        $this->selectedTags = array_filter($this->selectedTags, function($tag) use ($id, $content, $type) {
+            return !($tag['id'] === $id && $tag['content'] === $content && $tag['type'] === $type);
+        });
     }
 
     #[On('toggleTag')]
-    public function toggleTag($tag)
+    public function toggleTag($id, $content, $type)
     {
-        if (in_array($tag, $this->selectedTags)) {
-            $this->dispatch('tagRemoved', tag: $tag);
+        $tagarr = ['id' => $id, 'content' => $content, 'type' => $type];
+
+        if (in_array($tagarr, $this->selectedTags)) {
+            $this->handleTagRemoved($id, $content, $type);
         } else {
-            $this->dispatch('tagSelected', tag: $tag);
+            $this->handleTagSelected($id, $content, $type);
         }
     }
 

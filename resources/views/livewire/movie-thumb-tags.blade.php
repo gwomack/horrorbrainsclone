@@ -26,14 +26,15 @@
                 @foreach($filteredTags as $tag)
                     <button
                         type="button"
-                        wire:click="toggleTag('{{ $tag }}')"
+                        wire:click="$dispatch('toggleTag', [{{ $tag['id'] }}, '{{ $tag['content'] }}', '{{ $tag['type'] }}'])"
                         class="w-full px-4 py-2 text-left text-white  {{ in_array($tag, $selectedTags) ? 'bg-red-900/30' : '' }}"
+                        wire:key="tag-{{ $tag['id'] . rand(1, 1000) }}"
                     >
                         <div class="flex items-center">
                             @if(in_array($tag, $selectedTags))
                                 <i class="mr-2 text-red-500 fas fa-check"></i>
                             @endif
-                            {{ $tag }}
+                            <i class="pr-1 fas fa-tag"></i> {{ $tag['content'] }}
                         </div>
                     </button>
                 @endforeach
