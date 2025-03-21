@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <!-- Styles -->
+    @livewireStyles
     {{-- @filamentStyles --}}
     @vite('resources/css/app.css')
 </head>
@@ -25,7 +26,7 @@
         <section class="py-8">
             <div class="container px-4 mx-auto">
                 <div class="mx-auto max-w-3xl text-center">
-                    <h1 class="mb-2 text-4xl horror-title md:text-6xl blood-red">{{ config('app.name', 'Horror Brains') }}</h1>
+                    <a href="/"><h1 class="mb-2 text-4xl horror-title md:text-6xl blood-red">{{ config('app.name', 'Horror Brains') }}</h1></a>
                     {{-- <p class="mb-4 text-xl text-gray-300">Your ultimate resource for horror movie enthusiasts</p> --}}
                     <!-- Navigation Menu -->
                     <nav class="">
@@ -47,12 +48,7 @@
                         </div>
                     </nav>
                     <div class="relative">
-                        <input type="text"
-                            placeholder="Search for horror movies, reviews, or discussions..."
-                            class="px-6 py-4 w-full text-lg text-white bg-black thick-border focus:outline-none focus:ring-2 focus:ring-red-700 focus:border-transparent">
-                        <button class="absolute right-4 top-1/2 px-6 py-2 text-white bg-red-800 rounded-md transform -translate-y-1/2 hover:bg-red-700">
-                            <i class="fas fa-search"></i>
-                        </button>
+                        <livewire:main-search-bar />
                     </div>
                 </div>
             </div>
@@ -65,7 +61,7 @@
     </main>
 
     <!-- Footer -->
-    <footer class="py-8 mt-8 border-t thick-border">
+    <footer class="py-8 mt-20 border-t thick-border">
         <div class="container px-4 mx-auto">
             <div class="grid grid-cols-1 gap-8 md:grid-cols-4">
                 <div>
@@ -130,6 +126,7 @@
         });
     </script>
 
+    @livewireScripts
     {{-- @filamentScripts --}}
     @vite('resources/js/app.js')
 </body>

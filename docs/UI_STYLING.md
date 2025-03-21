@@ -33,11 +33,50 @@
 ### Font Sizes
 
 -   **Hero Title**: 4xl (2.25rem) / 6xl (3.75rem) on larger screens
--   **Section Headings**: 2xl (1.5rem)
+-   **Section Headings**: 2xl (1.5rem) / 3xl (1.875rem) on larger screens
 -   **Subheadings**: xl (1.25rem)
 -   **Body Text**: base (1rem)
 -   **Small Text**: sm (0.875rem)
 -   **Extra Small Text**: xs (0.75rem)
+
+### Title Styling Standards
+
+#### Main Section Titles
+
+-   **Base Classes**: `text-2xl font-bold text-white md:text-3xl`
+-   **Accent**: Use `<span class="blood-red">` for emphasis
+-   **Spacing**: `mb-6`
+-   **Example**:
+
+```html
+<h2 class="text-2xl font-bold text-white md:text-3xl mb-6">
+    Section <span class="blood-red">Title</span>
+</h2>
+```
+
+#### Subsection Titles
+
+-   **Base Classes**: `text-xl font-semibold text-white`
+-   **Spacing**: `mb-4`
+-   **Example**:
+
+```html
+<h3 class="text-xl font-semibold text-white mb-4">Subsection Title</h3>
+```
+
+#### Page Titles
+
+-   **Base Classes**: `text-4xl font-bold tracking-tight text-white md:text-6xl horror-title blood-red`
+-   **Spacing**: Based on content context
+-   **Example**:
+
+```html
+<h1
+    class="text-4xl font-bold tracking-tight text-white md:text-6xl horror-title blood-red"
+>
+    Page Title
+</h1>
+```
 
 ## Layout & Spacing
 
@@ -67,6 +106,108 @@
 -   **xl**: 3rem (48px)
 
 ## Components
+
+### Movie Block
+
+#### Base Structure
+
+```html
+<div class="bg-black movie-card">
+    <div class="relative movie-card-aspect">
+        <img
+            src="movie-image.jpg"
+            alt="Movie Title"
+            class="object-cover w-full h-full"
+        />
+        <!-- Optional Badge -->
+        <div
+            class="absolute top-2 right-2 px-2 py-1 text-xs text-white bg-red-800"
+        >
+            NEW
+        </div>
+        <!-- Content Container -->
+        <div class="absolute bottom-0 left-0 p-4 w-full">
+            <h3 class="mb-2 text-lg font-semibold text-white">Movie Title</h3>
+            <!-- Rating -->
+            <div class="flex items-center mb-2">
+                <div class="flex text-yellow-500">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star-half-alt"></i>
+                </div>
+                <span class="ml-2 text-sm text-gray-400">4.5/5</span>
+            </div>
+            <!-- Description -->
+            <p class="text-sm text-gray-300">Movie description goes here.</p>
+            <!-- Footer -->
+            <div class="flex justify-between items-center mt-3">
+                <span class="text-xs text-gray-400">2024 • Genre</span>
+                <a href="#" class="text-sm text-red-600 hover:text-red-500">
+                    <i class="mr-1 fas fa-info-circle"></i> Details
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+```
+
+#### Styling Guidelines
+
+-   **Container**:
+
+    -   Base: `bg-black movie-card`
+    -   Aspect ratio container: `relative movie-card-aspect`
+    -   Image styling: `object-cover w-full h-full`
+    -   Badge (optional): `absolute top-2 right-2 px-2 py-1 text-xs text-white bg-red-800`
+    -   Content container: `absolute bottom-0 left-0 p-4 w-full`
+
+-   **Typography**:
+
+    -   Title: `text-lg font-semibold text-white mb-2`
+    -   Rating: `flex items-center mb-2` with `text-yellow-500` stars
+    -   Description: `text-sm text-gray-300`
+    -   Footer: `flex justify-between items-center mt-3`
+        -   Genre/Year: `text-xs text-gray-400`
+        -   Link: `text-sm text-red-600 hover:text-red-500`
+
+-   **Spacing**:
+
+    -   Content padding: `p-4`
+    -   Title margin: `mb-2`
+    -   Rating margin: `mb-2`
+    -   Footer margin: `mt-3`
+
+-   **Interactive Elements**:
+    -   Link hover: `hover:text-red-500`
+    -   Card hover: Use the standard card hover effect
+
+#### Usage Guidelines
+
+1. **Grid Layout**:
+
+    - Use in grid layouts with responsive columns
+    - Maintain consistent spacing between blocks
+    - Example grid: `grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4`
+
+2. **Optional Elements**:
+
+    - Badge (NEW, TRENDING, etc.)
+    - Rating stars
+    - Genre/Year information
+    - Details link
+
+3. **Responsive Considerations**:
+
+    - Maintain aspect ratio across screen sizes
+    - Ensure text remains readable at all breakpoints
+    - Adjust grid columns based on screen size
+
+4. **Accessibility**:
+    - Always include alt text for images
+    - Ensure sufficient color contrast
+    - Make entire card clickable when possible
 
 ### Cards
 

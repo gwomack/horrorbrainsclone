@@ -42,14 +42,11 @@
     }
 
     .movie-card {
-        @apply transition-transform duration-300 border light-border;
+        @apply border light-border;
         transition: all 0.3s ease;
     }
 
     .movie-card:hover {
-        @apply transform scale-105;
-        transform: translateY(-5px);
-        box-shadow: 0 10px 15px -3px rgba(180, 0, 0, 0.3);
     }
 
     .movie-card-aspect {

@@ -7,11 +7,9 @@
         }
     }"
     x-cloak
-    class="grid grid-cols-12 gap-2"
+    class="grid grid-cols-12 gap-2 mb-12"
 >
     <!-- Main Content -->
-    <div class="col-span-0 lg:col-span-1"></div>
-
     <div class="col-span-12 lg:col-span-10">
         <!-- Main Slider -->
         <div class="overflow-hidden relative h-96 shadow-xl">
@@ -46,7 +44,7 @@
     </div>
 
     <!-- Thumbnails -->
-    <div class="col-span-12 gap-2 lg:col-span-1">
+    <div class="col-span-12 gap-2 lg:col-span-2">
         <div class="flex flex-row flex-wrap gap-2 justify-center lg:flex-col">
             @foreach ($media as $index => $item)
                 <button

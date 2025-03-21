@@ -96,104 +96,42 @@
             <!-- First Row - 2 Large Squares -->
             <div class="grid grid-cols-2 gap-2 mb-2 md:grid-cols-3">
                 <!-- Large Movie Card 1 -->
-                <div class="bg-black movie-card">
-                    <div class="relative movie-card-aspect">
-                        <img src="https://m.media-amazon.com/images/M/MV5BMTg1OTkxMDQwNV5BMl5BanBnXkFtZTgwMjA1NDkxMzI@._V1_.jpg"
-                             alt="A Quiet Place"
-                             class="object-cover w-full h-full">
-                        <div class="absolute top-2 right-2 px-2 py-1 text-xs text-white bg-red-800">
-                            NEW
-                        </div>
-                        <div class="absolute bottom-0 left-0 p-4 w-full">
-                            <h3 class="mb-2 text-xl font-semibold text-white">A Quiet Place</h3>
-                            <div class="flex items-center mb-2">
-                                <div class="flex text-yellow-500">
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star-half-alt"></i>
-                                </div>
-                                <span class="ml-2 text-sm text-gray-400">4.5/5</span>
-                            </div>
-                            <p class="text-sm text-gray-300">A family struggles to survive in a world where most humans have been killed by blind but noise-sensitive creatures.</p>
-                            <div class="flex justify-between items-center mt-3">
-                                <span class="text-xs text-gray-400">2018 • Horror/Thriller</span>
-                                <a href="#" class="text-sm text-red-600 hover:text-red-500">
-                                    <i class="mr-1 fas fa-info-circle"></i> Details
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <x-movie-block
+                    title="A Quiet Place"
+                    image="https://m.media-amazon.com/images/M/MV5BMTg1OTkxMDQwNV5BMl5BanBnXkFtZTgwMjA1NDkxMzI@._V1_.jpg"
+                    rating="4.5"
+                    description="A family struggles to survive in a world where most humans have been killed by blind but noise-sensitive creatures."
+                    year="2018"
+                    genre="Horror/Thriller"
+                    badge="NEW"
+                />
 
                 <!-- Large Movie Card 2 -->
-                <div class="bg-black movie-card">
-                    <div class="relative movie-card-aspect">
-                        <img src="https://m.media-amazon.com/images/M/MV5BZDVkZmI0YzAtNzdjYi00ZjhhLWE1ODEtMWMzMWMzNDA0NmQ4XkEyXkFqcGdeQXVyNzYzODM3Mzg@._V1_.jpg"
-                             alt="IT"
-                             class="object-cover w-full h-full">
-                        <div class="absolute top-2 right-2 px-2 py-1 text-xs text-white bg-red-800">
-                            NEW
-                        </div>
-                        <div class="absolute bottom-0 left-0 p-4 w-full">
-                            <h3 class="mb-2 text-xl font-semibold text-white">IT</h3>
-                            <div class="flex items-center mb-2">
-                                <div class="flex text-yellow-500">
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="far fa-star"></i>
-                                </div>
-                                <span class="ml-2 text-sm text-gray-400">4.0/5</span>
-                            </div>
-                            <p class="text-sm text-gray-300">In the summer of 1989, a group of bullied kids band together to destroy a shape-shifting monster.</p>
-                            <div class="flex justify-between items-center mt-3">
-                                <span class="text-xs text-gray-400">2017 • Horror/Supernatural</span>
-                                <a href="#" class="text-sm text-red-600 hover:text-red-500">
-                                    <i class="mr-1 fas fa-info-circle"></i> Details
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <x-movie-block
+                    title="IT"
+                    image="https://m.media-amazon.com/images/M/MV5BZDVkZmI0YzAtNzdjYi00ZjhhLWE1ODEtMWMzMWMzNDA0NmQ4XkEyXkFqcGdeQXVyNzYzODM3Mzg@._V1_.jpg"
+                    rating="4.0"
+                    description="In the summer of 1989, a group of bullied kids band together to destroy a shape-shifting monster."
+                    year="2017"
+                    genre="Horror/Supernatural"
+                    badge="NEW"
+                />
 
-                <div class="bg-black movie-card">
-                    <div class="relative movie-card-aspect">
-                        <img src="https://m.media-amazon.com/images/M/MV5BZDVkZmI0YzAtNzdjYi00ZjhhLWE1ODEtMWMzMWMzNDA0NmQ4XkEyXkFqcGdeQXVyNzYzODM3Mzg@._V1_.jpg"
-                             alt="IT"
-                             class="object-cover w-full h-full">
-                        <div class="absolute top-2 right-2 px-2 py-1 text-xs text-white bg-red-800">
-                            NEW
-                        </div>
-                        <div class="absolute bottom-0 left-0 p-4 w-full">
-                            <h3 class="mb-2 text-xl font-semibold text-white">IT</h3>
-                            <div class="flex items-center mb-2">
-                                <div class="flex text-yellow-500">
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="far fa-star"></i>
-                                </div>
-                                <span class="ml-2 text-sm text-gray-400">4.0/5</span>
-                            </div>
-                            <p class="text-sm text-gray-300">In the summer of 1989, a group of bullied kids band together to destroy a shape-shifting monster.</p>
-                            <div class="flex justify-between items-center mt-3">
-                                <span class="text-xs text-gray-400">2017 • Horror/Supernatural</span>
-                                <a href="#" class="text-sm text-red-600 hover:text-red-500">
-                                    <i class="mr-1 fas fa-info-circle"></i> Details
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <!-- Large Movie Card 3 -->
+                <x-movie-block
+                    title="IT"
+                    image="https://m.media-amazon.com/images/M/MV5BZDVkZmI0YzAtNzdjYi00ZjhhLWE1ODEtMWMzMWMzNDA0NmQ4XkEyXkFqcGdeQXVyNzYzODM3Mzg@._V1_.jpg"
+                    rating="4.0"
+                    description="In the summer of 1989, a group of bullied kids band together to destroy a shape-shifting monster."
+                    year="2017"
+                    genre="Horror/Supernatural"
+                    badge="NEW"
+                />
             </div>
 
             <!-- Mood-Based Tags Section -->
             <section class="py-12 bg-black">
-                <div class="px-4 mx-auto lg:container">
+                <div class="mx-auto lg:container">
                     <div class="flex justify-between items-center mb-8">
                         <h2 class="text-2xl font-bold text-white md:text-3xl">Disturbing <span class="blood-red">& Unsettling</span></h2>
                         <a href="#" class="flex items-center text-sm text-gray-400 hover:text-white">
@@ -203,36 +141,15 @@
                     <!-- Two rows of movie blocks -->
                     <div class="grid grid-cols-2 gap-2 mb-2 md:grid-cols-3 lg:grid-cols-4">
                         @for ($j = 1; $j <= 6; $j++)
-                        <div class="bg-black movie-card">
-                            <div class="relative movie-card-aspect">
-                                <img src="https://m.media-amazon.com/images/M/MV5BNzM0OGZiZWItYmZiNC00NDgzLTg1MjMtYjM4MWZhOGZhMDUwXkEyXkFqcGdeQXVyMTkxNjUyNQ@@._V1_.jpg"
-                                     alt="Mood Movie {{ $j }}"
-                                     class="object-cover w-full h-full">
-                                <div class="absolute top-2 right-2 px-2 py-1 text-xs text-white bg-red-800">
-                                    NEW
-                                </div>
-                                <div class="absolute bottom-0 left-0 p-4 w-full">
-                                    <h3 class="mb-2 text-lg font-semibold text-white">Mood Movie {{ $j }}</h3>
-                                    <div class="flex items-center mb-2">
-                                        <div class="flex text-yellow-500">
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star-half-alt"></i>
-                                        </div>
-                                        <span class="ml-2 text-sm text-gray-400">4.5/5</span>
-                                    </div>
-                                    <p class="text-sm text-gray-300">A gripping horror story that will keep you on the edge of your seat.</p>
-                                    <div class="flex justify-between items-center mt-3">
-                                        <span class="text-xs text-gray-400">2024 • Horror/Thriller</span>
-                                        <a href="#" class="text-sm text-red-600 hover:text-red-500">
-                                            <i class="mr-1 fas fa-info-circle"></i> Details
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                            <x-movie-block
+                                title="Mood Movie {{ $j }}"
+                                image="https://m.media-amazon.com/images/M/MV5BNzM0OGZiZWItYmZiNC00NDgzLTg1MjMtYjM4MWZhOGZhMDUwXkEyXkFqcGdeQXVyMTkxNjUyNQ@@._V1_.jpg"
+                                rating="4.5"
+                                description="A gripping horror story that will keep you on the edge of your seat."
+                                year="2024"
+                                genre="Horror/Thriller"
+                                badge="NEW"
+                            />
                         @endfor
                     </div>
                 </div>
@@ -240,7 +157,7 @@
 
             <!-- Unique Themes Section -->
             <section class="py-12 bg-black">
-                <div class="px-4 mx-auto lg:container">
+                <div class="mx-auto lg:container">
                     <div class="flex justify-between items-center mb-8">
                         <h2 class="text-2xl font-bold text-white md:text-3xl">Retro Horror <span class="blood-red">Classics</span></h2>
                         <a href="#" class="flex items-center text-sm text-gray-400 hover:text-white">
@@ -250,36 +167,15 @@
                     <!-- Two rows of movie blocks -->
                     <div class="grid grid-cols-2 gap-2 mb-2 md:grid-cols-3 lg:grid-cols-4">
                         @for ($j = 1; $j <= 6; $j++)
-                        <div class="bg-black movie-card">
-                            <div class="relative movie-card-aspect">
-                                <img src="https://m.media-amazon.com/images/M/MV5BMjI0MDMzNTQ0M15BMl5BanBnXkFtZTgwMTM5NzM3NDM@._V1_.jpg"
-                                     alt="Theme Movie {{ $j }}"
-                                     class="object-cover w-full h-full">
-                                <div class="absolute top-2 right-2 px-2 py-1 text-xs text-white bg-red-800">
-                                    NEW
-                                </div>
-                                <div class="absolute bottom-0 left-0 p-4 w-full">
-                                    <h3 class="mb-2 text-lg font-semibold text-white">Theme Movie {{ $j }}</h3>
-                                    <div class="flex items-center mb-2">
-                                        <div class="flex text-yellow-500">
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star-half-alt"></i>
-                                        </div>
-                                        <span class="ml-2 text-sm text-gray-400">4.5/5</span>
-                                    </div>
-                                    <p class="text-sm text-gray-300">A gripping horror story that will keep you on the edge of your seat.</p>
-                                    <div class="flex justify-between items-center mt-3">
-                                        <span class="text-xs text-gray-400">2024 • Horror/Thriller</span>
-                                        <a href="#" class="text-sm text-red-600 hover:text-red-500">
-                                            <i class="mr-1 fas fa-info-circle"></i> Details
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                            <x-movie-block
+                                title="Theme Movie {{ $j }}"
+                                image="https://m.media-amazon.com/images/M/MV5BMjI0MDMzNTQ0M15BMl5BanBnXkFtZTgwMTM5NzM3NDM@._V1_.jpg"
+                                rating="4.5"
+                                description="A gripping horror story that will keep you on the edge of your seat."
+                                year="2024"
+                                genre="Horror/Thriller"
+                                badge="NEW"
+                            />
                         @endfor
                     </div>
                 </div>
@@ -287,7 +183,7 @@
 
             <!-- Specific Situations Section -->
             <section class="py-12 bg-black">
-                <div class="px-4 mx-auto lg:container">
+                <div class="mx-auto lg:container">
                     <div class="flex justify-between items-center mb-8">
                         <h2 class="text-2xl font-bold text-white md:text-3xl">Small Town <span class="blood-red">Terrors</span></h2>
                         <a href="#" class="flex items-center text-sm text-gray-400 hover:text-white">
@@ -297,36 +193,15 @@
                     <!-- Two rows of movie blocks -->
                     <div class="grid grid-cols-2 gap-2 mb-2 md:grid-cols-3 lg:grid-cols-4">
                         @for ($j = 1; $j <= 6; $j++)
-                        <div class="bg-black movie-card">
-                            <div class="relative movie-card-aspect">
-                                <img src="https://m.media-amazon.com/images/M/MV5BYTJlNDlkZTktNjEwOS00NzI5LTlkNDAtZmEwZDFmYmM2MjU2XkEyXkFqcGdeQXVyNjg2NjQwMDQ@._V1_.jpg"
-                                     alt="Situation Movie {{ $j }}"
-                                     class="object-cover w-full h-full">
-                                <div class="absolute top-2 right-2 px-2 py-1 text-xs text-white bg-red-800">
-                                    NEW
-                                </div>
-                                <div class="absolute bottom-0 left-0 p-4 w-full">
-                                    <h3 class="mb-2 text-lg font-semibold text-white">Situation Movie {{ $j }}</h3>
-                                    <div class="flex items-center mb-2">
-                                        <div class="flex text-yellow-500">
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star-half-alt"></i>
-                                        </div>
-                                        <span class="ml-2 text-sm text-gray-400">4.5/5</span>
-                                    </div>
-                                    <p class="text-sm text-gray-300">A gripping horror story that will keep you on the edge of your seat.</p>
-                                    <div class="flex justify-between items-center mt-3">
-                                        <span class="text-xs text-gray-400">2024 • Horror/Thriller</span>
-                                        <a href="#" class="text-sm text-red-600 hover:text-red-500">
-                                            <i class="mr-1 fas fa-info-circle"></i> Details
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                            <x-movie-block
+                                title="Situation Movie {{ $j }}"
+                                image="https://m.media-amazon.com/images/M/MV5BYTJlNDlkZTktNjEwOS00NzI5LTlkNDAtZmEwZDFmYmM2MjU2XkEyXkFqcGdeQXVyNjg2NjQwMDQ@._V1_.jpg"
+                                rating="4.5"
+                                description="A gripping horror story that will keep you on the edge of your seat."
+                                year="2024"
+                                genre="Horror/Thriller"
+                                badge="NEW"
+                            />
                         @endfor
                     </div>
                 </div>
