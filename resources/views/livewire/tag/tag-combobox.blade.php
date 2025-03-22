@@ -1,12 +1,5 @@
-<div class="relative">
 
-    <!-- Dropdown Trigger -->
-    <button wire:click="toggleDropdown" class="px-4 py-2 w-full text-left text-white focus:outline-none">
-        <div class="flex justify-between items-center">
-            <span>Tags</span>
-            <i class="fas text-xs pl-1 text-gray-400 {{ $showDropdown ? 'fa-chevron-up' : 'fa-chevron-down' }}"></i>
-        </div>
-    </button>
+<div>
 
     <!-- Dropdown Content -->
     @if($showDropdown)

@@ -11,7 +11,6 @@
 
 <div class="bg-black movie-card">
     <div class="relative movie-card-aspect">
-        <img src="{{ $image }}" alt="{{ $title }}" class="object-cover w-full h-full">
         @if($badge)
             <div class="absolute top-2 right-2 px-2 py-1 text-xs text-white bg-red-800">
                 {{ $badge }}
@@ -33,11 +32,17 @@
                 </div>
                 <span class="ml-2 text-sm text-gray-400">{{ number_format($rating, 1) }}/5</span>
             </div>
+
             <p class="hidden text-sm text-gray-300 lg:block">{{ $description }}</p>
+
             <div class="flex justify-between items-center mt-3">
                 <span class="text-xs text-gray-400">{{ $year }} • {{ $genre }}</span>
-                <livewire:movie-thumb-tags />
+                {{-- <livewire:tag.tag-combobox /> --}}
             </div>
+
         </div>
+        <a href="/movie/1" wire:navigate>
+            <img src="{{ $image }}" alt="{{ $title }}" class="object-cover w-full h-full">
+        </a>
     </div>
 </div>

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -17,17 +18,23 @@
 
     <!-- Styles -->
     @livewireStyles
-    {{-- @filamentStyles --}}
+    @filamentStyles
     @vite('resources/css/app.css')
 </head>
-<body class="flex flex-col min-h-screen antialiased bg-black">
+
+<body class="flex flex-col min-h-screen antialiased bg-black" x-data @keydown.shift.enter="$dispatch('submitSearch')">
     <!-- Header -->
+    @persist('header')
     <header class="top-0 z-50 flex-none">
         <section class="py-8">
             <div class="container px-4 mx-auto">
                 <div class="mx-auto max-w-3xl text-center">
-                    <a href="/"><h1 class="mb-2 text-4xl horror-title md:text-6xl blood-red">{{ config('app.name', 'Horror Brains') }}</h1></a>
-                    {{-- <p class="mb-4 text-xl text-gray-300">Your ultimate resource for horror movie enthusiasts</p> --}}
+                    <a href="/" wire:navigate>
+                        <h1 class="mb-2 text-4xl horror-title md:text-6xl blood-red">{{ config('app.name', 'Horror
+                            Brains') }}</h1>
+                    </a>
+                    {{-- <p class="mb-4 text-xl text-gray-300">Your ultimate resource for horror movie enthusiasts</p>
+                    --}}
                     <!-- Navigation Menu -->
                     <nav class="">
                         <div class="container px-4 mx-auto">
@@ -48,13 +55,14 @@
                         </div>
                     </nav>
                     <div class="relative">
-                        <livewire:main-search-bar />
+                        <livewire:main-search-bar.main-search-bar />
                     </div>
                 </div>
             </div>
         </section>
 
     </header>
+    @endpersist
 
     <main class="flex-grow">
         {{ $slot }}
@@ -66,7 +74,8 @@
             <div class="grid grid-cols-1 gap-8 md:grid-cols-4">
                 <div>
                     <h3 class="mb-4 text-xl horror-title blood-red">Horror Brains</h3>
-                    <p class="text-sm text-gray-400">Your ultimate resource for horror movie enthusiasts, providing up-to-date movie releases, reviews, and discussion opportunities.</p>
+                    <p class="text-sm text-gray-400">Your ultimate resource for horror movie enthusiasts, providing
+                        up-to-date movie releases, reviews, and discussion opportunities.</p>
                 </div>
 
                 <div>
@@ -99,7 +108,8 @@
                     </div>
                     <p class="mt-4 text-sm text-gray-400">Subscribe to our newsletter for the latest horror updates.</p>
                     <div class="flex mt-2">
-                        <input type="email" placeholder="Your email" class="px-3 py-2 w-full text-sm text-white bg-black border-r-0 thick-border focus:outline-none focus:ring-1 focus:ring-red-700">
+                        <input type="email" placeholder="Your email"
+                            class="px-3 py-2 w-full text-sm text-white bg-black border-r-0 thick-border focus:outline-none focus:ring-1 focus:ring-red-700">
                         <button class="px-3 py-2 text-sm text-white bg-red-800 rounded-r hover:bg-red-700">
                             Subscribe
                         </button>
@@ -127,7 +137,8 @@
     </script>
 
     @livewireScripts
-    {{-- @filamentScripts --}}
+    @filamentScripts
     @vite('resources/js/app.js')
 </body>
+
 </html>
