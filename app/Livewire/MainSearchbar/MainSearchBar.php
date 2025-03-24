@@ -86,6 +86,32 @@ class MainSearchBar extends Component
     }
 
     /**
+     * Build the selected tags from the request
+     *
+     * @return void
+     */
+    public function buildSelectedFromRequest()
+    {
+        foreach (request()->all() as $type => $rows) {
+            foreach ($rows as $row) {
+                switch ($type) {
+                    case TagType::Tag->getLabel():
+                        // TODO: this should not exist once connected to the database
+                        $tag = isset($this->allTags[$row]) ? $this->allTags[$row] : null;
+                        $this->selected[$row] = ['content' => $tag['content'] ?? 'not found tag', 'type' => $type];
+
+                        break;
+                    default:
+                        $tag = ['content' => $row, 'type' => $type];
+                        $checksum = $this->checksumOfInputTag($tag);
+                        $this->selected[$checksum] = $tag;
+
+                }
+            }
+        }
+    }
+
+    /**
      * Mount the component
      *
      * @return void
@@ -93,6 +119,8 @@ class MainSearchBar extends Component
     public function mount()
     {
         $this->filterTags($this->input);
+
+        $this->buildSelectedFromRequest();
     }
 
     /**
@@ -312,6 +340,17 @@ class MainSearchBar extends Component
     }
 
     /**
+     * Get the checksum of the input tag
+     *
+     * @param  array  $inputTag
+     * @return string
+     */
+    protected function checksumOfInputTag($inputTag)
+    {
+        return hash('crc32b', json_encode($inputTag));
+    }
+
+    /**
      * Add the tag to the selected tags
      *
      * @param  string  $index
@@ -461,8 +500,36 @@ class MainSearchBar extends Component
         $this->pushInputToSelected();
 
         if (! empty($this->selected)) {
-            dd($this->selected);
+            $this->redirect(route('movie.search', $this->buildQueryParamsFromSelected()), true);
         }
+    }
+
+    /**
+     * Build the query params from the selected tags
+     *
+     * @return array
+     */
+    protected function buildQueryParamsFromSelected()
+    {
+        $params = [];
+
+        $tags = collect($this->selected)
+            ->filter(fn ($tag) => $tag['type'] == TagType::Tag->getLabel())
+            ->keys();
+
+        $inputs = collect($this->selected)
+            ->filter(fn ($tag) => $tag['type'] == TagType::Input->getLabel())
+            ->pluck('content');
+
+        if ($tags->isNotEmpty()) {
+            $params[TagType::Tag->getLabel()] = $tags->toArray();
+        }
+
+        if ($inputs->isNotEmpty()) {
+            $params[TagType::Input->getLabel()] = $inputs->toArray();
+        }
+
+        return $params;
     }
 
     /**

@@ -81,67 +81,61 @@ use App\Models\Tag\TagType;
 
     <!-- Mood-Based Tags Section -->
     <section class="py-12 bg-black">
-        <div class="mx-auto lg:container">
-            <div class="flex justify-between items-center mb-8">
-                <h2 class="text-2xl font-bold text-white md:text-3xl">Disturbing <span class="blood-red">&
-                        Unsettling</span></h2>
-                <a href="#" class="flex items-center text-sm text-gray-400 hover:text-white">
-                    View All <i class="ml-2 fas fa-arrow-right"></i>
-                </a>
-            </div>
-            <!-- Two rows of movie blocks -->
-            <div class="grid grid-cols-2 gap-2 mb-2 md:grid-cols-3 lg:grid-cols-4">
-                @for ($j = 1; $j
-                <= 6; $j++) <x-movie-block title="Mood Movie {{ $j }}"
-                    image="https://m.media-amazon.com/images/M/MV5BNzM0OGZiZWItYmZiNC00NDgzLTg1MjMtYjM4MWZhOGZhMDUwXkEyXkFqcGdeQXVyMTkxNjUyNQ@@._V1_.jpg"
-                    rating="4.5" description="A gripping horror story that will keep you on the edge of your seat."
-                    year="2024" genre="Horror/Thriller" badge="NEW" />
-                @endfor
-            </div>
+        <div class="flex justify-between items-center mb-8">
+            <h2 class="text-2xl font-bold text-white md:text-3xl">Disturbing <span class="blood-red">&
+                    Unsettling</span></h2>
+            <a href="#" class="flex items-center text-sm text-gray-400 hover:text-white">
+                View All <i class="ml-2 fas fa-arrow-right"></i>
+            </a>
+        </div>
+        <!-- Two rows of movie blocks -->
+        <div class="grid grid-cols-2 gap-2 mb-2 md:grid-cols-3 lg:grid-cols-4">
+            @for ($j = 1; $j
+            <= 6; $j++) <x-movie-block title="Mood Movie {{ $j }}"
+                image="https://m.media-amazon.com/images/M/MV5BNzM0OGZiZWItYmZiNC00NDgzLTg1MjMtYjM4MWZhOGZhMDUwXkEyXkFqcGdeQXVyMTkxNjUyNQ@@._V1_.jpg"
+                rating="4.5" description="A gripping horror story that will keep you on the edge of your seat."
+                year="2024" genre="Horror/Thriller" badge="NEW" />
+            @endfor
         </div>
     </section>
 
     <!-- Unique Themes Section -->
     <section class="py-12 bg-black">
-        <div class="mx-auto lg:container">
-            <div class="flex justify-between items-center mb-8">
-                <h2 class="text-2xl font-bold text-white md:text-3xl">Retro Horror <span
-                        class="blood-red">Classics</span></h2>
-                <a href="#" class="flex items-center text-sm text-gray-400 hover:text-white">
-                    View All <i class="ml-2 fas fa-arrow-right"></i>
-                </a>
-            </div>
-            <!-- Two rows of movie blocks -->
-            <div class="grid grid-cols-2 gap-2 mb-2 md:grid-cols-3 lg:grid-cols-4">
-                @for ($j = 1; $j
-                <= 6; $j++) <x-movie-block title="Theme Movie {{ $j }}"
-                    image="https://m.media-amazon.com/images/M/MV5BMjI0MDMzNTQ0M15BMl5BanBnXkFtZTgwMTM5NzM3NDM@._V1_.jpg"
-                    rating="4.5" description="A gripping horror story that will keep you on the edge of your seat."
-                    year="2024" genre="Horror/Thriller" badge="NEW" />
-                @endfor
-            </div>
+        <div class="flex justify-between items-center mb-8">
+            <h2 class="text-2xl font-bold text-white md:text-3xl">Retro Horror <span class="blood-red">Classics</span>
+            </h2>
+            <a href="#" class="flex items-center text-sm text-gray-400 hover:text-white">
+                View All <i class="ml-2 fas fa-arrow-right"></i>
+            </a>
+        </div>
+        <!-- Two rows of movie blocks -->
+        <div class="grid grid-cols-2 gap-2 mb-2 md:grid-cols-3 lg:grid-cols-4">
+            @for ($j = 1; $j
+            <= 6; $j++) <x-movie-block title="Theme Movie {{ $j }}"
+                image="https://m.media-amazon.com/images/M/MV5BMjI0MDMzNTQ0M15BMl5BanBnXkFtZTgwMTM5NzM3NDM@._V1_.jpg"
+                rating="4.5" description="A gripping horror story that will keep you on the edge of your seat."
+                year="2024" genre="Horror/Thriller" badge="NEW" />
+            @endfor
         </div>
     </section>
 
     <!-- Specific Situations Section -->
     <section class="py-12 bg-black">
-        <div class="mx-auto lg:container">
-            <div class="flex justify-between items-center mb-8">
-                <h2 class="text-2xl font-bold text-white md:text-3xl">Small Town <span class="blood-red">Terrors</span>
-                </h2>
-                <a href="#" class="flex items-center text-sm text-gray-400 hover:text-white">
-                    View All <i class="ml-2 fas fa-arrow-right"></i>
-                </a>
-            </div>
-            <!-- Two rows of movie blocks -->
-            <div class="grid grid-cols-2 gap-2 mb-2 md:grid-cols-3 lg:grid-cols-4">
-                @for ($j = 1; $j
-                <= 6; $j++) <x-movie-block title="Situation Movie {{ $j }}"
-                    image="https://m.media-amazon.com/images/M/MV5BYTJlNDlkZTktNjEwOS00NzI5LTlkNDAtZmEwZDFmYmM2MjU2XkEyXkFqcGdeQXVyNjg2NjQwMDQ@._V1_.jpg"
-                    rating="4.5" description="A gripping horror story that will keep you on the edge of your seat."
-                    year="2024" genre="Horror/Thriller" badge="NEW" />
-                @endfor
-            </div>
+        <div class="flex justify-between items-center mb-8">
+            <h2 class="text-2xl font-bold text-white md:text-3xl">Small Town <span class="blood-red">Terrors</span>
+            </h2>
+            <a href="#" class="flex items-center text-sm text-gray-400 hover:text-white">
+                View All <i class="ml-2 fas fa-arrow-right"></i>
+            </a>
+        </div>
+        <!-- Two rows of movie blocks -->
+        <div class="grid grid-cols-2 gap-2 mb-2 md:grid-cols-3 lg:grid-cols-4">
+            @for ($j = 1; $j
+            <= 6; $j++) <x-movie-block title="Situation Movie {{ $j }}"
+                image="https://m.media-amazon.com/images/M/MV5BYTJlNDlkZTktNjEwOS00NzI5LTlkNDAtZmEwZDFmYmM2MjU2XkEyXkFqcGdeQXVyNjg2NjQwMDQ@._V1_.jpg"
+                rating="4.5" description="A gripping horror story that will keep you on the edge of your seat."
+                year="2024" genre="Horror/Thriller" badge="NEW" />
+            @endfor
         </div>
     </section>
 
@@ -162,7 +156,7 @@ use App\Models\Tag\TagType;
 
     <!-- Categories Section -->
     <section class="py-12">
-        <div class="container px-4 mx-auto">
+        <div class="px-4">
             <h2 class="mb-8 text-2xl font-bold text-white md:text-3xl">Browse by <span class="blood-red">Category</span>
             </h2>
 
