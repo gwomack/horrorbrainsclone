@@ -1,4 +1,5 @@
 import preset from './vendor/filament/support/tailwind.config.preset'
+import defaultTheme from 'tailwindcss/defaultTheme';
 const colors = require('tailwindcss/colors')
 
 /** @type {import('tailwindcss').Config} */
@@ -19,7 +20,7 @@ export default {
     theme: {
         extend: {
             fontFamily: {
-                sans: ['Figtree'],
+                sans: ['Figtree', ...defaultTheme.fontFamily.sans],
                 horror: ['Creepster', 'cursive'],
                 typewriter: ['Special Elite', 'cursive'],
             },

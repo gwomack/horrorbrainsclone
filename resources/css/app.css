@@ -1,13 +1,13 @@
-[x-cloak] {
-    display: none !important;
-}
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 @tailwind variants;
 
 /* Horror Theme Custom Styles */
+
+[x-cloak] {
+    display: none !important;
+}
 
 @layer base {
     body {

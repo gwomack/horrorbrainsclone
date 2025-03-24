@@ -1,5 +1,19 @@
+created:
+    - database/factories/MovieFactory.php
+    - database/factories/TagFactory.php
+    - database/factories/TagParentFactory.php
+    - database/migrations/2025_03_24_163736_create_movies_table.php
+    - database/migrations/2025_03_24_163737_create_tags_table.php
+    - database/migrations/2025_03_24_163738_create_tag_parents_table.php
+    - database/migrations/2025_03_24_163739_create_movie_tag_table.php
+    - app/Models/Movie.php
+    - app/Models/Tag.php
+    - app/Models/TagParent.php
 models:
     Book: { title: string, author: string, description: text }
     Contact: { name: string }
     Post: { title: string, content: text }
-    User: { name: string, email: string, email_verified_at: 'timestamp nullable', password: 'string nullable', remember_token: 'string:100 nullable', avatar_url: 'string nullable' }
+    User: { name: string, email: string, email_verified_at: 'timestamp nullable', password: 'string nullable', remember_token: 'string:100 nullable', avatar_url: 'string nullable', theme: "string nullable default:'default'::character varying", theme_color: 'string nullable' }
+    Movie: { title: string, description: text, release_date: 'date nullable', rating: float, relationships: { belongsToMany: Tag } }
+    Tag: { name: string, description: text, relationships: { hasOne: TagParent, belongsToMany: Movie } }
+    TagParent: { tag_id: unsignedInteger, parent_id: unsignedInteger, relationships: { belongsTo: TagParent } }

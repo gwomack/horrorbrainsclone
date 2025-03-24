@@ -2,46 +2,44 @@
 
 namespace App\Providers\Filament;
 
+use App\Filament\Pages\Login;
+use App\Models\User;
+use App\Settings\KaidoSetting;
+use BezhanSalleh\FilamentShield\FilamentShieldPlugin;
+use DutchCodingCompany\FilamentSocialite\FilamentSocialitePlugin;
+use DutchCodingCompany\FilamentSocialite\Provider;
+use Filament\Forms\Components\FileUpload;
+use Filament\Http\Middleware\Authenticate;
+use Filament\Http\Middleware\DisableBladeIconComponents;
+use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Filament\Pages;
 use Filament\Panel;
-use App\Models\User;
-use Filament\Widgets;
 use Filament\PanelProvider;
-use App\Filament\Pages\Login;
-use App\Settings\KaidoSetting;
 use Filament\Support\Colors\Color;
-use Hasnayeen\Themes\ThemesPlugin;
-use Illuminate\Support\Facades\Blade;
-use Illuminate\Support\Facades\Schema;
-use Filament\Forms\Components\FileUpload;
-use Rupadana\ApiService\ApiServicePlugin;
-use Filament\Http\Middleware\Authenticate;
 use Filament\Support\Facades\FilamentView;
-use Jeffgreco13\FilamentBreezy\BreezyCore;
+use Filament\Widgets;
 use Hasnayeen\Themes\Http\Middleware\SetTheme;
-use Illuminate\Contracts\Auth\Authenticatable;
-use Illuminate\Session\Middleware\StartSession;
+use Hasnayeen\Themes\ThemesPlugin;
+use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
-use DutchCodingCompany\FilamentSocialite\Provider;
-use BezhanSalleh\FilamentShield\FilamentShieldPlugin;
+use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\AuthenticateSession;
+use Illuminate\Session\Middleware\StartSession;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
-use Filament\Http\Middleware\DisableBladeIconComponents;
-
-use Filament\Http\Middleware\DispatchServingFilamentEvent;
-use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
-use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
+use Jeffgreco13\FilamentBreezy\BreezyCore;
 use Laravel\Socialite\Contracts\User as SocialiteUserContract;
-use DutchCodingCompany\FilamentSocialite\FilamentSocialitePlugin;
+use Rupadana\ApiService\ApiServicePlugin;
 
 class AdminPanelProvider extends PanelProvider
 {
     private ?KaidoSetting $settings = null;
-    //constructor
+
+    // constructor
     public function __construct()
     {
-        //this is feels bad but this is the solution that i can think for now :D
+        // this is feels bad but this is the solution that i can think for now :D
         // Check if settings table exists first
         try {
             if (\Illuminate\Support\Facades\Schema::hasTable('settings')) {
@@ -56,11 +54,12 @@ class AdminPanelProvider extends PanelProvider
     {
         return $panel
             ->default()
+            ->spa()
             ->id('admin')
             ->path('')
-            ->when($this->settings->login_enabled ?? true, fn($panel) => $panel->login(Login::class))
-            ->when($this->settings->registration_enabled ?? true, fn($panel) => $panel->registration())
-            ->when($this->settings->password_reset_enabled ?? true, fn($panel) => $panel->passwordReset())
+            ->when($this->settings->login_enabled ?? true, fn ($panel) => $panel->login(Login::class))
+            ->when($this->settings->registration_enabled ?? true, fn ($panel) => $panel->registration())
+            ->when($this->settings->password_reset_enabled ?? true, fn ($panel) => $panel->passwordReset())
             ->emailVerification()
             ->colors([
                 'primary' => Color::Amber,
@@ -91,7 +90,7 @@ class AdminPanelProvider extends PanelProvider
                 Authenticate::class,
             ])
             ->middleware([
-                SetTheme::class
+                SetTheme::class,
             ])
             ->plugins(
                 $this->getPlugins()
@@ -113,10 +112,10 @@ class AdminPanelProvider extends PanelProvider
                     hasAvatars: true, // Enables the avatar upload form component (default = false)
                     slug: 'my-profile'
                 )
-                ->avatarUploadComponent(fn($fileUpload) => $fileUpload->disableLabel())
+                ->avatarUploadComponent(fn ($fileUpload) => $fileUpload->disableLabel())
                 // OR, replace with your own component
                 ->avatarUploadComponent(
-                    fn() => FileUpload::make('avatar_url')
+                    fn () => FileUpload::make('avatar_url')
                         ->image()
                         ->disk('public')
                 )
@@ -126,32 +125,33 @@ class AdminPanelProvider extends PanelProvider
         if ($this->settings->sso_enabled ?? true) {
             $plugins[] =
                 FilamentSocialitePlugin::make()
-                ->providers([
-                    Provider::make('google')
-                        ->label('Google')
-                        ->icon('fab-google')
-                        ->color(Color::hex('#2f2a6b'))
-                        ->outlined(true)
-                        ->stateless(false)
-                ])->registration(true)
-                ->createUserUsing(function (string $provider, SocialiteUserContract $oauthUser, FilamentSocialitePlugin $plugin) {
-                    $user = User::firstOrNew([
-                        'email' => $oauthUser->getEmail(),
-                    ]);
-                    $user->name = $oauthUser->getName();
-                    $user->email = $oauthUser->getEmail();
-                    $user->email_verified_at = now();
-                    $user->save();
+                    ->providers([
+                        Provider::make('google')
+                            ->label('Google')
+                            ->icon('fab-google')
+                            ->color(Color::hex('#2f2a6b'))
+                            ->outlined(true)
+                            ->stateless(false),
+                    ])->registration(true)
+                    ->createUserUsing(function (string $provider, SocialiteUserContract $oauthUser, FilamentSocialitePlugin $plugin) {
+                        $user = User::firstOrNew([
+                            'email' => $oauthUser->getEmail(),
+                        ]);
+                        $user->name = $oauthUser->getName();
+                        $user->email = $oauthUser->getEmail();
+                        $user->email_verified_at = now();
+                        $user->save();
 
-                    return $user;
-                });
+                        return $user;
+                    });
         }
+
         return $plugins;
     }
 
     public function register(): void
     {
         parent::register();
-        FilamentView::registerRenderHook('panels::body.end', fn(): string => Blade::render("@vite('resources/js/app.js')"));
+        FilamentView::registerRenderHook('panels::body.end', fn (): string => Blade::render("@vite('resources/js/app.js')"));
     }
 }

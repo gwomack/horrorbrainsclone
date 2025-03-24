@@ -1,5 +1,24 @@
 models:
-  # ...
+  Movie:
+    title: string
+    description: text
+    release_date: date nullable
+    rating: float
+    relationships:
+      belongsToMany: Tag
 
-controllers:
+  Tag:
+    name: string
+    description: text
+    relationships:
+      hasOne: TagParent
+      belongsToMany: Movie
+
+  TagParent:
+    tag_id: unsignedInteger
+    parent_id: unsignedInteger
+    relationships:
+      belongsTo: TagParent
+
+# controllers:
   # ...

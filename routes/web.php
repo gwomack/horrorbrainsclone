@@ -5,10 +5,6 @@ use App\Livewire\MovieDetailPage;
 use App\Livewire\MovieSearchPage;
 use Illuminate\Support\Facades\Route;
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
-
 Route::get('/', HomePage::class);
 
 // Movie details route with optional ID parameter
