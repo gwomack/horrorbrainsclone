@@ -14,8 +14,8 @@
                 @toggletag.window="$refs.MainInputSearch.scrollIntoView({ behavior: 'smooth', block: 'center' });"
                 @toggletagbyindex.window="$refs.MainInputSearch.scrollIntoView({ behavior: 'smooth', block: 'center' });"
                 wire:keydown.escape.prevent="closeDropdown" wire:keydown.backspace="removeLastTag"
-                wire:keydown.cmd.shift.backspace.prevent="clearTags"
-                wire:keydown.ctrl.shift.backspace.prevent="clearTags"
+                wire:keydown.cmd.shift.backspace.prevent="resetTags"
+                wire:keydown.ctrl.shift.backspace.prevent="resetTags"
                 x-on:keydown.enter.stop.prevent="$wire.showDropdown ? $dispatch('toggletagbyindex') : $wire.submitSearch()"
                 x-on:keydown.tab.stop.prevent="$wire.showDropdown ? $dispatch('toggletagbyindex') : $dispatch('inputSelected')"
                 wire:keydown.down.stop.prevent="nextTagByIndex" wire:keydown.up.stop.prevent="previousTagByIndex" />
@@ -24,13 +24,15 @@
 
     <!-- Tags List -->
     @if ($showDropdown)
-    <div
-        class="absolute border border-white top-16 left-0 w-full z-50 mt-1 bg-black shadow-lg min-w-48 max-h-96 overflow-y-auto p-2">
+    <div class="absolute border border-white top-16 left-0 w-full z-50 mt-1 bg-black shadow-lg min-w-48 max-h-96 overflow-y-auto p-2"
+        x-data="{ hoverIndex: @entangle('index') }">
         @foreach($tags as $index => $tag)
-        <button type=" button" wire:key="tag-{{ $index }}" class="w-full lg:p-3 rounded-lg text-left text-white hover:bg-red-900
-            {{ $this->isSelected($index) ? 'bg-red-800/30' : '' }}
-            {{ $this->isOnIndex($index) ? 'bg-red-800' : '' }}"
-            wire:click.prevent="$dispatch('toggletag', [{{ $index }}])" @mouseenter="$wire.setIndex({{ $index }})">
+        <button type="button" wire:key="tag-{{ $index }}" class="w-full lg:p-3 rounded-lg text-left text-white hover:bg-red-900
+            {{ $this->isSelected($index) ? 'bg-red-800/30' : '' }}"
+            :class="{ 'bg-red-800': hoverIndex == {{ $index }} }"
+            wire:click.prevent="$dispatch('toggletag', [{{ $index }}])"
+            @mouseenter="hoverIndex = {{ $index }}; $wire.setIndex({{ $index }})" @mouseleave="hoverIndex = null"
+            :class="{ 'bg-red-800': hoverIndex === {{ $index }} }">
 
             <div class="flex items-center">
                 @if($this->isSelected($index))

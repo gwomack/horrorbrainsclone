@@ -14,7 +14,7 @@ class MainSearchBar extends Component
      *
      * @var string
      */
-    public $input = 'ous';
+    public $input = '';
 
     /**
      * The selected tags for the search bar
@@ -93,6 +93,10 @@ class MainSearchBar extends Component
     public function mount()
     {
         $this->filterTags($this->input);
+
+        if ($this->countTags() === 0) {
+            return;
+        }
     }
 
     /**
@@ -206,7 +210,7 @@ class MainSearchBar extends Component
     /**
      * Get the count of tags
      */
-    #[Computed]
+    #[Computed(persist: true)]
     public function countTags(): int
     {
         return count($this->tags);
@@ -374,6 +378,8 @@ class MainSearchBar extends Component
         } else {
             $this->addToSelected($this->index);
         }
+
+        $this->reset('input');
     }
 
     /**
@@ -405,9 +411,7 @@ class MainSearchBar extends Component
      */
     public function closeDropdown()
     {
-        if ($this->showDropdown) {
-            $this->reset('showDropdown');
-        }
+        $this->reset('showDropdown');
     }
 
     /**
@@ -417,10 +421,7 @@ class MainSearchBar extends Component
      */
     public function openDropdown()
     {
-        if (! $this->showDropdown) {
-            // $this->setIndexToFirst();
-            $this->showDropdown = true;
-        }
+        $this->showDropdown = true;
     }
 
     /**
