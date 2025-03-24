@@ -72,8 +72,8 @@ class TagCombobox extends Component
         }
     }
 
-    #[On('toggleTag')]
-    public function toggleTag($id, $content, $type)
+    #[On('toggletag')]
+    public function toggletag($id, $content, $type)
     {
         if (in_array($id, array_column($this->selectedTags, 'id'))) {
             $this->handleTagRemoved($id, $content, $type);

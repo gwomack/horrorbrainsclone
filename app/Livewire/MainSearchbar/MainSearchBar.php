@@ -3,57 +3,280 @@
 namespace App\Livewire\MainSearchBar;
 
 use App\Models\Tag\TagType;
+use Livewire\Attributes\Computed;
 use Livewire\Attributes\On;
 use Livewire\Component;
 
 class MainSearchBar extends Component
 {
-    public $input = '';
+    /**
+     * The input value for the search bar
+     *
+     * @var string
+     */
+    public $input = 'ous';
 
-    public $selectedTags = [];
+    /**
+     * The selected tags for the search bar
+     *
+     * @var array
+     */
+    public $selected = [];
 
-    public $filteredTags = [];
-
+    /**
+     * The filtered tags for the search bar
+     * TODO: this should not exist once connected to the database
+     *
+     * @var array
+     */
     protected $allTags;
 
+    /**
+     * Whether the dropdown is visible
+     *
+     * @var bool
+     */
     public $showDropdown = false;
 
+    /**
+     * The index of the tag
+     *
+     * @var string
+     */
+    public $index = '';
+
+    /**
+     * The list tags for the search bar
+     *
+     * @var array
+     */
+    public $tags = [];
+
+    /**
+     * Boot the component
+     *
+     * @return void
+     */
     public function boot()
     {
         // Temporary mock data for tags (replace with database query later)
+        $type = TagType::Tag->getLabel();
         $this->allTags = [
-            ['id' => 1, 'content' => 'Haunted House', 'type' => TagType::Tag->getLabel()],
-            ['id' => 2, 'content' => 'Supernatural', 'type' => TagType::Tag->getLabel()],
-            ['id' => 3, 'content' => 'Family Drama', 'type' => TagType::Tag->getLabel()],
-            ['id' => 4, 'content' => 'Psychological', 'type' => TagType::Tag->getLabel()],
-            ['id' => 5, 'content' => 'Found Footage', 'type' => TagType::Tag->getLabel()],
-            ['id' => 6, 'content' => 'Slasher', 'type' => TagType::Tag->getLabel()],
-            ['id' => 7, 'content' => 'Zombie', 'type' => TagType::Tag->getLabel()],
-            ['id' => 8, 'content' => 'Gore', 'type' => TagType::Tag->getLabel()],
-            ['id' => 9, 'content' => 'Paranormal', 'type' => TagType::Tag->getLabel()],
-            ['id' => 10, 'content' => 'Demonic', 'type' => TagType::Tag->getLabel()],
-            ['id' => 11, 'content' => 'Cult', 'type' => TagType::Tag->getLabel()],
-            ['id' => 12, 'content' => 'Classic', 'type' => TagType::Tag->getLabel()],
-            ['id' => 13, 'content' => 'Modern', 'type' => TagType::Tag->getLabel()],
-            ['id' => 14, 'content' => 'Indie', 'type' => TagType::Tag->getLabel()],
-            ['id' => 15, 'content' => 'Award-Winning', 'type' => TagType::Tag->getLabel()],
+            1 => ['content' => 'Haunted House', 'type' => $type],
+            2 => ['content' => 'Supernatural', 'type' => $type],
+            3 => ['content' => 'Family Drama', 'type' => $type],
+            4 => ['content' => 'Psychological', 'type' => $type],
+            5 => ['content' => 'Found Footage', 'type' => $type],
+            6 => ['content' => 'Slasher', 'type' => $type],
+            7 => ['content' => 'Zombie', 'type' => $type],
+            8 => ['content' => 'Gore', 'type' => $type],
+            9 => ['content' => 'Paranormal', 'type' => $type],
+            10 => ['content' => 'Demonic', 'type' => $type],
+            11 => ['content' => 'Cult', 'type' => $type],
+            12 => ['content' => 'Classic', 'type' => $type],
+            13 => ['content' => 'Modern', 'type' => $type],
+            14 => ['content' => 'Indie', 'type' => $type],
+            15 => ['content' => 'Award-Winning', 'type' => $type],
+            16 => ['content' => 'Haunted House1', 'type' => $type],
+            17 => ['content' => 'Haunted House2', 'type' => $type],
+            18 => ['content' => 'Haunted House3', 'type' => $type],
+            19 => ['content' => 'Haunted House4', 'type' => $type],
+            20 => ['content' => 'Haunted House5', 'type' => $type],
         ];
     }
 
+    /**
+     * Mount the component
+     *
+     * @return void
+     */
+    public function mount()
+    {
+        $this->filterTags($this->input);
+    }
+
+    /**
+     * Updated the input value
+     *
+     * @param  string  $value
+     * @return void
+     */
     public function updatedInput($value)
     {
+        $this->filterTags($value);
+    }
+
+    /**
+     * Filter the tags
+     *
+     * @param  string  $value
+     * @return void
+     */
+    public function filterTags($value)
+    {
+        $value = trim(strtolower($value));
+
         if (strlen($value) > 2) {
-            $this->toggleDropdown();
-            $value = trim(strtolower($value));
-            $this->filteredTags = array_filter($this->allTags, function ($tag) use ($value) {
-                return str_contains(strtolower($tag['content']), $value);
-            });
+
+            $this->setTags(
+                // TODO: this should not exist once connected to the database
+                collect($this->allTags)->filter(fn ($tag) => str_contains(strtolower($tag['content']), $value))->toArray()
+            );
+
+            if (count($this->tags) > 0) {
+                $this->openDropdown();
+            } else {
+                $this->closeDropdown();
+            }
         } else {
             $this->closeDropdown();
-            $this->filteredTags = [];
         }
     }
 
+    /**
+     * Set the tags
+     *
+     * @param  array  $value
+     * @return void
+     */
+    #[Computed(persist: true)]
+    public function setTags($value)
+    {
+        $this->tags = $value;
+
+        if (empty($this->tags)) {
+            $this->resetIndex();
+        } else {
+            $this->setIndexToFirst();
+        }
+    }
+
+    /**
+     * Reset the dropdown
+     *
+     * @return void
+     */
+    public function resetAll()
+    {
+        $this->reset('tags', 'showDropdown', 'index', 'input', 'selected');
+    }
+
+    /**
+     * Set the tag index
+     *
+     * @param  string  $index
+     * @return void
+     */
+    public function setIndex($index)
+    {
+        $this->index = (string) $index;
+    }
+
+    /**
+     * Get the tag index
+     *
+     * @return string
+     */
+    public function getIndex()
+    {
+        return $this->index;
+    }
+
+    /**
+     * Check if the index is the same as the given index
+     *
+     * @param  string  $index
+     * @return bool
+     */
+    public function isOnIndex($index)
+    {
+        return $this->index == $index;
+    }
+
+    /**
+     * Reset the index
+     *
+     * @return void
+     */
+    public function resetIndex()
+    {
+        $this->reset('index');
+    }
+
+    /**
+     * Get the count of tags
+     */
+    #[Computed]
+    public function countTags(): int
+    {
+        return count($this->tags);
+    }
+
+    /**
+     * Set the tag index to the last tag
+     *
+     * @return void
+     */
+    public function setIndexToLast()
+    {
+        $last = array_key_last($this->tags);
+
+        if ($last) {
+            $this->index = $last;
+        }
+    }
+
+    /**
+     * Set the tag index to the first tag
+     *
+     * @return void
+     */
+    public function setIndexToFirst()
+    {
+        $first = array_key_first($this->tags);
+
+        if ($first) {
+            $this->index = $first;
+        }
+    }
+
+    /**
+     * Next tag
+     *
+     * @return void
+     */
+    public function nextTagByIndex()
+    {
+        $keys = array_keys($this->tags);
+        $keyPosition = array_search($this->index, $keys);
+
+        if ($keyPosition !== false && $keyPosition < count($keys) - 1) {
+            $nextIndex = $keys[$keyPosition + 1];
+            $this->setIndex($nextIndex);
+        }
+    }
+
+    /**
+     * Previous tag
+     *
+     * @return void
+     */
+    public function previousTagByIndex()
+    {
+        $keys = array_keys($this->tags);
+        $keyPosition = array_search($this->index, $keys);
+
+        if ($keyPosition !== false && $keyPosition > 0) {
+            $prevIndex = $keys[$keyPosition - 1];
+            $this->setIndex($prevIndex);
+        }
+    }
+
+    /**
+     * Handle the input selected event
+     *
+     * @return void
+     */
     #[On('inputSelected')]
     public function handleInput()
     {
@@ -61,87 +284,177 @@ class MainSearchBar extends Component
             'input' => 'required|string|max:30',
         ]);
 
-        $this->addInputToSelectedTags();
+        $this->pushInputToSelected();
     }
 
-    public function addInputToSelectedTags()
+    /**
+     * Push the input to the selected tags
+     *
+     * @return void
+     */
+    public function pushInputToSelected()
     {
         $this->input = trim($this->input);
 
         if ($this->input) {
-            if (! in_array($this->input, array_column($this->selectedTags, 'content'))) {
-                $this->selectedTags[] = ['id' => 0, 'content' => $this->input, 'type' => TagType::Input->getLabel()];
+
+            $inputTag = ['content' => $this->input, 'type' => TagType::Input->getLabel()];
+            $checksum = hash('crc32b', json_encode($inputTag));
+
+            if (! isset($this->selected[$checksum])) {
+                $this->selected[$checksum] = $inputTag;
             }
-            $this->reset('input');
+
+            $this->reset('showDropdown', 'input');
         }
     }
 
-    #[On('tagSelected')]
-    public function handleTagSelected($id, $content, $type)
+    /**
+     * Add the tag to the selected tags
+     *
+     * @param  string  $index
+     * @return void
+     */
+    public function addToSelected($index)
     {
-        $tagarr = ['id' => $id, 'content' => $content, 'type' => $type];
-
-        if (! in_array($tagarr, $this->selectedTags)) {
-            $this->selectedTags[] = ['id' => $id, 'content' => $content, 'type' => $type];
+        if (! isset($this->selected[$index])) {
+            $this->selected[$index] = $this->tags[$index];
         }
-
-        $this->reset('input');
     }
 
-    #[On('tagRemoved')]
-    public function handleTagRemoved($id, $content, $type)
+    /**
+     * Remove the tag from the selected tags
+     *
+     * @param  string  $index
+     * @return void
+     */
+    public function removeFromSelected($index)
     {
-        $this->selectedTags = array_filter($this->selectedTags, function ($tag) use ($id, $content, $type) {
-            return ! ($tag['id'] === $id && $tag['content'] === $content && $tag['type'] === $type);
-        });
+        unset($this->selected[$index]);
     }
 
-    #[On('toggleTag')]
-    public function toggleTag($id, $content, $type)
+    /**
+     * Check if the tag is selected
+     *
+     * @param  string  $index
+     * @return bool
+     */
+    public function isSelected($index)
     {
-        $tagarr = ['id' => $id, 'content' => $content, 'type' => $type];
+        $isSelected = isset($this->selected[$index]);
 
-        if (in_array($tagarr, $this->selectedTags)) {
-            $this->handleTagRemoved($id, $content, $type);
+        return $isSelected;
+    }
+
+    /**
+     * Toggle the tag on selected tags
+     *
+     * @return void
+     */
+    #[On('toggletag')]
+    public function toggleTag($index)
+    {
+        if (isset($this->selected[$index])) {
+            $this->removeFromSelected($index);
         } else {
-            $this->handleTagSelected($id, $content, $type);
+            $this->addToSelected($index);
         }
     }
 
+    /**
+     * Toggle the tag by index
+     *
+     * @return void
+     */
+    #[On('toggletagbyindex')]
+    public function toggleTagByIndex()
+    {
+        if (isset($this->selected[$this->index])) {
+            $this->removeFromSelected($this->index);
+        } else {
+            $this->addToSelected($this->index);
+        }
+    }
+
+    /**
+     * Remove the last tag
+     *
+     * @return void
+     */
     public function removeLastTag()
     {
         if (! $this->input) {
-            $this->selectedTags = array_slice($this->selectedTags, 0, -1);
+            $this->selected = array_slice($this->selected, 0, -1);
         }
     }
 
+    /**
+     * Render the component
+     *
+     * @return View
+     */
     public function render()
     {
         return view('livewire.main-search-bar.main-search-bar');
     }
 
+    /**
+     * Close the dropdown
+     *
+     * @return void
+     */
     public function closeDropdown()
     {
-        $this->showDropdown = false;
+        if ($this->showDropdown) {
+            $this->reset('showDropdown');
+        }
     }
 
+    /**
+     * Open the dropdown
+     *
+     * @return void
+     */
+    public function openDropdown()
+    {
+        if (! $this->showDropdown) {
+            // $this->setIndexToFirst();
+            $this->showDropdown = true;
+        }
+    }
+
+    /**
+     * Toggle the dropdown
+     *
+     * @return void
+     */
     public function toggleDropdown()
     {
         $this->showDropdown = ! $this->showDropdown;
     }
 
+    /**
+     * Submit the search
+     *
+     * @return void
+     */
     #[On('submitSearch')]
     public function submitSearch()
     {
-        $this->addInputToSelectedTags();
+        $this->pushInputToSelected();
 
-        if (! empty($this->selectedTags)) {
-            dd($this->selectedTags);
+        if (! empty($this->selected)) {
+            dd($this->selected);
         }
     }
 
-    public function clearTags()
+    /**
+     * Reset the selected tags
+     *
+     * @return void
+     */
+    public function resetSelected()
     {
-        $this->reset('selectedTags');
+        $this->reset('selected');
     }
 }

@@ -12,7 +12,7 @@ class Tag extends Component
      * Create a new component instance.
      */
     public function __construct(
-        public int $id,
+        public string $id,
         public string $content,
         public string $type
     ) {}
