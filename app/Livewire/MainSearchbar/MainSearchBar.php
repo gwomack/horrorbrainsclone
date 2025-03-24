@@ -93,10 +93,6 @@ class MainSearchBar extends Component
     public function mount()
     {
         $this->filterTags($this->input);
-
-        if ($this->countTags() === 0) {
-            return;
-        }
     }
 
     /**
@@ -127,13 +123,11 @@ class MainSearchBar extends Component
                 collect($this->allTags)->filter(fn ($tag) => str_contains(strtolower($tag['content']), $value))->toArray()
             );
 
-            if (count($this->tags) > 0) {
+            if ($this->countTags() > 0) {
                 $this->openDropdown();
             } else {
                 $this->closeDropdown();
             }
-        } else {
-            $this->closeDropdown();
         }
     }
 
@@ -183,6 +177,10 @@ class MainSearchBar extends Component
      */
     public function getIndex()
     {
+        if ($this->index == '' && $this->countTags() > 0) {
+            $this->setIndexToFirst();
+        }
+
         return $this->index;
     }
 
@@ -252,7 +250,7 @@ class MainSearchBar extends Component
     public function nextTagByIndex()
     {
         $keys = array_keys($this->tags);
-        $keyPosition = array_search($this->index, $keys);
+        $keyPosition = array_search($this->getIndex(), $keys);
 
         if ($keyPosition !== false && $keyPosition < count($keys) - 1) {
             $nextIndex = $keys[$keyPosition + 1];
@@ -268,7 +266,7 @@ class MainSearchBar extends Component
     public function previousTagByIndex()
     {
         $keys = array_keys($this->tags);
-        $keyPosition = array_search($this->index, $keys);
+        $keyPosition = array_search($this->getIndex(), $keys);
 
         if ($keyPosition !== false && $keyPosition > 0) {
             $prevIndex = $keys[$keyPosition - 1];
@@ -362,6 +360,24 @@ class MainSearchBar extends Component
             $this->removeFromSelected($index);
         } else {
             $this->addToSelected($index);
+        }
+    }
+
+    /**
+     * Toggle the tag from the site
+     *
+     * @param  string  $id
+     * @param  string  $content
+     * @param  string  $type
+     * @return void
+     */
+    #[On('toggletagfromsite')]
+    public function toggleTagFromSite($id, $content, $type)
+    {
+        if (isset($this->selected[$id])) {
+            unset($this->selected[$id]);
+        } else {
+            $this->selected[$id] = ['content' => $content, 'type' => $type];
         }
     }
 

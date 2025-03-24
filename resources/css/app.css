@@ -41,14 +41,6 @@
         @apply text-red-800;
     }
 
-    .movie-card {
-        @apply border light-border;
-        transition: all 0.3s ease;
-    }
-
-    .movie-card:hover {
-    }
-
     .movie-card-aspect {
         @apply aspect-[16/9];
     }

@@ -1,5 +1,10 @@
 <div class="flex z-0 gap-2 px-3 pt-3 pb-2 h-16 max-h-full text-white border thick-border focus:outline-none focus:ring-0 focus:border-transparent"
-    wire:click.outside="closeDropdown">
+    wire:click.outside="closeDropdown" wire:keydown.escape.prevent="closeDropdown"
+    wire:keydown.backspace="removeLastTag" wire:keydown.cmd.shift.backspace.prevent="resetTags"
+    wire:keydown.ctrl.shift.backspace.prevent="resetTags"
+    x-on:keydown.enter.stop.prevent="$wire.showDropdown ? $dispatch('toggletagbyindex') : $wire.submitSearch()"
+    x-on:keydown.tab.stop.prevent="$wire.showDropdown ? $dispatch('toggletagbyindex') : $dispatch('inputSelected')"
+    wire:keydown.down.stop.prevent="nextTagByIndex" wire:keydown.up.stop.prevent="previousTagByIndex">
 
     <div class="overflow-auto flex-1 cursor-text">
         <div class="flex flex-nowrap items-center mr-3 gap-2">
@@ -12,13 +17,7 @@
                 class="flex-grow p-2 text-lg leading-none text-white bg-black border-none focus:ring-0 focus:outline-none text-nowrap"
                 x-ref="MainInputSearch"
                 @toggletag.window="$refs.MainInputSearch.scrollIntoView({ behavior: 'smooth', block: 'center' });"
-                @toggletagbyindex.window="$refs.MainInputSearch.scrollIntoView({ behavior: 'smooth', block: 'center' });"
-                wire:keydown.escape.prevent="closeDropdown" wire:keydown.backspace="removeLastTag"
-                wire:keydown.cmd.shift.backspace.prevent="resetTags"
-                wire:keydown.ctrl.shift.backspace.prevent="resetTags"
-                x-on:keydown.enter.stop.prevent="$wire.showDropdown ? $dispatch('toggletagbyindex') : $wire.submitSearch()"
-                x-on:keydown.tab.stop.prevent="$wire.showDropdown ? $dispatch('toggletagbyindex') : $dispatch('inputSelected')"
-                wire:keydown.down.stop.prevent="nextTagByIndex" wire:keydown.up.stop.prevent="previousTagByIndex" />
+                @toggletagbyindex.window="$refs.MainInputSearch.scrollIntoView({ behavior: 'smooth', block: 'center' });" />
         </div>
     </div>
 
@@ -30,9 +29,8 @@
         <button type="button" wire:key="tag-{{ $index }}" class="w-full lg:p-3 rounded-lg text-left text-white hover:bg-red-900
             {{ $this->isSelected($index) ? 'bg-red-800/30' : '' }}"
             :class="{ 'bg-red-800': hoverIndex == {{ $index }} }"
-            wire:click.prevent="$dispatch('toggletag', [{{ $index }}])"
-            @mouseenter="hoverIndex = {{ $index }}; $wire.setIndex({{ $index }})" @mouseleave="hoverIndex = null"
-            :class="{ 'bg-red-800': hoverIndex === {{ $index }} }">
+            wire:click.prevent="$dispatch('toggletag', [{{ $index }}])" @mouseenter="hoverIndex = {{ $index }}"
+            @mouseleave="hoverIndex = null" :class="{ 'bg-red-800': hoverIndex === {{ $index }} }">
 
             <div class="flex items-center">
                 @if($this->isSelected($index))
