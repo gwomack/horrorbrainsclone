@@ -14,18 +14,14 @@ models:
 
   Tag:
     name: string
-    description: text
+    description: text nullable
     relationships:
-      belongsToMany: Movie:&MovieTag, Tag:&TagParent
+      belongsToMany: Movie:&MovieTag
 
   MovieTag:
     movie_id: id foreign:movies
     tag_id: id foreign:tags
     type: string
-
-  TagParent:
-    tag_id: id foreign:tags
-    parent_id: id foreign:tags
 
   MovieRating:
     movie_id: id foreign:movies
@@ -34,4 +30,4 @@ models:
     relationships:
       belongsTo: Movie
 
-seeders: Movie, Tag, TagParent, MovieTag, MovieRating
+seeders: Movie, Tag, MovieTag, MovieRating

@@ -232,12 +232,6 @@ class Movie extends Model
                         ->searchable()
                         ->relationship('distribution', 'name')
                         ->createOptionForm(Tag::getForm()),
-                    Forms\Components\Select::make('year')
-                        ->label('Year')
-                        ->multiple()
-                        ->searchable()
-                        ->relationship('year', 'name')
-                        ->createOptionForm(Tag::getForm()),
                     Forms\Components\Select::make('language')
                         ->label('Language')
                         ->multiple()
@@ -250,12 +244,24 @@ class Movie extends Model
                         ->searchable()
                         ->relationship('country', 'name')
                         ->createOptionForm(Tag::getForm()),
+                    Forms\Components\Select::make('year')
+                        ->label('Year')
+                        ->searchable()
+                        ->relationship('year', 'name')
+                        ->createOptionForm(Tag::getForm())
+                        // this is to make the movie type a single select
+                        ->getOptionLabelFromRecordUsing(fn ($record) => $record->name)
+                        ->dehydrated(false)
+                        ->multiple(false),
                     Forms\Components\Select::make('movie_type')
                         ->label('Movie Type')
-                        ->multiple()
                         ->searchable()
                         ->relationship('movieType', 'name')
-                        ->createOptionForm(Tag::getForm()),
+                        ->createOptionForm(Tag::getForm())
+                        // this is to make the movie type a single select
+                        ->getOptionLabelFromRecordUsing(fn ($record) => $record->name)
+                        ->dehydrated(false)
+                        ->multiple(false),
                 ]),
         ];
     }

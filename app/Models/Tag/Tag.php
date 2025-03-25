@@ -2,6 +2,8 @@
 
 namespace App\Models\Tag;
 
+use App\Models\Movie;
+use App\Models\MovieTag;
 use Filament\Forms;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -29,18 +31,6 @@ class Tag extends Model
             ->using(MovieTag::class)
             ->as('movie_tag')
             ->withPivot('id', 'movie_id', 'tag_id', 'type')
-            ->withTimestamps();
-    }
-
-    /**
-     * Get the parents for the tag.
-     */
-    public function parents(): BelongsToMany
-    {
-        return $this->belongsToMany(Tag::class)
-            ->using(TagParent::class)
-            ->as('tag_parent')
-            ->withPivot('id', 'tag_id', 'parent_id')
             ->withTimestamps();
     }
 

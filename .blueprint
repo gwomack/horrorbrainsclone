@@ -2,21 +2,17 @@ created:
     - database/factories/MovieFactory.php
     - database/factories/TagFactory.php
     - database/factories/MovieTagFactory.php
-    - database/factories/TagParentFactory.php
     - database/factories/MovieRatingFactory.php
-    - database/migrations/2025_03_24_222811_create_movies_table.php
-    - database/migrations/2025_03_24_222812_create_tags_table.php
-    - database/migrations/2025_03_24_222813_create_movie_tags_table.php
-    - database/migrations/2025_03_24_222814_create_tag_parents_table.php
-    - database/migrations/2025_03_24_222815_create_movie_ratings_table.php
+    - database/migrations/2025_03_25_100445_create_movies_table.php
+    - database/migrations/2025_03_25_100446_create_tags_table.php
+    - database/migrations/2025_03_25_100447_create_movie_tags_table.php
+    - database/migrations/2025_03_25_100448_create_movie_ratings_table.php
     - app/Models/Movie.php
     - app/Models/Tag.php
     - app/Models/MovieTag.php
-    - app/Models/TagParent.php
     - app/Models/MovieRating.php
     - database/seeders/MovieSeeder.php
     - database/seeders/TagSeeder.php
-    - database/seeders/TagParentSeeder.php
     - database/seeders/MovieTagSeeder.php
     - database/seeders/MovieRatingSeeder.php
 models:
@@ -25,7 +21,6 @@ models:
     Tag\Tag: {  }
     User: { name: string, email: string, email_verified_at: 'timestamp nullable', password: 'string nullable', remember_token: 'string:100 nullable', avatar_url: 'string nullable', theme: "string nullable default:'default'::character varying", theme_color: 'string nullable' }
     Movie: { title: string, slug: string, description: text, release_date: 'date nullable', rating: float, is_published: boolean, published_at: 'datetime nullable', relationships: { belongsToMany: 'Tag:&MovieTag', hasMany: MovieRating } }
-    Tag: { name: string, description: text, relationships: { belongsToMany: 'Movie:&MovieTag, Tag:&TagParent' } }
+    Tag: { name: string, description: 'text nullable', relationships: { belongsToMany: 'Movie:&MovieTag' } }
     MovieTag: { movie_id: 'id foreign:movies', tag_id: 'id foreign:tags', type: string }
-    TagParent: { tag_id: 'id foreign:tags', parent_id: 'id foreign:tags' }
     MovieRating: { movie_id: 'id foreign:movies', rating: unsignedInteger, user_id: 'id foreign:users nullable', relationships: { belongsTo: Movie } }
