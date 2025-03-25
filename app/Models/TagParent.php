@@ -11,17 +11,6 @@ class TagParent extends Model
     use HasFactory;
 
     /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
-    protected $fillable = [
-        'tag_id',
-        'parent_id',
-        'tag_parent_id',
-    ];
-
-    /**
      * The attributes that should be cast to native types.
      *
      * @var array
@@ -30,11 +19,15 @@ class TagParent extends Model
         'id' => 'integer',
         'tag_id' => 'integer',
         'parent_id' => 'integer',
-        'tag_parent_id' => 'integer',
     ];
 
-    public function tagParent(): BelongsTo
+    public function tag(): BelongsTo
     {
-        return $this->belongsTo(TagParent::class);
+        return $this->belongsTo(Tag::class);
+    }
+
+    public function parent(): BelongsTo
+    {
+        return $this->belongsTo(Tag::class);
     }
 }

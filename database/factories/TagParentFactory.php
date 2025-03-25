@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
+use App\Models\Tag;
 use App\Models\TagParent;
 
 class TagParentFactory extends Factory
@@ -21,9 +22,8 @@ class TagParentFactory extends Factory
     public function definition(): array
     {
         return [
-            'tag_id' => fake()->randomNumber(),
-            'parent_id' => fake()->randomNumber(),
-            'tag_parent_id' => TagParent::factory(),
+            'tag_id' => Tag::factory(),
+            'parent_id' => Tag::factory(),
         ];
     }
 }

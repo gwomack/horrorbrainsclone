@@ -22,9 +22,12 @@ class MovieFactory extends Factory
     {
         return [
             'title' => fake()->sentence(4),
+            'slug' => fake()->slug(),
             'description' => fake()->text(),
             'release_date' => fake()->date(),
             'rating' => fake()->randomFloat(0, 0, 9999999999.),
+            'is_published' => fake()->boolean(),
+            'published_at' => fake()->dateTime(),
         ];
     }
 }

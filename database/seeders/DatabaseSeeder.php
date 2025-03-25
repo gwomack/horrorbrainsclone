@@ -13,20 +13,24 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        User::factory(10)->create();
+        // User::factory(10)->create();
 
-        User::factory()->create([
-            'name' => 'admin',
-            'email' => 'admin@admin.com',
-        ]);
+        // User::factory()->create([
+        //     'name' => 'admin',
+        //     'email' => 'admin@admin.com',
+        // ]);
 
-
-        //call BookSeeder
+        // call BookSeeder
         $this->call(
             [
-                BookSeeder::class,
-                PostSeeder::class,
-                ContactSeeder::class,
+                // BookSeeder::class,
+                // PostSeeder::class,
+                // ContactSeeder::class,
+                MovieSeeder::class,
+                TagSeeder::class,
+                TagParentSeeder::class,
+                MovieTagSeeder::class,
+                MovieRatingSeeder::class,
             ]
         );
     }

@@ -1,24 +1,37 @@
 models:
+
   Movie:
     title: string
+    slug: string
     description: text
     release_date: date nullable
     rating: float
+    is_published: boolean
+    published_at: datetime nullable
     relationships:
-      belongsToMany: Tag
+      belongsToMany: Tag:&MovieTag
+      hasMany: MovieRating
 
   Tag:
     name: string
     description: text
     relationships:
-      hasOne: TagParent
-      belongsToMany: Movie
+      belongsToMany: Movie:&MovieTag, Tag:&TagParent
+
+  MovieTag:
+    movie_id: id foreign:movies
+    tag_id: id foreign:tags
+    type: string
 
   TagParent:
-    tag_id: unsignedInteger
-    parent_id: unsignedInteger
-    relationships:
-      belongsTo: TagParent
+    tag_id: id foreign:tags
+    parent_id: id foreign:tags
 
-# controllers:
-  # ...
+  MovieRating:
+    movie_id: id foreign:movies
+    rating: unsignedInteger
+    user_id: id foreign:users nullable
+    relationships:
+      belongsTo: Movie
+
+seeders: Movie, Tag, TagParent, MovieTag, MovieRating
