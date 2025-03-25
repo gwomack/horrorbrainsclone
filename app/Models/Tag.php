@@ -21,7 +21,7 @@ class Tag extends Model
 
     public function movies(): BelongsToMany
     {
-        return $this->belongsToMany(Movie::class)
+        return $this->belongsToMany(Movie::class, 'movie_tags')
             ->using(MovieTag::class)
             ->as('movie_tag')
             ->withPivot('id', 'movie_id', 'tag_id', 'type')

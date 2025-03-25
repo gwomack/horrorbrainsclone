@@ -2,13 +2,17 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\Pivot;
 
-class MovieTag extends Model
+class MovieTag extends Pivot
 {
-    use HasFactory;
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'movie_tags';
 
     /**
      * The attributes that should be cast to native types.
@@ -21,11 +25,17 @@ class MovieTag extends Model
         'tag_id' => 'integer',
     ];
 
+    /**
+     * Get the movie that the tag belongs to.
+     */
     public function movie(): BelongsTo
     {
         return $this->belongsTo(Movie::class);
     }
 
+    /**
+     * Get the tag that the movie tag belongs to.
+     */
     public function tag(): BelongsTo
     {
         return $this->belongsTo(Tag::class);
