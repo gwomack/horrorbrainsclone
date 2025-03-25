@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\Tag\Tag;
 use Filament\Forms;
+use Filament\Forms\Components\Fieldset;
 use Filament\Forms\Components\Section;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -168,22 +169,26 @@ class Movie extends Model
                     Forms\Components\RichEditor::make('description')
                         ->required()
                         ->columnSpanFull(),
-                    Forms\Components\Toggle::make('is_published')
-                        ->label('Published')
-                        ->default(true),
-                    Forms\Components\DateTimePicker::make('published_at')
-                        ->readOnly(),
-                ]),
-            Section::make('Advanced Filters')
-                ->collapsible()
-                ->schema([
-                    Forms\Components\DatePicker::make('release_date')
-                        ->native(false)
-                        ->columns(1),
-                    Rating::make('rating')
-                        ->required()
-                        ->stars(5)
-                        ->allowZero(),
+                    Fieldset::make('Publish Settings')
+                        ->columns(2)
+                        ->schema([
+                            Forms\Components\Toggle::make('is_published')
+                                ->label('Published')
+                                ->default(true),
+                            Forms\Components\DateTimePicker::make('published_at')
+                                ->readOnly(),
+                        ]),
+                    Fieldset::make('Advanced Filters')
+                        ->columns(2)
+                        ->schema([
+                            Forms\Components\DatePicker::make('release_date')
+                                ->native(false)
+                                ->columns(1),
+                            Rating::make('rating')
+                                ->required()
+                                ->stars(5)
+                                ->allowZero(),
+                        ]),
                 ]),
             Section::make('Tags')
                 ->collapsible()
