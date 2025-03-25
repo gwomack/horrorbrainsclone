@@ -27,8 +27,8 @@ class MovieResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('title')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('slug')
-                    ->searchable(),
+                // Tables\Columns\TextColumn::make('slug')
+                //     ->searchable(),
                 Tables\Columns\TextColumn::make('release_date')
                     ->date()
                     ->sortable(),

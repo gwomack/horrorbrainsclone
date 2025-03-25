@@ -10,7 +10,15 @@ models:
     published_at: datetime nullable
     relationships:
       belongsToMany: Tag:&MovieTag
-      hasMany: MovieRating
+      hasMany: MovieRating, VideoEmbeds
+
+  VideoEmbeds:
+    url: string
+    type: enum:youtube,vimeo
+    is_published: boolean
+    published_at: datetime nullable
+    relationships:
+      belongsTo: Movie
 
   Tag:
     name: string

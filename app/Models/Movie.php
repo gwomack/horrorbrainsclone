@@ -6,15 +6,21 @@ use App\Models\Tag\Tag;
 use Filament\Forms;
 use Filament\Forms\Components\Fieldset;
 use Filament\Forms\Components\Section;
+use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Mokhosh\FilamentRating\Components\Rating;
+use Spatie\Image\Enums\Fit;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-class Movie extends Model
+class Movie extends Model implements HasMedia
 {
     use HasFactory;
+    use InteractsWithMedia;
 
     /**
      * The attributes that should be cast to native types.
@@ -28,6 +34,17 @@ class Movie extends Model
         'is_published' => 'boolean',
         'published_at' => 'datetime',
     ];
+
+    /**
+     * Register media conversions.
+     */
+    public function registerMediaConversions(?Media $media = null): void
+    {
+        $this
+            ->addMediaConversion('preview')
+            ->fit(Fit::Contain, 300, 300)
+            ->nonQueued();
+    }
 
     /**
      * Get the tags for the movie.
@@ -189,6 +206,31 @@ class Movie extends Model
                                 ->stars(5)
                                 ->allowZero(),
                         ]),
+                ]),
+            Section::make('Media')
+                ->collapsible()
+                ->schema([
+                    SpatieMediaLibraryFileUpload::make('images')
+                        ->multiple()
+                        ->image()
+                        ->imageEditor()
+                        ->reorderable()
+                        ->responsiveImages()
+                        ->collection('images')
+                        ->disk('public.movies'),
+                    SpatieMediaLibraryFileUpload::make('video')
+                        ->multiple()
+                        ->video()
+                        ->videoEditor()
+                        ->reorderable()
+                        ->collection('video')
+                        ->disk('public.movies'),
+                    Forms\Components\TextInput::make('trailer_url')
+                        ->label('YouTube Trailer URL')
+                        ->placeholder('https://www.youtube.com/watch?v=...')
+                        ->helperText('Enter the YouTube video URL')
+                        ->url()
+                        ->columnSpanFull(),
                 ]),
             Section::make('Tags')
                 ->collapsible()
