@@ -34,8 +34,9 @@ class RelationProvider extends ServiceProvider
             'year' => 'App\Models\Tag\Year',
             'sub_genre' => 'App\Models\Tag\SubGenre',
             'movie_type' => 'App\Models\Tag\MovieType',
-            // user
+            // other models
             'user' => 'App\Models\User',
+            'movie' => 'App\Models\Movie\Movie',
         ]);
     }
 }

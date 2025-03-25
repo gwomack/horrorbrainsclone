@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Movie;
 
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\Pivot;

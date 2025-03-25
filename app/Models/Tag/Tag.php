@@ -44,7 +44,6 @@ class Tag extends Model
                 ->required()
                 ->maxLength(255),
             Forms\Components\Textarea::make('description')
-                ->required()
                 ->columnSpanFull(),
         ];
     }

@@ -3,7 +3,7 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\MovieResource\Pages;
-use App\Models\Movie;
+use App\Models\Movie\Movie;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;

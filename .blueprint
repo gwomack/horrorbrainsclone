@@ -1,13 +1,16 @@
 created:
     - database/factories/MovieFactory.php
+    - database/factories/VideoEmbedsFactory.php
     - database/factories/TagFactory.php
     - database/factories/MovieTagFactory.php
     - database/factories/MovieRatingFactory.php
-    - database/migrations/2025_03_25_100445_create_movies_table.php
-    - database/migrations/2025_03_25_100446_create_tags_table.php
-    - database/migrations/2025_03_25_100447_create_movie_tags_table.php
-    - database/migrations/2025_03_25_100448_create_movie_ratings_table.php
+    - database/migrations/2025_03_25_120336_create_movies_table.php
+    - database/migrations/2025_03_25_120337_create_video_embeds_table.php
+    - database/migrations/2025_03_25_120338_create_tags_table.php
+    - database/migrations/2025_03_25_120339_create_movie_tags_table.php
+    - database/migrations/2025_03_25_120340_create_movie_ratings_table.php
     - app/Models/Movie.php
+    - app/Models/VideoEmbeds.php
     - app/Models/Tag.php
     - app/Models/MovieTag.php
     - app/Models/MovieRating.php
@@ -20,7 +23,8 @@ models:
     Post: { title: string, content: text }
     Tag\Tag: {  }
     User: { name: string, email: string, email_verified_at: 'timestamp nullable', password: 'string nullable', remember_token: 'string:100 nullable', avatar_url: 'string nullable', theme: "string nullable default:'default'::character varying", theme_color: 'string nullable' }
-    Movie: { title: string, slug: string, description: text, release_date: 'date nullable', rating: float, is_published: boolean, published_at: 'datetime nullable', relationships: { belongsToMany: 'Tag:&MovieTag', hasMany: MovieRating } }
+    Movie: { title: string, slug: string, description: text, release_date: 'date nullable', rating: float, is_published: boolean, published_at: 'datetime nullable', relationships: { belongsToMany: 'Tag:&MovieTag', hasMany: 'MovieRating, VideoEmbeds' } }
+    VideoEmbeds: { url: string, type: 'enum:youtube,vimeo', is_published: boolean, published_at: 'datetime nullable', relationships: { belongsTo: Movie } }
     Tag: { name: string, description: 'text nullable', relationships: { belongsToMany: 'Movie:&MovieTag' } }
     MovieTag: { movie_id: 'id foreign:movies', tag_id: 'id foreign:tags', type: string }
     MovieRating: { movie_id: 'id foreign:movies', rating: unsignedInteger, user_id: 'id foreign:users nullable', relationships: { belongsTo: Movie } }

@@ -45,12 +45,13 @@ return [
             'throw' => false,
         ],
 
-        'public.movies' => [
+        'movies' => [
             'driver' => 'local',
             'root' => storage_path('app/public/movies'),
             'url' => env('APP_URL').'/storage/movies',
             'visibility' => 'public',
             'throw' => false,
+            'serve' => true,
         ],
 
         's3' => [
