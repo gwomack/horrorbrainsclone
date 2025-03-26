@@ -10,7 +10,7 @@ use App\Models\Tag\TagCustomField;
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Section;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
@@ -37,6 +37,14 @@ class Tag extends Model
             ->as('post_tag')
             ->withPivot('id', 'post_id', 'tag_id', 'type')
             ->withTimestamps();
+    }
+
+    /**
+     * Get the custom fields for the tag.
+     */
+    public function postTagCustomFields(): HasManyThrough
+    {
+        return $this->hasManyThrough(PostTagCustomField::class, PostTag::class);
     }
 
     /**
@@ -99,11 +107,4 @@ class Tag extends Model
         ];
     }
 
-    /**
-     * Get the custom fields for the tag.
-     */
-    public function tagCustomFields(): HasMany
-    {
-        return $this->hasMany(TagCustomField::class);
-    }
 }

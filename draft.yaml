@@ -7,36 +7,42 @@ models:
     rating: float
     is_published: boolean
     published_at: datetime nullable
+    softDeletes
     relationships:
       belongsToMany: Tag:&PostTag
       hasMany: PostRating, Embeds
 
-  Embeds:
+  Embed:
     embed: string
     type: enum:youtube,vimeo
     is_published: boolean
     published_at: datetime nullable
+    softDeletes
     relationships:
       belongsTo: Post
 
   Tag:
     name: string
     description: text nullable
+    softDeletes
     relationships:
       belongsToMany: Post:&PostTag
-      hasMany: TagCustomField
 
   PostTag:
     post_id: id foreign:posts
     tag_id: id foreign:tags
     type: string
+    relationships:
+      belongsTo: Post, Tag
+      hasMany: PostTagCustomField
 
-  TagCustomField:
+  PostTagCustomField:
     tag_id: id foreign:tags
     field: string
     value: text
+    softDeletes
     relationships:
-      belongsTo: Tag
+      belongsTo: PostTag
 
   PostRating:
     post_id: id foreign:posts

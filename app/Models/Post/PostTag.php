@@ -2,10 +2,12 @@
 
 namespace App\Models\Post;
 
-use App\Models\Post\Post;
 use App\Models\Tag\Tag;
+use App\Models\Post\Post;
+use App\Models\PostTagCustomField;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class PostTag extends Pivot
 {
@@ -41,5 +43,13 @@ class PostTag extends Pivot
     public function tag(): BelongsTo
     {
         return $this->belongsTo(Tag::class);
+    }
+
+    /**
+     * Get the custom fields for the post tag.
+     */
+    public function postTagCustomFields(): HasMany
+    {
+        return $this->hasMany(PostTagCustomField::class);
     }
 }

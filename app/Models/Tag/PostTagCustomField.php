@@ -2,11 +2,12 @@
 
 namespace App\Models\Tag;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Post\PostTag;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class TagCustomField extends Model
+class PostTagCustomField extends Model
 {
     use HasFactory;
 
@@ -20,8 +21,19 @@ class TagCustomField extends Model
         'tag_id' => 'integer',
     ];
 
+    /**
+     * Get the tag that the custom field belongs to.
+     */
     public function tag(): BelongsTo
     {
         return $this->belongsTo(Tag::class);
+    }
+
+    /**
+     * Get the post tag that the custom field belongs to.
+     */
+    public function postTag(): BelongsTo
+    {
+        return $this->belongsTo(PostTag::class);
     }
 }

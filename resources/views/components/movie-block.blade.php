@@ -41,7 +41,7 @@
             </div>
 
         </div>
-        <a href="/movie/1" wire:navigate>
+        <a href="{{ route('movie.details', 1) }}" wire:navigate>
             <img src="{{ $image }}" alt="{{ $title }}" class="object-cover w-full h-full">
         </a>
     </div>

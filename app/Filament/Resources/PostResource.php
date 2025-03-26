@@ -12,19 +12,48 @@ use Filament\Resources\Resource;
 use Filament\Support\Enums\Alignment;
 use App\Filament\Resources\PostResource\Pages;
 use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class PostResource extends Resource
 {
+    /**
+     * The model for the resource.
+     */
     protected static ?string $model = Post::class;
 
+    /**
+     * The navigation icon for the resource.
+     */
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
+    /**
+     * The navigation label for the resource.
+     */
+    protected static ?string $navigationLabel = 'Posts';
+
+    /**
+     * The plural model label for the resource.
+     */
+    protected static ?string $pluralModelLabel = 'Posts';
+
+    /**
+     * The model label for the resource.
+     */
+    protected static ?string $modelLabel = 'Post';
+
+    /**
+     * Get the form for the resource.
+     */
     public static function form(Form $form): Form
     {
         return $form
             ->schema(Post::getForm());
     }
 
+    /**
+     * Get the table for the resource.
+     */
     public static function table(Table $table): Table
     {
         return $table
@@ -80,6 +109,9 @@ class PostResource extends Resource
             ]);
     }
 
+    /**
+     * Get the relations for the resource.
+     */
     public static function getRelations(): array
     {
         return [
@@ -87,6 +119,9 @@ class PostResource extends Resource
         ];
     }
 
+    /**
+     * Get the pages for the resource.
+     */
     public static function getPages(): array
     {
         return [
@@ -94,5 +129,16 @@ class PostResource extends Resource
             'create' => Pages\CreatePost::route('/create'),
             'edit' => Pages\EditPost::route('/{record}/edit'),
         ];
+    }
+
+    /**
+     * Get the query builder for the resource.
+     */
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()
+            ->withoutGlobalScopes([
+                SoftDeletingScope::class,
+            ]);
     }
 }
