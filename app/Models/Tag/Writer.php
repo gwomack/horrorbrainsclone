@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Tag;
 
 use App\Models\Tag\Tag;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -11,18 +11,10 @@ class Writer extends Tag
     use HasFactory;
 
     /**
-     * Get the movies for the writer.
+     * Get the posts for the writer.
      */
-    public function movies(): BelongsToMany
+    public function posts(): BelongsToMany
     {
-        return parent::movies()->wherePivot('type', 'writer');
-    }
-
-    /**
-     * Get the parents for the writer.
-     */
-    public function parents(): BelongsToMany
-    {
-        return parent::parents()->wherePivot('type', 'writer');
+        return parent::posts()->wherePivot('type', 'writer');
     }
 }

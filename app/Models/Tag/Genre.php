@@ -10,18 +10,10 @@ class Genre extends Tag
     use HasFactory;
 
     /**
-     * Get the movies for the genre.
+     * Get the posts for the genre.
      */
-    public function movies(): BelongsToMany
+    public function posts(): BelongsToMany
     {
-        return parent::movies()->wherePivot('type', 'genre');
-    }
-
-    /**
-     * Get the parents for the genre.
-     */
-    public function parents(): BelongsToMany
-    {
-        return parent::parents()->wherePivot('type', 'genre');
+        return parent::posts()->wherePivot('type', 'genre');
     }
 }

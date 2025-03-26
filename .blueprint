@@ -1,38 +1,41 @@
 created:
-    - database/factories/MovieFactory.php
-    - database/factories/VideoEmbedsFactory.php
+    - database/factories/PostFactory.php
+    - database/factories/EmbedsFactory.php
     - database/factories/TagFactory.php
-    - database/factories/MovieTagFactory.php
+    - database/factories/PostTagFactory.php
     - database/factories/TagCustomFieldFactory.php
-    - database/factories/MovieRatingFactory.php
-    - database/migrations/2025_03_25_184420_create_movies_table.php
-    - database/migrations/2025_03_25_184421_create_video_embeds_table.php
-    - database/migrations/2025_03_25_184422_create_tags_table.php
-    - database/migrations/2025_03_25_184423_create_movie_tags_table.php
-    - database/migrations/2025_03_25_184424_create_tag_custom_fields_table.php
-    - database/migrations/2025_03_25_184425_create_movie_ratings_table.php
-    - app/Models/Movie.php
-    - app/Models/VideoEmbeds.php
+    - database/factories/PostRatingFactory.php
+    - database/migrations/2025_03_26_105913_create_posts_table.php
+    - database/migrations/2025_03_26_105914_create_embeds_table.php
+    - database/migrations/2025_03_26_105915_create_tags_table.php
+    - database/migrations/2025_03_26_105916_create_post_tags_table.php
+    - database/migrations/2025_03_26_105917_create_tag_custom_fields_table.php
+    - database/migrations/2025_03_26_105918_create_post_ratings_table.php
+    - app/Models/Post.php
+    - app/Models/Embeds.php
     - app/Models/Tag.php
-    - app/Models/MovieTag.php
+    - app/Models/PostTag.php
     - app/Models/TagCustomField.php
-    - app/Models/MovieRating.php
-    - database/seeders/MovieSeeder.php
+    - app/Models/PostRating.php
+    - database/seeders/PostSeeder.php
     - database/seeders/TagSeeder.php
-    - database/seeders/MovieTagSeeder.php
-    - database/seeders/MovieRatingSeeder.php
+    - database/seeders/PostTagSeeder.php
+    - database/seeders/PostRatingSeeder.php
 models:
     Contact: { name: string }
     Movie\Movie: {  }
     Movie\MovieRating: {  }
     Movie\MovieTag: {  }
     Movie\VideoEmbeds: {  }
-    Post: { title: string, content: text }
+    Post: { title: string, slug: string, description: text, release_date: 'date nullable', rating: float, is_published: boolean, published_at: 'datetime nullable', relationships: { belongsToMany: 'Tag:&PostTag', hasMany: 'PostRating, Embeds' } }
     Tag\Tag: {  }
     User: { name: string, email: string, email_verified_at: 'timestamp nullable', password: 'string nullable', remember_token: 'string:100 nullable', avatar_url: 'string nullable', theme: "string nullable default:'default'::character varying", theme_color: 'string nullable' }
     Movie: { title: string, slug: string, description: text, release_date: 'date nullable', rating: float, is_published: boolean, published_at: 'datetime nullable', relationships: { belongsToMany: 'Tag:&MovieTag', hasMany: 'MovieRating, VideoEmbeds' } }
     VideoEmbeds: { url: string, type: 'enum:youtube,vimeo', is_published: boolean, published_at: 'datetime nullable', relationships: { belongsTo: Movie } }
-    Tag: { name: string, description: 'text nullable', relationships: { belongsToMany: 'Movie:&MovieTag', hasMany: TagCustomField } }
+    Tag: { name: string, description: 'text nullable', relationships: { belongsToMany: 'Post:&PostTag', hasMany: TagCustomField } }
     MovieTag: { movie_id: 'id foreign:movies', tag_id: 'id foreign:tags', type: string }
     TagCustomField: { tag_id: 'id foreign:tags', field: string, value: text, relationships: { belongsTo: Tag } }
     MovieRating: { movie_id: 'id foreign:movies', rating: unsignedInteger, user_id: 'id foreign:users nullable', relationships: { belongsTo: Movie } }
+    Embeds: { embed: string, type: 'enum:youtube,vimeo', is_published: boolean, published_at: 'datetime nullable', relationships: { belongsTo: Post } }
+    PostTag: { post_id: 'id foreign:posts', tag_id: 'id foreign:tags', type: string }
+    PostRating: { post_id: 'id foreign:posts', rating: unsignedInteger, user_id: 'id foreign:users nullable', relationships: { belongsTo: Post } }

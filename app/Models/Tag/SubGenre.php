@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Tag;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -10,18 +10,10 @@ class SubGenre extends Tag
     use HasFactory;
 
     /**
-     * Get the movies for the genre.
+     * Get the posts for the sub genre.
      */
-    public function movies(): BelongsToMany
+    public function posts(): BelongsToMany
     {
-        return parent::movies()->wherePivot('type', 'sub_genre');
-    }
-
-    /**
-     * Get the parents for the genre.
-     */
-    public function parents(): BelongsToMany
-    {
-        return parent::parents()->wherePivot('type', 'sub_genre');
+        return parent::posts()->wherePivot('type', 'sub_genre');
     }
 }

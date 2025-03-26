@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Post extends Model
+class Tag extends Model
 {
     use HasFactory;
 
@@ -18,28 +18,19 @@ class Post extends Model
      */
     protected $casts = [
         'id' => 'integer',
-        'release_date' => 'date',
-        'rating' => 'float',
-        'is_published' => 'boolean',
-        'published_at' => 'datetime',
     ];
 
-    public function tags(): BelongsToMany
+    public function posts(): BelongsToMany
     {
-        return $this->belongsToMany(Tag::class)
+        return $this->belongsToMany(Post::class)
             ->using(PostTag::class)
             ->as('post_tag')
             ->withPivot('id', 'post_id', 'tag_id', 'type')
             ->withTimestamps();
     }
 
-    public function postRatings(): HasMany
+    public function tagCustomFields(): HasMany
     {
-        return $this->hasMany(PostRating::class);
-    }
-
-    public function embeds(): HasMany
-    {
-        return $this->hasMany(Embeds::class);
+        return $this->hasMany(TagCustomField::class);
     }
 }

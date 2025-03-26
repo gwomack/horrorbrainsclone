@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Tag;
 
 use App\Models\Tag\Tag;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -11,18 +11,10 @@ class Year extends Tag
     use HasFactory;
 
     /**
-     * Get the movies for the year.
+     * Get the posts for the year.
      */
-    public function movies(): BelongsToMany
+    public function posts(): BelongsToMany
     {
-        return parent::movies()->wherePivot('type', 'year');
-    }
-
-    /**
-     * Get the parents for the year.
-     */
-    public function parents(): BelongsToMany
-    {
-        return parent::parents()->wherePivot('type', 'year');
+        return parent::posts()->wherePivot('type', 'year');
     }
 }

@@ -3,16 +3,17 @@
 namespace App\Models\Tag;
 
 use Filament\Forms;
-use App\Models\Movie;
-use App\Models\MovieTag;
-use App\Models\Tag\TagCustomField;
+use App\Models\Post\Post;
 use App\Models\Tag\Field;
+use App\Models\Post\PostTag;
+use App\Models\Tag\TagCustomField;
+use Filament\Forms\Components\Grid;
+use Filament\Forms\Components\Section;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Filament\Forms\Components\Section;
-use Filament\Forms\Components\Grid;
+
 class Tag extends Model
 {
     use HasFactory;
@@ -27,14 +28,14 @@ class Tag extends Model
     ];
 
     /**
-     * Get the movies for the tag.
+     * Get the posts for the tag.
      */
-    public function movies(): BelongsToMany
+    public function posts(): BelongsToMany
     {
-        return $this->belongsToMany(Movie::class)
-            ->using(MovieTag::class)
-            ->as('movie_tag')
-            ->withPivot('id', 'movie_id', 'tag_id', 'type')
+        return $this->belongsToMany(Post::class)
+            ->using(PostTag::class)
+            ->as('post_tag')
+            ->withPivot('id', 'post_id', 'tag_id', 'type')
             ->withTimestamps();
     }
 

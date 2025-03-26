@@ -1,10 +1,10 @@
 <?php
 
-namespace Database\Factories;
+namespace Database\Factories\Post;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
-use App\Models\Post;
+use App\Models\Post\Post;
 
 class PostFactory extends Factory
 {
@@ -21,11 +21,11 @@ class PostFactory extends Factory
     public function definition(): array
     {
         return [
-            'title' => fake()->sentence(4),
-            'slug' => fake()->slug(),
+            'title' => $title = fake()->sentence(4),
+            'slug' => Str::slug($title),
             'description' => fake()->text(),
             'release_date' => fake()->date(),
-            'rating' => fake()->randomFloat(0, 0, 9999999999.),
+            'rating' => fake()->randomFloat(0, 0, 5),
             'is_published' => fake()->boolean(),
             'published_at' => fake()->dateTime(),
         ];

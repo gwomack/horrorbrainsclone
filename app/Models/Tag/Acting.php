@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Tag;
 
 use App\Models\Tag\Tag;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -11,18 +11,10 @@ class Acting extends Tag
     use HasFactory;
 
     /**
-     * Get the movies for the acting.
+     * Get the posts for the acting.
      */
-    public function movies(): BelongsToMany
+    public function posts(): BelongsToMany
     {
-        return parent::movies()->wherePivot('type', 'acting');
-    }
-
-    /**
-     * Get the parents for the acting.
-     */
-    public function parents(): BelongsToMany
-    {
-        return parent::parents()->wherePivot('type', 'acting');
+        return parent::posts()->wherePivot('type', 'acting');
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Tag;
 
 use App\Models\Tag\Tag;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -11,18 +11,10 @@ class Distribution extends Tag
     use HasFactory;
 
     /**
-     * Get the movies for the distribution.
+     * Get the posts for the distribution.
      */
-    public function movies(): BelongsToMany
+    public function posts(): BelongsToMany
     {
-        return parent::movies()->wherePivot('type', 'distribution');
-    }
-
-    /**
-     * Get the parents for the distribution.
-     */
-    public function parents(): BelongsToMany
-    {
-        return parent::parents()->wherePivot('type', 'distribution');
+        return parent::posts()->wherePivot('type', 'distribution');
     }
 }

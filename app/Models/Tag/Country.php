@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Tag;
 
 use App\Models\Tag\Tag;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -11,18 +11,10 @@ class Country extends Tag
     use HasFactory;
 
     /**
-     * Get the movies for the country.
+     * Get the posts for the country.
      */
-    public function movies(): BelongsToMany
+    public function posts(): BelongsToMany
     {
-        return parent::movies()->wherePivot('type', 'country');
-    }
-
-    /**
-     * Get the parents for the country.
-     */
-    public function parents(): BelongsToMany
-    {
-        return parent::parents()->wherePivot('type', 'country');
+        return parent::posts()->wherePivot('type', 'country');
     }
 }

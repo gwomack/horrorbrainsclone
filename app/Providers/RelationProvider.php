@@ -33,10 +33,10 @@ class RelationProvider extends ServiceProvider
             'language' => 'App\Models\Tag\Language',
             'year' => 'App\Models\Tag\Year',
             'sub_genre' => 'App\Models\Tag\SubGenre',
-            'movie_type' => 'App\Models\Tag\MovieType',
+            'post_type' => 'App\Models\Tag\PostType',
             // other models
             'user' => 'App\Models\User',
-            'movie' => 'App\Models\Movie\Movie',
+            'post' => 'App\Models\Post\Post',
         ]);
     }
 }

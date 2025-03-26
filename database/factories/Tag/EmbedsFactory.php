@@ -2,18 +2,20 @@
 
 namespace Database\Factories;
 
-use Illuminate\Database\Eloquent\Factories\Factory;
+use App\Models\Movie;
+use App\Models\Embeds;
+use App\Models\Post\Post;
 use Illuminate\Support\Str;
-use App\Models\Post;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
-class PostFactory extends Factory
+class EmbedsFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = Post::class;
+    protected $model = Embeds::class;
 
     /**
      * Define the model's default state.
@@ -21,13 +23,11 @@ class PostFactory extends Factory
     public function definition(): array
     {
         return [
-            'title' => fake()->sentence(4),
-            'slug' => fake()->slug(),
-            'description' => fake()->text(),
-            'release_date' => fake()->date(),
-            'rating' => fake()->randomFloat(0, 0, 9999999999.),
+            'url' => fake()->url(),
+            'type' => fake()->randomElement(["youtube","vimeo"]),
             'is_published' => fake()->boolean(),
             'published_at' => fake()->dateTime(),
+            'post_id' => Post::factory(),
         ];
     }
 }

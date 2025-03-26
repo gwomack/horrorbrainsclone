@@ -6,8 +6,8 @@ use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Database\Seeders\Tag\TagSeeder;
-use Database\Seeders\Movie\MovieSeeder;
-use Database\Seeders\Movie\MovieRatingSeeder;
+use Database\Seeders\Post\PostSeeder;
+use Database\Seeders\Post\PostRatingSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -29,9 +29,9 @@ class DatabaseSeeder extends Seeder
                 // BookSeeder::class,
                 // PostSeeder::class,
                 // ContactSeeder::class,
-                MovieSeeder::class,
+                PostSeeder::class,
                 TagSeeder::class,
-                MovieRatingSeeder::class,
+                PostRatingSeeder::class,
             ]
         );
     }
