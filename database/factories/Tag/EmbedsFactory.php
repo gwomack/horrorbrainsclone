@@ -2,7 +2,6 @@
 
 namespace Database\Factories;
 
-use App\Models\Movie;
 use App\Models\Embeds;
 use App\Models\Post\Post;
 use Illuminate\Support\Str;

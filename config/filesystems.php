@@ -45,10 +45,10 @@ return [
             'throw' => false,
         ],
 
-        'movies' => [
+        'post' => [
             'driver' => 'local',
-            'root' => storage_path('app/public/movies'),
-            'url' => env('APP_URL').'/storage/movies',
+            'root' => storage_path('app/public/post'),
+            'url' => env('APP_URL').'/storage/post',
             'visibility' => 'public',
             'throw' => false,
             'serve' => true,

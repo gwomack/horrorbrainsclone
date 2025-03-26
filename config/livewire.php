@@ -64,7 +64,7 @@ return [
     */
 
     'temporary_file_upload' => [
-        'disk' => 'movies',        // Using the movies disk we defined in filesystems.php
+        'disk' => 'post',        // Using the post disk we defined in filesystems.php
         'rules' => [
             'required',
             'file',
