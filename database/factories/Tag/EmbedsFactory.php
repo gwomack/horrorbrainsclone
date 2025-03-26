@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use App\Models\Embeds;
+use App\Models\Post\Embed;
 use App\Models\Post\Post;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -14,7 +14,7 @@ class EmbedsFactory extends Factory
      *
      * @var string
      */
-    protected $model = Embeds::class;
+    protected $model = Embed::class;
 
     /**
      * Define the model's default state.

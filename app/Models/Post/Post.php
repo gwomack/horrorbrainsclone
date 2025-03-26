@@ -3,7 +3,7 @@
 namespace App\Models\Post;
 
 use Filament\Forms;
-use App\Models\Embeds;
+use App\Models\Post\Embed;
 use App\Models\Tag\Tag;
 use App\Models\Post\PostTag;
 use Spatie\Image\Enums\Fit;
@@ -73,7 +73,7 @@ class Post extends Model implements HasMedia
      */
     public function embeds(): HasMany
     {
-        return $this->hasMany(Embeds::class);
+        return $this->hasMany(Embed::class);
     }
 
     /**

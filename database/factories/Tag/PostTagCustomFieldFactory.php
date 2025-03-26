@@ -2,11 +2,10 @@
 
 namespace Database\Factories;
 
-use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
-use App\Models\PostTag;
-use App\Models\PostTagCustomField;
-use App\Models\Tag;
+use App\Models\Post\PostTag;
+use App\Models\Tag\PostTagCustomField;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
 class PostTagCustomFieldFactory extends Factory
 {
@@ -23,10 +22,9 @@ class PostTagCustomFieldFactory extends Factory
     public function definition(): array
     {
         return [
-            'tag_id' => Tag::factory(),
+            'post_tag_id' => PostTag::factory(),
             'field' => fake()->word(),
             'value' => fake()->text(),
-            'post_tag_id' => PostTag::factory(),
         ];
     }
 }
