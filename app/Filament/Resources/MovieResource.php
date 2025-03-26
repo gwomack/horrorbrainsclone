@@ -8,6 +8,9 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Support\Str;
+use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
+use Filament\Support\Enums\Alignment;
 
 class MovieResource extends Resource
 {
@@ -25,10 +28,21 @@ class MovieResource extends Resource
     {
         return $table
             ->columns([
+                SpatieMediaLibraryImageColumn::make('poster')
+                    ->label('Poster')
+                    ->collection('images')
+                    ->disk('movies')
+                    ->alignment(Alignment::End)
+                    ->limit(1),
                 Tables\Columns\TextColumn::make('title')
+                    ->searchable()
+                    ->sortable()
+                    ->description(fn (Movie $record) => Str::limit($record->description, 50)),
+                Tables\Columns\TextColumn::make('slug')
+                    ->label('Slug')
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true)
                     ->searchable(),
-                // Tables\Columns\TextColumn::make('slug')
-                //     ->searchable(),
                 Tables\Columns\TextColumn::make('release_date')
                     ->date()
                     ->sortable(),
@@ -43,6 +57,12 @@ class MovieResource extends Resource
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\ToggleColumn::make('is_published')
+                    ->label('Published')
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('published_at')
+                    ->date()
+                    ->sortable(),
             ])
             ->filters([
                 //

@@ -14,6 +14,8 @@ class CreateMovie extends CreateRecord
     //customize redirect after create
     public function getRedirectUrl(): string
     {
-        return $this->getResource()::getUrl('index');
+        return static::getResource()::getUrl('edit', [
+            'record' => $this->record
+        ]);
     }
 }

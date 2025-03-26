@@ -5,15 +5,16 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 use App\Models\Tag;
+use App\Models\TagCustomField;
 
-class TagFactory extends Factory
+class TagCustomFieldFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = Tag::class;
+    protected $model = TagCustomField::class;
 
     /**
      * Define the model's default state.
@@ -21,8 +22,9 @@ class TagFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => fake()->name(),
-            'description' => fake()->text(),
+            'tag_id' => Tag::factory(),
+            'field' => fake()->word(),
+            'value' => fake()->text(),
         ];
     }
 }

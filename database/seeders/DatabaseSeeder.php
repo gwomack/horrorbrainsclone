@@ -5,6 +5,9 @@ namespace Database\Seeders;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Database\Seeders\Tag\TagSeeder;
+use Database\Seeders\Movie\MovieSeeder;
+use Database\Seeders\Movie\MovieRatingSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -28,7 +31,6 @@ class DatabaseSeeder extends Seeder
                 // ContactSeeder::class,
                 MovieSeeder::class,
                 TagSeeder::class,
-                MovieTagSeeder::class,
                 MovieRatingSeeder::class,
             ]
         );

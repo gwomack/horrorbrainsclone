@@ -69,7 +69,7 @@ return [
             'required',
             'file',
             'max:102400',  // 100MB in kilobytes
-            'mimes:mp4,mov,avi,wmv',  // Allowed video formats
+            // 'mimes:mp4,mov,avi,wmv',  // Allowed video formats
         ],
         'directory' => 'tmp',   // Store in tmp directory
         'middleware' => 'throttle:60,1',

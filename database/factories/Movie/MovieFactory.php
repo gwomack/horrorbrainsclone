@@ -1,10 +1,10 @@
 <?php
 
-namespace Database\Factories;
+namespace Database\Factories\Movie;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
-use App\Models\Movie;
+use App\Models\Movie\Movie;
 
 class MovieFactory extends Factory
 {

@@ -1,21 +1,21 @@
 <?php
 
-namespace Database\Factories;
+namespace Database\Factories\Movie;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
-use App\Models\Movie;
-use App\Models\MovieTag;
-use App\Models\Tag;
+use App\Models\Movie\Movie;
+use App\Models\Movie\MovieRating;
+use App\Models\User;
 
-class MovieTagFactory extends Factory
+class MovieRatingFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = MovieTag::class;
+    protected $model = MovieRating::class;
 
     /**
      * Define the model's default state.
@@ -24,8 +24,8 @@ class MovieTagFactory extends Factory
     {
         return [
             'movie_id' => Movie::factory(),
-            'tag_id' => Tag::factory(),
-            'type' => fake()->word(),
+            'rating' => fake()->randomNumber(),
+            'user_id' => User::factory(),
         ];
     }
 }

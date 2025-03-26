@@ -24,6 +24,19 @@ class Movie extends Model implements HasMedia
     use InteractsWithMedia;
 
     /**
+     * The "booting" method of the model.
+     */
+    public static function boot()
+    {
+        parent::boot();
+
+        static::saving(function ($movie) {
+            if ($movie->isDirty('is_published')) {
+                $movie->published_at = $movie->is_published ? now() : null;
+            }
+        });
+    }
+    /**
      * The attributes that should be cast to native types.
      *
      * @var array
@@ -191,12 +204,17 @@ class Movie extends Model implements HasMedia
                     Forms\Components\TextInput::make('title')
                         ->required()
                         ->maxLength(255)
-                        ->columns(1),
+                        ->columns(1)
+                        ->live(debounce: 1000)
+                        ->afterStateUpdated(function ($state, callable $set) {
+                            $set('slug', str()->slug($state));
+                        }),
                     Forms\Components\TextInput::make('slug')
                         ->prefix('movie/')
                         ->required()
                         ->maxLength(255)
-                        ->columns(1),
+                        ->columns(1)
+                        ->dehydrateStateUsing(fn ($state) => str()->slug($state)),
                     Forms\Components\RichEditor::make('description')
                         ->required()
                         ->columnSpanFull(),
@@ -216,9 +234,16 @@ class Movie extends Model implements HasMedia
                                 ->native(false)
                                 ->columns(1),
                             Rating::make('rating')
+                                ->label('Rating')
+                                ->dehydrated(false)
+                                ->beforeStateDehydrated(function ($state, $record) {
+                                    $record->movieRatings()->updateOrCreate(
+                                        ['user_id' => auth()->user()->id],
+                                        ['rating' => $state]
+                                    );
+                                })
                                 ->required()
-                                ->stars(5)
-                                ->allowZero(),
+                                ->stars(5),
                         ]),
                 ]),
             Section::make('Media')
@@ -255,10 +280,11 @@ class Movie extends Model implements HasMedia
                         ->collection('images')
                         ->disk('movies')
                         ->imagePreviewHeight(150)
-                        ->imageResizeMode('cover')
-                        ->imageCropAspectRatio('1:1')
-                        ->imageResizeTargetWidth(300)
-                        ->imageResizeTargetHeight(300),
+                        // ->imageResizeMode('cover')
+                        // ->imageCropAspectRatio('1:1')
+                        // ->imageResizeTargetWidth(300)
+                        // ->imageResizeTargetHeight(300)
+                        ,
                     SpatieMediaLibraryFileUpload::make('video')
                         ->multiple()
                         ->reorderable()

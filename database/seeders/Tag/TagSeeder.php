@@ -1,17 +1,17 @@
 <?php
 
-namespace Database\Seeders;
+namespace Database\Seeders\Tag;
 
-use App\Models\Movie;
+use App\Models\Tag\Tag;
 use Illuminate\Database\Seeder;
 
-class MovieSeeder extends Seeder
+class TagSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        Movie::factory()->count(5)->create();
+        Tag::factory()->count(5)->create();
     }
 }

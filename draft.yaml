@@ -1,5 +1,4 @@
 models:
-
   Movie:
     title: string
     slug: string
@@ -13,7 +12,7 @@ models:
       hasMany: MovieRating, VideoEmbeds
 
   VideoEmbeds:
-    url: string
+    embed: string
     type: enum:youtube,vimeo
     is_published: boolean
     published_at: datetime nullable
@@ -25,11 +24,19 @@ models:
     description: text nullable
     relationships:
       belongsToMany: Movie:&MovieTag
+      hasMany: TagCustomField
 
   MovieTag:
     movie_id: id foreign:movies
     tag_id: id foreign:tags
     type: string
+
+  TagCustomField:
+    tag_id: id foreign:tags
+    field: string
+    value: text
+    relationships:
+      belongsTo: Tag
 
   MovieRating:
     movie_id: id foreign:movies

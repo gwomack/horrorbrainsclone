@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('video_embeds', function (Blueprint $table) {
             $table->id();
-            $table->text('embed');
-            $table->enum('type', ['youtube', 'vimeo']);
-            $table->boolean('is_published')->default(false);
+            $table->string('embed');
+            $table->enum('type', ["youtube","vimeo"]);
+            $table->boolean('is_published');
             $table->dateTime('published_at')->nullable();
             $table->foreignId('movie_id');
             $table->timestamps();

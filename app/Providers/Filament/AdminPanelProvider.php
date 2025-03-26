@@ -16,7 +16,6 @@ use Filament\Pages;
 use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
-use Filament\Support\Facades\FilamentView;
 use Filament\Widgets;
 use Hasnayeen\Themes\Http\Middleware\SetTheme;
 use Hasnayeen\Themes\ThemesPlugin;
@@ -26,7 +25,6 @@ use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
-use Illuminate\Support\Facades\Blade;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use Jeffgreco13\FilamentBreezy\BreezyCore;
 use Laravel\Socialite\Contracts\User as SocialiteUserContract;
@@ -57,6 +55,7 @@ class AdminPanelProvider extends PanelProvider
             ->spa()
             ->id('admin')
             ->path('admin')
+            ->viteTheme('resources/css/filament/admin/theme.css')
             ->when($this->settings->login_enabled ?? true, fn ($panel) => $panel->login(Login::class))
             ->when($this->settings->registration_enabled ?? true, fn ($panel) => $panel->registration())
             ->when($this->settings->password_reset_enabled ?? true, fn ($panel) => $panel->passwordReset())
@@ -152,6 +151,5 @@ class AdminPanelProvider extends PanelProvider
     public function register(): void
     {
         parent::register();
-        FilamentView::registerRenderHook('panels::body.end', fn (): string => Blade::render("@vite('resources/js/app.js')"));
     }
 }
