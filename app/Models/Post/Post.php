@@ -2,24 +2,25 @@
 
 namespace App\Models\Post;
 
-use Filament\Forms;
-use App\Models\Post\Embed;
+use App\Models\Tag\Field;
 use App\Models\Tag\Tag;
-use App\Models\Post\PostTag;
+use Filament\Forms;
+use Filament\Forms\Components\Fieldset;
+use Filament\Forms\Components\Grid;
+use Filament\Forms\Components\Repeater;
+use Filament\Forms\Components\Section;
+use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Mokhosh\FilamentRating\Components\Rating;
 use Spatie\Image\Enums\Fit;
 use Spatie\MediaLibrary\HasMedia;
-use Filament\Forms\Components\Section;
-use Filament\Forms\Components\Fieldset;
-use Filament\Forms\Components\Repeater;
-use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\InteractsWithMedia;
-use Mokhosh\FilamentRating\Components\Rating;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
-use Illuminate\Database\Eloquent\SoftDeletes;
+
 class Post extends Model implements HasMedia
 {
     use HasFactory;
@@ -39,6 +40,7 @@ class Post extends Model implements HasMedia
             }
         });
     }
+
     /**
      * The attributes that should be cast to native types.
      *
@@ -120,8 +122,17 @@ class Post extends Model implements HasMedia
      */
     public function acting(): BelongsToMany
     {
-        return $this->tags()->wherePivot('type', 'acting')
-            ->withPivotValue('type', 'acting');
+        return $this->belongsToMany(Tag::class, 'post_tags')->using(ActingPivot::class);
+        // return $this->tags()->wherePivot('type', 'acting')
+        //     ->withPivotValue('type', 'acting');
+    }
+
+    /**
+     * Get the acting pivot for the post.
+     */
+    public function actingPivot(): HasMany
+    {
+        return $this->hasMany(ActingPivot::class, 'post_id', 'id');
     }
 
     /**
@@ -283,11 +294,11 @@ class Post extends Model implements HasMedia
                         ->collection('images')
                         ->disk('post')
                         ->imagePreviewHeight(150)
-                        // ->imageResizeMode('cover')
-                        // ->imageCropAspectRatio('1:1')
-                        // ->imageResizeTargetWidth(300)
-                        // ->imageResizeTargetHeight(300)
-                        ,
+                    // ->imageResizeMode('cover')
+                    // ->imageCropAspectRatio('1:1')
+                    // ->imageResizeTargetWidth(300)
+                    // ->imageResizeTargetHeight(300)
+                    ,
                     SpatieMediaLibraryFileUpload::make('video')
                         ->multiple()
                         ->reorderable()
@@ -318,13 +329,6 @@ class Post extends Model implements HasMedia
                         ->multiple()
                         ->searchable()
                         ->relationship('subGenre', 'name')
-                        ->createOptionForm(Tag::getForm()),
-                    Forms\Components\Select::make('acting')
-                        ->label('Acting')
-                        ->columnSpan(2)
-                        ->multiple()
-                        ->searchable()
-                        ->relationship('acting', 'name')
                         ->createOptionForm(Tag::getForm()),
                     Forms\Components\Select::make('director')
                         ->label('Director')
@@ -380,6 +384,34 @@ class Post extends Model implements HasMedia
                         ->getOptionLabelFromRecordUsing(fn ($record) => $record->name)
                         ->dehydrated(false)
                         ->multiple(false),
+                    Repeater::make('custom')
+                        ->relationship('actingPivot')
+                        ->label('Acting')
+                        ->columnSpanFull()
+                        ->schema([
+                            Grid::make('acting')
+                                ->label('Acting')
+                                ->columns(7)
+                                ->schema([
+                                    Forms\Components\Select::make('tag_id')
+                                        ->label('Actor')
+                                        ->searchable()
+                                        ->options(Tag::query()->pluck('name', 'id'))
+                                        ->required()
+                                        ->createOptionForm(Tag::getForm())
+                                        ->columnSpan(3),
+                                    Forms\Components\Select::make('custom.field')
+                                        ->label('Field')
+                                        ->enum(Field::class)
+                                        ->options(Field::class)
+                                        ->required()
+                                        ->default(Field::AS),
+                                    Forms\Components\TextInput::make('custom.value')
+                                        ->label('Value')
+                                        ->required()
+                                        ->columnSpan(3),
+                                ]),
+                        ]),
                 ]),
         ];
     }

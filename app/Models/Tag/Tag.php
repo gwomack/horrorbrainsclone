@@ -2,17 +2,14 @@
 
 namespace App\Models\Tag;
 
-use Filament\Forms;
 use App\Models\Post\Post;
-use App\Models\Tag\Field;
 use App\Models\Post\PostTag;
-use App\Models\Tag\TagCustomField;
-use Filament\Forms\Components\Grid;
+use Filament\Forms;
 use Filament\Forms\Components\Section;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
 class Tag extends Model
 {
@@ -48,63 +45,66 @@ class Tag extends Model
     }
 
     /**
+     * Get the post tags for the tag.
+     */
+    public function postTag(): HasMany
+    {
+        return $this->hasMany(PostTag::class);
+    }
+
+    /**
      * Get the form for the tag.
      */
     public static function getForm(): array
     {
         return [
-            Grid::make('Name')
-                ->columns(2)
+            Section::make('Tag')
                 ->schema([
-                    Section::make('Tag')
-                        ->columnSpan(1)
-                        ->schema([
-                            Forms\Components\TextInput::make('name')
-                                ->label('Tag')
-                                ->required()
-                                ->maxLength(255),
-                            Forms\Components\Textarea::make('description')
-                                ->label('Description'),
-                        ]),
-                    Forms\Components\Repeater::make('tagCustomFields')
-                        ->label('Custom Fields')
-                        ->relationship('tagCustomFields')
-                        ->columnSpan(1)
-                        ->schema([
-                            Forms\Components\Select::make('field')
-                                ->label('Field')
-                                ->enum(Field::class)
-                                ->options(Field::class)
-                                ->default(Field::As)
-                                    ->required()
-                                    ->inlineLabel(),
-                                Forms\Components\TextInput::make('value')
-                                    ->label('Value')
-                                    ->required()
-                                    ->inlineLabel(),
-                                // Forms\Components\RichEditor::make('value')
-                                //     ->label('Value')
-                                //     ->required()
-                                //     ->toolbarButtons([
-                                //         // 'attachFiles',
-                                //         // 'blockquote',
-                                //         // 'bold',
-                                //         // 'bulletList',
-                                //         // 'codeBlock',
-                                //         // 'h2',
-                                //         // 'h3',
-                                //         'italic',
-                                //         // 'link',
-                                //         // 'orderedList',
-                                //         'redo',
-                                //         // 'strike',
-                                //         // 'underline',
-                                //         'undo',
-                                //     ])->inlineLabel()
-                                //     ->extraInputAttributes(['class' => 'smaller-editor']),
-                            ]),
-                    ]),
+                    Forms\Components\TextInput::make('name')
+                        ->label('Tag')
+                        ->required()
+                        ->maxLength(255),
+                    Forms\Components\Textarea::make('description')
+                        ->label('Description'),
+                ]),
         ];
     }
 
+    /**
+     * Get the form for the post tag.
+     */
+    public static function getCustomFieldsForm(): array
+    {
+        return [
+            Forms\Components\Select::make('field')
+                ->label('Field')
+                ->enum(Field::class)
+                ->options(Field::class)
+                ->default(Field::As)
+                ->required(),
+            Forms\Components\TextInput::make('value')
+                ->label('Value')
+                ->required(),
+            // Forms\Components\RichEditor::make('value')
+            //     ->label('Value')
+            //     ->required()
+            //     ->toolbarButtons([
+            //         // 'attachFiles',
+            //         // 'blockquote',
+            //         // 'bold',
+            //         // 'bulletList',
+            //         // 'codeBlock',
+            //         // 'h2',
+            //         // 'h3',
+            //         'italic',
+            //         // 'link',
+            //         // 'orderedList',
+            //         'redo',
+            //         // 'strike',
+            //         // 'underline',
+            //         'undo',
+            //     ])->inlineLabel()
+            //     ->extraInputAttributes(['class' => 'smaller-editor']),
+        ];
+    }
 }

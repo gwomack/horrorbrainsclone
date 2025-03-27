@@ -13,14 +13,13 @@ return new class extends Migration
     {
         Schema::disableForeignKeyConstraints();
 
-        Schema::create('post_tag_custom_fields', function (Blueprint $table) {
+        Schema::create('post_tags', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('post_id')->constrained();
             $table->foreignId('tag_id')->constrained();
-            $table->string('field');
-            $table->text('value');
-            $table->foreignId('post_tag_id');
+            $table->string('type');
+            $table->json('custom')->nullable();
             $table->timestamps();
-            $table->softDeletes();
         });
 
         Schema::enableForeignKeyConstraints();
@@ -31,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('post_tag_custom_fields');
+        Schema::dropIfExists('post_tags');
     }
 };

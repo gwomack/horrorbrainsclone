@@ -2,9 +2,9 @@
 
 namespace Database\Factories\Tag;
 
+use App\Models\Tag\Tag;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
-use App\Models\Tag\Tag;
 
 class TagFactory extends Factory
 {
@@ -21,7 +21,8 @@ class TagFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => fake()->name(),
+            'name' => $name = fake()->name(),
+            'slug' => Str::slug($name),
             'description' => fake()->text(),
         ];
     }

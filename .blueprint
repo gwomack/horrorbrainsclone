@@ -1,21 +1,18 @@
 created:
     - database/factories/PostFactory.php
-    - database/factories/EmbedsFactory.php
+    - database/factories/EmbedFactory.php
     - database/factories/TagFactory.php
     - database/factories/PostTagFactory.php
-    - database/factories/PostTagCustomFieldFactory.php
     - database/factories/PostRatingFactory.php
-    - database/migrations/2025_03_26_134318_create_posts_table.php
-    - database/migrations/2025_03_26_134319_create_embeds_table.php
-    - database/migrations/2025_03_26_134320_create_tags_table.php
-    - database/migrations/2025_03_26_134321_create_post_tags_table.php
-    - database/migrations/2025_03_26_134322_create_post_tag_custom_fields_table.php
-    - database/migrations/2025_03_26_134323_create_post_ratings_table.php
+    - database/migrations/2025_03_26_203511_create_posts_table.php
+    - database/migrations/2025_03_26_203512_create_embeds_table.php
+    - database/migrations/2025_03_26_203513_create_tags_table.php
+    - database/migrations/2025_03_26_203514_create_post_tags_table.php
+    - database/migrations/2025_03_26_203515_create_post_ratings_table.php
     - app/Models/Post.php
-    - app/Models/Embeds.php
+    - app/Models/Embed.php
     - app/Models/Tag.php
     - app/Models/PostTag.php
-    - app/Models/PostTagCustomField.php
     - app/Models/PostRating.php
     - database/seeders/PostSeeder.php
     - database/seeders/TagSeeder.php
@@ -23,20 +20,26 @@ created:
     - database/seeders/PostRatingSeeder.php
 models:
     Contact: { name: string }
-    Movie\Movie: {  }
-    Movie\MovieRating: {  }
-    Movie\MovieTag: {  }
-    Movie\VideoEmbeds: {  }
-    Post: { title: string, slug: string, description: text, release_date: 'date nullable', rating: float, is_published: boolean, published_at: 'datetime nullable', softdeletes: softDeletes, relationships: { belongsToMany: 'Tag:&PostTag', hasMany: 'PostRating, Embeds' } }
+    Post\ActingPivot: {  }
+    Post\Embed: {  }
+    Post\Post: {  }
+    Post\PostRating: {  }
+    Post\PostTag: {  }
+    Tag\Acting: {  }
+    Tag\Country: {  }
+    Tag\Director: {  }
+    Tag\Distribution: {  }
+    Tag\Language: {  }
+    Tag\PostTagCustomField: {  }
+    Tag\PostType: {  }
+    Tag\Production: {  }
+    Tag\SubGenre: {  }
     Tag\Tag: {  }
+    Tag\Writer: {  }
+    Tag\Year: {  }
     User: { name: string, email: string, email_verified_at: 'timestamp nullable', password: 'string nullable', remember_token: 'string:100 nullable', avatar_url: 'string nullable', theme: "string nullable default:'default'::character varying", theme_color: 'string nullable' }
-    Movie: { title: string, slug: string, description: text, release_date: 'date nullable', rating: float, is_published: boolean, published_at: 'datetime nullable', relationships: { belongsToMany: 'Tag:&MovieTag', hasMany: 'MovieRating, VideoEmbeds' } }
-    VideoEmbeds: { url: string, type: 'enum:youtube,vimeo', is_published: boolean, published_at: 'datetime nullable', relationships: { belongsTo: Movie } }
-    Tag: { name: string, description: 'text nullable', softdeletes: softDeletes, relationships: { belongsToMany: 'Post:&PostTag' } }
-    MovieTag: { movie_id: 'id foreign:movies', tag_id: 'id foreign:tags', type: string }
-    TagCustomField: { tag_id: 'id foreign:tags', field: string, value: text, relationships: { belongsTo: Tag } }
-    MovieRating: { movie_id: 'id foreign:movies', rating: unsignedInteger, user_id: 'id foreign:users nullable', relationships: { belongsTo: Movie } }
-    Embeds: { embed: string, type: 'enum:youtube,vimeo', is_published: boolean, published_at: 'datetime nullable', softdeletes: softDeletes, relationships: { belongsTo: Post } }
-    PostTag: { post_id: 'id foreign:posts', tag_id: 'id foreign:tags', type: string, relationships: { belongsTo: 'Post, Tag', hasMany: PostTagCustomField } }
+    Post: { title: string, slug: string, description: text, release_date: 'date nullable', rating: float, is_published: boolean, published_at: 'datetime nullable', softdeletes: softDeletes, relationships: { belongsToMany: 'Tag:&PostTag', hasMany: 'PostRating, Embeds' } }
+    Embed: { embed: string, type: 'enum:youtube,vimeo', is_published: boolean, published_at: 'datetime nullable', softdeletes: softDeletes, relationships: { belongsTo: Post } }
+    Tag: { name: 'string unique', slug: 'string unique', description: 'text nullable', softdeletes: softDeletes, relationships: { belongsToMany: 'Post:&PostTag' } }
+    PostTag: { id: id, post_id: 'id foreign:posts', tag_id: 'id foreign:tags', type: string, custom: 'json nullable', relationships: { belongsTo: 'Post, Tag' } }
     PostRating: { post_id: 'id foreign:posts', rating: unsignedInteger, user_id: 'id foreign:users nullable', relationships: { belongsTo: Post } }
-    PostTagCustomField: { tag_id: 'id foreign:tags', field: string, value: text, softdeletes: softDeletes, relationships: { belongsTo: PostTag } }

@@ -2,7 +2,6 @@
 
 namespace App\Models\Tag;
 
-use App\Models\Tag\Tag;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
@@ -15,6 +14,7 @@ class Acting extends Tag
      */
     public function posts(): BelongsToMany
     {
-        return parent::posts()->wherePivot('type', 'acting');
+        return parent::posts()->wherePivot('type', TagType::ACTING)
+            ->withPivotValue('type', TagType::ACTING);
     }
 }

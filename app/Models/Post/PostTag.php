@@ -2,12 +2,11 @@
 
 namespace App\Models\Post;
 
+use App\Models\Tag\PostTagCustomField;
 use App\Models\Tag\Tag;
-use App\Models\Post\Post;
-use App\Models\PostTagCustomField;
-use Illuminate\Database\Eloquent\Relations\Pivot;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\Pivot;
 
 class PostTag extends Pivot
 {
@@ -19,6 +18,13 @@ class PostTag extends Pivot
     protected $table = 'post_tags';
 
     /**
+     * Indicates if the IDs are auto-incrementing.
+     *
+     * @var bool
+     */
+    public $incrementing = true;
+
+    /**
      * The attributes that should be cast to native types.
      *
      * @var array
@@ -27,6 +33,7 @@ class PostTag extends Pivot
         'id' => 'integer',
         'post_id' => 'integer',
         'tag_id' => 'integer',
+        'custom' => 'json',
     ];
 
     /**
@@ -50,6 +57,6 @@ class PostTag extends Pivot
      */
     public function postTagCustomFields(): HasMany
     {
-        return $this->hasMany(PostTagCustomField::class);
+        return $this->hasMany(PostTagCustomField::class, 'post_tag_id');
     }
 }

@@ -2,12 +2,12 @@
 
 namespace Database\Factories;
 
-use App\Models\Post\Embed;
-use App\Models\Post\Post;
-use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
+use App\Models\Embed;
+use App\Models\Post;
 
-class EmbedsFactory extends Factory
+class EmbedFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
@@ -22,7 +22,7 @@ class EmbedsFactory extends Factory
     public function definition(): array
     {
         return [
-            'url' => fake()->url(),
+            'embed' => fake()->word(),
             'type' => fake()->randomElement(["youtube","vimeo"]),
             'is_published' => fake()->boolean(),
             'published_at' => fake()->dateTime(),

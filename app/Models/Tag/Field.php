@@ -2,15 +2,17 @@
 
 namespace App\Models\Tag;
 
-enum Field: string
+use Filament\Support\Contracts\HasLabel;
+
+enum Field: string implements HasLabel
 {
-    case As = 'as';
+    case AS = 'as';
 
     public function getLabel(): string
     {
         return match ($this) {
-            self::As => 'as',
-            default => throw new \Exception("Invalid tag type"),
+            self::AS => 'As',
+            default => throw new \Exception('Invalid tag type'),
         };
     }
 
@@ -20,7 +22,7 @@ enum Field: string
     public static function fromLabel(string $label): Field
     {
         return match ($label) {
-            'as' => self::As,
+            'As' => self::AS,
             default => throw new \Exception("Invalid tag type: $label"),
         };
     }
