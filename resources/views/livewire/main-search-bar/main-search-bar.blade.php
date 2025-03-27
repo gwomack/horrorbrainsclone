@@ -2,11 +2,11 @@
     wire:click.outside="closeDropdown" wire:keydown.escape.prevent="closeDropdown"
     wire:keydown.backspace="removeLastTag" wire:keydown.cmd.shift.backspace.prevent="resetTags"
     wire:keydown.ctrl.shift.backspace.prevent="resetTags"
-    x-on:keydown.enter.stop.prevent="$wire.showDropdown ? $dispatch('toggletagbyindex') : $wire.submitSearch()"
-    x-on:keydown.tab.stop.prevent="$wire.showDropdown ? $dispatch('toggletagbyindex') : $dispatch('inputSelected')"
+    x-on:keydown.enter.stop.prevent="$wire.submitSearch()"
+    x-on:keydown.tab.stop.prevent="$wire.toggleTagByInternalIndex()"
     wire:keydown.down.stop.prevent="nextTagByIndex" wire:keydown.up.stop.prevent="previousTagByIndex">
 
-    <div class="overflow-auto flex-1 cursor-text">
+    <div class="overflow-x-auto flex-1 cursor-text">
         <div class="flex flex-nowrap gap-2 items-center mr-3">
 
             @foreach($selected as $index => $tag)
@@ -16,15 +16,14 @@
             <input type="text" wire:model.live.debounce.100ms="input"
                 class="flex-grow p-2 text-lg leading-none text-white bg-black border-none focus:ring-0 focus:outline-none text-nowrap"
                 x-ref="MainInputSearch"
-                @toggletag.window="$refs.MainInputSearch.scrollIntoView({ behavior: 'smooth', block: 'center' });"
-                @toggletagbyindex.window="$refs.MainInputSearch.scrollIntoView({ behavior: 'smooth', block: 'center' });" />
+                @scrollmaininputsearch.window="$refs.MainInputSearch.scrollIntoView({ behavior: 'smooth', block: 'center' });" />
         </div>
     </div>
 
     <!-- Tags List -->
-    @if ($showDropdown)
     <div class="overflow-y-auto absolute left-0 top-16 z-50 p-2 mt-1 w-full max-h-96 bg-black border border-white shadow-lg min-w-48"
-        x-data="{ hoverIndex: @entangle('index') }">
+        x-data="{ hoverIndex: @entangle('index'), showDropdown: @entangle('showDropdown') }"
+        x-show="showDropdown">
         @foreach($tags as $index => $tag)
         <button type="button" wire:key="tag-{{ $index }}" class="w-full lg:p-3 rounded-lg text-left text-white hover:bg-red-900
             {{ $this->isSelected($index) ? 'bg-red-800/30' : '' }}"
@@ -42,7 +41,6 @@
         </button>
         @endforeach
     </div>
-    @endif
 
     <div class="flex-none">
         <button wire:click.prevent="submitSearch" class="px-6 py-2 text-white bg-red-800 rounded-md hover:bg-red-700">

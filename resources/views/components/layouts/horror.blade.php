@@ -22,7 +22,7 @@
     @vite('resources/css/app.css')
 </head>
 
-<body class="flex flex-col min-h-screen antialiased bg-black" x-data @keydown.shift.enter="$dispatch('submitSearch')">
+<body class="flex flex-col min-h-screen antialiased bg-black">
     <!-- Header -->
     @persist('header')
     <header class="top-0 z-50 flex-none">

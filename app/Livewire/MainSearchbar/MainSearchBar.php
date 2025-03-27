@@ -78,7 +78,7 @@ class MainSearchBar extends Component
      */
     public function mount()
     {
-        $this->filterTags($this->input);
+        $this->searchTags($this->input);
 
         $this->buildSelectedFromRequest();
     }
@@ -91,7 +91,7 @@ class MainSearchBar extends Component
      */
     public function updatedInput($value)
     {
-        $this->filterTags($value);
+        $this->searchTags($value);
     }
 
     /**
@@ -100,7 +100,7 @@ class MainSearchBar extends Component
      * @param  string  $value
      * @return void
      */
-    public function filterTags($value)
+    public function searchTags($value)
     {
         $value = trim(strtolower($value));
 
@@ -281,14 +281,13 @@ class MainSearchBar extends Component
 
     /**
      * Push the input to the selected tags
-     *
-     * @return void
      */
-    public function pushInputToSelected()
+    public function pushInputToSelected(): bool
     {
+        $applied = false;
         $this->input = trim($this->input);
 
-        if ($this->input) {
+        if ($this->input > 2) {
 
             $inputTag = ['content' => $this->input, 'type' => UrlParamType::INPUT];
             $checksum = hash('crc32b', json_encode($inputTag));
@@ -298,18 +297,11 @@ class MainSearchBar extends Component
             }
 
             $this->reset('showDropdown', 'input');
+            $this->dispatch('scrollmaininputsearch');
+            $applied = true;
         }
-    }
 
-    /**
-     * Get the checksum of the input tag
-     *
-     * @param  array  $inputTag
-     * @return string
-     */
-    protected function checksumOfInputTag($inputTag)
-    {
-        return hash('crc32b', json_encode($inputTag));
+        return $applied;
     }
 
     /**
@@ -358,11 +350,45 @@ class MainSearchBar extends Component
     #[On('toggletag')]
     public function toggleTag($index)
     {
-        if (isset($this->selected[$index])) {
-            $this->removeFromSelected($index);
-        } else {
-            $this->addToSelected($index);
+        if ($this->showDropdown) {
+            if (isset($this->selected[$index])) {
+                $this->removeFromSelected($index);
+            } else {
+                $this->addToSelected($index);
+            }
+            $this->reset('input');
+            $this->dispatch('scrollmaininputsearch');
         }
+    }
+
+    /**
+     * dummy event to Scroll the main input search
+     *
+     * @return void
+     */
+    #[On('scrollmaininputsearch')]
+    public function scrollMainInputSearch() {}
+
+    /**
+     * Toggle the tag by index
+     */
+    public function toggleTagByInternalIndex(): bool
+    {
+        $applied = false;
+        if ($this->showDropdown) {
+            if (isset($this->selected[$this->index])) {
+                $this->removeFromSelected($this->index);
+            } else {
+                $this->addToSelected($this->index);
+            }
+            $this->reset('input');
+            $applied = true;
+            $this->dispatch('scrollmaininputsearch');
+        } else {
+            $applied = $this->pushInputToSelected();
+        }
+
+        return $applied;
     }
 
     /**
@@ -376,28 +402,15 @@ class MainSearchBar extends Component
     #[On('toggletagfromsite')]
     public function toggleTagFromSite($id, $content, $type)
     {
+        $tag = ['content' => $content, 'type' => UrlParamType::from($type)];
+
         if (isset($this->selected[$id])) {
             unset($this->selected[$id]);
         } else {
-            $this->selected[$id] = ['content' => $content, 'type' => $type];
-        }
-    }
-
-    /**
-     * Toggle the tag by index
-     *
-     * @return void
-     */
-    #[On('toggletagbyindex')]
-    public function toggleTagByIndex()
-    {
-        if (isset($this->selected[$this->index])) {
-            $this->removeFromSelected($this->index);
-        } else {
-            $this->addToSelected($this->index);
+            $this->selected[$id] = ['content' => $content, 'type' => UrlParamType::from($type)];
         }
 
-        $this->reset('input');
+        $this->dispatch('toggletag', index: $id);
     }
 
     /**
@@ -460,11 +473,13 @@ class MainSearchBar extends Component
     #[On('submitSearch')]
     public function submitSearch()
     {
-        $this->pushInputToSelected();
+        $wasApplied = $this->toggleTagByInternalIndex();
 
-        if (! empty($this->selected)) {
-            $params = $this->urlHandler->toUrlParameters($this->selected);
-            $this->redirect(route('movie.search', $params), navigate: true);
+        if (! $wasApplied) {
+            if (! empty($this->selected)) {
+                $params = $this->urlHandler->toUrlParameters($this->selected);
+                $this->redirect(route('movie.search', $params), navigate: true);
+            }
         }
     }
 
