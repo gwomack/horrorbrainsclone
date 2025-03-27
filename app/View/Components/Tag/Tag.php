@@ -2,6 +2,7 @@
 
 namespace App\View\Components\Tag;
 
+use App\Livewire\UrlParamType;
 use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
@@ -14,7 +15,7 @@ class Tag extends Component
     public function __construct(
         public string $id,
         public string $content,
-        public string $type
+        public UrlParamType $type
     ) {}
 
     /**

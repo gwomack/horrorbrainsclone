@@ -44,10 +44,12 @@
                                     <a href="#" class="text-gray-300 hover:text-white">Reviews</a>
                                     <a href="#" class="text-gray-300 hover:text-white">News</a>
                                     <a href="#" class="text-gray-300 hover:text-white">Community</a>
+                                    @auth
                                     <button wire:navigate href="{{ route('filament.admin.auth.login') }}"
                                         class="text-gray-300 hover:text-white">
                                         <i class="fas fa-user"></i>
                                     </button>
+                                    @endauth
                                 </div>
                                 <button class="text-gray-300 hover:text-white md:hidden">
                                     <i class="fas fa-bars"></i>

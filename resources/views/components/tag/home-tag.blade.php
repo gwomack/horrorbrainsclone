@@ -1,7 +1,3 @@
-@php
-use App\Models\Tag\TagType;
-@endphp
-
 @props([
 'content',
 'type',
@@ -13,6 +9,6 @@ use App\Models\Tag\TagType;
     wire:click="$dispatch('toggletagfromsite', [{{ $id }}, '{{ $content }}', '{{ $type }}'])"
     wire:key="tag-{{ str_replace(' ', '', $content) }}">
     <div class="flex gap-2 items-center">
-        {!! TagType::fromLabel($type)->getIcon() !!} {{ $content }}
+        {!! $type->getIcon() !!} {{ $content }}
     </div>
 </button>

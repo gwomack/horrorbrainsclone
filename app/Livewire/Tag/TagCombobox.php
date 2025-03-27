@@ -21,21 +21,21 @@ class TagCombobox extends Component
     {
         // Temporary mock data for tags (replace with database query later)
         $this->allTags = [
-            ['id' => 1, 'content' => 'Haunted House', 'type' => TagType::Tag->getLabel()],
-            ['id' => 2, 'content' => 'Supernatural', 'type' => TagType::Tag->getLabel()],
-            ['id' => 3, 'content' => 'Family Drama', 'type' => TagType::Tag->getLabel()],
-            ['id' => 4, 'content' => 'Psychological', 'type' => TagType::Tag->getLabel()],
-            ['id' => 5, 'content' => 'Found Footage', 'type' => TagType::Tag->getLabel()],
-            ['id' => 6, 'content' => 'Slasher', 'type' => TagType::Tag->getLabel()],
-            ['id' => 7, 'content' => 'Zombie', 'type' => TagType::Tag->getLabel()],
-            ['id' => 8, 'content' => 'Gore', 'type' => TagType::Tag->getLabel()],
-            ['id' => 9, 'content' => 'Paranormal', 'type' => TagType::Tag->getLabel()],
-            ['id' => 10, 'content' => 'Demonic', 'type' => TagType::Tag->getLabel()],
-            ['id' => 11, 'content' => 'Cult', 'type' => TagType::Tag->getLabel()],
-            ['id' => 12, 'content' => 'Classic', 'type' => TagType::Tag->getLabel()],
-            ['id' => 13, 'content' => 'Modern', 'type' => TagType::Tag->getLabel()],
-            ['id' => 14, 'content' => 'Indie', 'type' => TagType::Tag->getLabel()],
-            ['id' => 15, 'content' => 'Award-Winning', 'type' => TagType::Tag->getLabel()],
+            ['id' => 1, 'content' => 'Haunted House', 'type' => TagType::TAG->getLabel()],
+            ['id' => 2, 'content' => 'Supernatural', 'type' => TagType::TAG->getLabel()],
+            ['id' => 3, 'content' => 'Family Drama', 'type' => TagType::TAG->getLabel()],
+            ['id' => 4, 'content' => 'Psychological', 'type' => TagType::TAG->getLabel()],
+            ['id' => 5, 'content' => 'Found Footage', 'type' => TagType::TAG->getLabel()],
+            ['id' => 6, 'content' => 'Slasher', 'type' => TagType::TAG->getLabel()],
+            ['id' => 7, 'content' => 'Zombie', 'type' => TagType::TAG->getLabel()],
+            ['id' => 8, 'content' => 'Gore', 'type' => TagType::TAG->getLabel()],
+            ['id' => 9, 'content' => 'Paranormal', 'type' => TagType::TAG->getLabel()],
+            ['id' => 10, 'content' => 'Demonic', 'type' => TagType::TAG->getLabel()],
+            ['id' => 11, 'content' => 'Cult', 'type' => TagType::TAG->getLabel()],
+            ['id' => 12, 'content' => 'Classic', 'type' => TagType::TAG->getLabel()],
+            ['id' => 13, 'content' => 'Modern', 'type' => TagType::TAG->getLabel()],
+            ['id' => 14, 'content' => 'Indie', 'type' => TagType::TAG->getLabel()],
+            ['id' => 15, 'content' => 'Award-Winning', 'type' => TagType::TAG->getLabel()],
         ];
     }
 

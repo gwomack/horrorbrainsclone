@@ -7,7 +7,7 @@
     wire:keydown.down.stop.prevent="nextTagByIndex" wire:keydown.up.stop.prevent="previousTagByIndex">
 
     <div class="overflow-auto flex-1 cursor-text">
-        <div class="flex flex-nowrap items-center mr-3 gap-2">
+        <div class="flex flex-nowrap gap-2 items-center mr-3">
 
             @foreach($selected as $index => $tag)
             <x-tag.tag :id="$index" :content="$tag['content']" :type="$tag['type']" />
@@ -23,7 +23,7 @@
 
     <!-- Tags List -->
     @if ($showDropdown)
-    <div class="absolute border border-white top-16 left-0 w-full z-50 mt-1 bg-black shadow-lg min-w-48 max-h-96 overflow-y-auto p-2"
+    <div class="overflow-y-auto absolute left-0 top-16 z-50 p-2 mt-1 w-full max-h-96 bg-black border border-white shadow-lg min-w-48"
         x-data="{ hoverIndex: @entangle('index') }">
         @foreach($tags as $index => $tag)
         <button type="button" wire:key="tag-{{ $index }}" class="w-full lg:p-3 rounded-lg text-left text-white hover:bg-red-900

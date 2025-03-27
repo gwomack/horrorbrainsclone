@@ -38,7 +38,7 @@
                         <span class="text-gray-500">Release:</span>
                         <span class="text-gray-300">March 15, 2024</span>
                     </div>
-                    <x-tag.tag id="200" content="2024" :type="TagType::Tag->getLabel()" />
+                    <x-tag.tag id="200" content="2024" :type="TagType::TAG->getLabel()" />
                 </div>
 
                 <!-- Synopsis -->
@@ -64,16 +64,16 @@
                             <span class="text-gray-500">Genre:</span>
                         </div>
                         <div class="flex overflow-x-auto flex-nowrap flex-grow gap-3 scrollbar-hide">
-                            <x-tag.tag id="1" content="Haunted House" :type="TagType::Tag->getLabel()" />
-                            <x-tag.tag id="2" content="Supernatural" :type="TagType::Tag->getLabel()" />
-                            <x-tag.tag id="3" content="Family Drama" :type="TagType::Tag->getLabel()" />
-                            <x-tag.tag id="4" content="Psychological" :type="TagType::Tag->getLabel()" />
-                            <x-tag.tag id="5" content="Supernatural Horror" :type="TagType::Tag->getLabel()" />
-                            <x-tag.tag id="6" content="Supernatural Horror" :type="TagType::Tag->getLabel()" />
-                            <x-tag.tag id="7" content="Supernatural Horror" :type="TagType::Tag->getLabel()" />
-                            <x-tag.tag id="8" content="Supernatural Horror" :type="TagType::Tag->getLabel()" />
-                            <x-tag.tag id="9" content="Supernatural Horror" :type="TagType::Tag->getLabel()" />
-                            <x-tag.tag id="10" content="Supernatural Horror" :type="TagType::Tag->getLabel()" />
+                            <x-tag.tag id="1" content="Haunted House" :type="TagType::TAG->getLabel()" />
+                            <x-tag.tag id="2" content="Supernatural" :type="TagType::TAG->getLabel()" />
+                            <x-tag.tag id="3" content="Family Drama" :type="TagType::TAG->getLabel()" />
+                            <x-tag.tag id="4" content="Psychological" :type="TagType::TAG->getLabel()" />
+                            <x-tag.tag id="5" content="Supernatural Horror" :type="TagType::TAG->getLabel()" />
+                            <x-tag.tag id="6" content="Supernatural Horror" :type="TagType::TAG->getLabel()" />
+                            <x-tag.tag id="7" content="Supernatural Horror" :type="TagType::TAG->getLabel()" />
+                            <x-tag.tag id="8" content="Supernatural Horror" :type="TagType::TAG->getLabel()" />
+                            <x-tag.tag id="9" content="Supernatural Horror" :type="TagType::TAG->getLabel()" />
+                            <x-tag.tag id="10" content="Supernatural Horror" :type="TagType::TAG->getLabel()" />
                         </div>
                     </div>
 
@@ -88,38 +88,38 @@
                                 </div>
                                 <div class="flex overflow-x-auto flex-nowrap flex-grow gap-1 scrollbar-hide">
                                     <div class="p-1 text-center">
-                                        <x-tag.tag id="100" content="Emily Blunt" :type="TagType::Tag->getLabel()" />
+                                        <x-tag.tag id="100" content="Emily Blunt" :type="TagType::TAG->getLabel()" />
                                         <p class="text-sm text-gray-400 text-nowrap"><span class="italic">as</span>
                                             Sarah Thompson</p>
                                     </div>
                                     <div class="p-1 text-center">
                                         <x-tag.tag id="101" content="Michael Fassbender"
-                                            :type="TagType::Tag->getLabel()" />
+                                            :type="TagType::TAG->getLabel()" />
                                         <p class="text-sm text-gray-400 text-nowrap"><span class="italic">as</span>
                                             David Thompson</p>
                                     </div>
                                     <div class="p-1 text-center">
-                                        <x-tag.tag id="102" content="Viola Davis" :type="TagType::Tag->getLabel()" />
+                                        <x-tag.tag id="102" content="Viola Davis" :type="TagType::TAG->getLabel()" />
                                         <p class="text-sm text-gray-400 text-nowrap"><span class="italic">as</span> Dr.
                                             Margaret Chen</p>
                                     </div>
                                     <div class="p-1 text-center">
-                                        <x-tag.tag id="103" content="James McAvoy" :type="TagType::Tag->getLabel()" />
+                                        <x-tag.tag id="103" content="James McAvoy" :type="TagType::TAG->getLabel()" />
                                         <p class="text-sm text-gray-400 text-nowrap"><span class="italic">as</span>
                                             Marcus Bennett</p>
                                     </div>
                                     <div class="p-1 text-center">
-                                        <x-tag.tag id="104" content="Daniel Kaluuya" :type="TagType::Tag->getLabel()" />
+                                        <x-tag.tag id="104" content="Daniel Kaluuya" :type="TagType::TAG->getLabel()" />
                                         <p class="text-sm text-gray-400 text-nowrap"><span class="italic">as</span>
                                             Marcus Bennett</p>
                                     </div>
                                     <div class="p-1 text-center">
-                                        <x-tag.tag id="105" content="Daniel Kaluuya" :type="TagType::Tag->getLabel()" />
+                                        <x-tag.tag id="105" content="Daniel Kaluuya" :type="TagType::TAG->getLabel()" />
                                         <p class="text-sm text-gray-400 text-nowrap"><span class="italic">as</span>
                                             Marcus Bennett</p>
                                     </div>
                                     <div class="p-1 text-center">
-                                        <x-tag.tag id="106" content="Daniel Kaluuya" :type="TagType::Tag->getLabel()" />
+                                        <x-tag.tag id="106" content="Daniel Kaluuya" :type="TagType::TAG->getLabel()" />
                                         <p class="text-sm text-gray-400 text-nowrap"><span class="italic">as</span>
                                             Marcus Bennett</p>
                                     </div>
@@ -136,7 +136,7 @@
                                         </div>
                                         <div class="flex overflow-x-auto flex-nowrap flex-grow gap-3 scrollbar-hide">
                                             <x-tag.tag id="301" content="New Line Cinema"
-                                                :type="TagType::Tag->getLabel()" />
+                                                :type="TagType::TAG->getLabel()" />
                                         </div>
                                     </div>
                                 </div>
@@ -147,7 +147,7 @@
                                         </div>
                                         <div class="flex overflow-x-auto flex-nowrap flex-grow gap-3 scrollbar-hide">
                                             <x-tag.tag id="301" content="Warner Bros. Pictures"
-                                                :type="TagType::Tag->getLabel()" />
+                                                :type="TagType::TAG->getLabel()" />
                                         </div>
                                     </div>
                                 </div>
@@ -159,7 +159,7 @@
                                         <span class="text-gray-500">Director:</span>
                                     </div>
                                     <div class="flex overflow-x-auto flex-nowrap flex-grow gap-3 scrollbar-hide">
-                                        <x-tag.tag id="300" content="John Doe" :type="TagType::Tag->getLabel()" />
+                                        <x-tag.tag id="300" content="John Doe" :type="TagType::TAG->getLabel()" />
                                     </div>
                                 </div>
                                 <div class="flex gap-3 items-center">
@@ -167,7 +167,7 @@
                                         <span class="text-gray-500">Writer:</span>
                                     </div>
                                     <div class="flex overflow-x-auto flex-nowrap flex-grow gap-3 scrollbar-hide">
-                                        <x-tag.tag id="301" content="Jane Doe" :type="TagType::Tag->getLabel()" />
+                                        <x-tag.tag id="301" content="Jane Doe" :type="TagType::TAG->getLabel()" />
                                     </div>
                                 </div>
                             </div>
@@ -180,7 +180,7 @@
                                         </div>
                                         <div class="flex overflow-x-auto flex-nowrap flex-grow gap-3 scrollbar-hide">
                                             <x-tag.tag id="301" content="United States"
-                                                :type="TagType::Tag->getLabel()" />
+                                                :type="TagType::TAG->getLabel()" />
                                         </div>
                                     </div>
                                 </div>
@@ -190,7 +190,7 @@
                                             <span class="text-gray-500">Language:</span>
                                         </div>
                                         <div class="flex overflow-x-auto flex-nowrap flex-grow gap-3 scrollbar-hide">
-                                            <x-tag.tag id="301" content="English" :type="TagType::Tag->getLabel()" />
+                                            <x-tag.tag id="301" content="English" :type="TagType::TAG->getLabel()" />
                                         </div>
                                     </div>
                                 </div>

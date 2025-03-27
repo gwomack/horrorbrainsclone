@@ -7,7 +7,6 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', HomePage::class);
 
-// Movie details route with optional ID parameter
-Route::get('/{id?}', MovieDetailPage::class)->name('movie.details');
-
 Route::get('/search', MovieSearchPage::class)->name('movie.search');
+
+Route::get('/{id?}', MovieDetailPage::class)->name('movie.details');

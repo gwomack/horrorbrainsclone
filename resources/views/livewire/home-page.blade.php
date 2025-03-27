@@ -1,7 +1,7 @@
 @section('title', 'Horror Movies')
 
 @php
-use App\Models\Tag\TagType;
+use App\Livewire\UrlParamType;
 @endphp
 
 <div class="px-4 mx-auto lg:container">
@@ -31,15 +31,15 @@ use App\Models\Tag\TagType;
                 </div>
             </a>
 
-            <x-tag.home-tag id="400" content="Supernatural" type="{{ TagType::Tag->getLabel() }}" />
-            <x-tag.home-tag id="401" content="Psychological" type="{{ TagType::Tag->getLabel() }}" />
-            <x-tag.home-tag id="402" content="Slasher" type="{{ TagType::Tag->getLabel() }}" />
-            <x-tag.home-tag id="403" content="Found Footage" type="{{ TagType::Tag->getLabel() }}" />
-            <x-tag.home-tag id="404" content="Zombie" type="{{ TagType::Tag->getLabel() }}" />
-            <x-tag.home-tag id="405" content="Body Horror" type="{{ TagType::Tag->getLabel() }}" />
-            <x-tag.home-tag id="406" content="Haunted House" type="{{ TagType::Tag->getLabel() }}" />
-            <x-tag.home-tag id="407" content="Folk Horror" type="{{ TagType::Tag->getLabel() }}" />
-            <x-tag.home-tag id="408" content="Creature Feature" type="{{ TagType::Tag->getLabel() }}" />
+            <x-tag.home-tag id="400" content="Supernatural" :type="UrlParamType::TAG" />
+            <x-tag.home-tag id="401" content="Psychological" :type="UrlParamType::TAG" />
+            <x-tag.home-tag id="402" content="Slasher" :type="UrlParamType::TAG" />
+            <x-tag.home-tag id="403" content="Found Footage" :type="UrlParamType::TAG" />
+            <x-tag.home-tag id="404" content="Zombie" :type="UrlParamType::TAG" />
+            <x-tag.home-tag id="405" content="Body Horror" :type="UrlParamType::TAG" />
+            <x-tag.home-tag id="406" content="Haunted House" :type="UrlParamType::TAG" />
+            <x-tag.home-tag id="407" content="Folk Horror" :type="UrlParamType::TAG" />
+            <x-tag.home-tag id="408" content="Creature Feature" :type="UrlParamType::TAG" />
         </div>
     </section>
 

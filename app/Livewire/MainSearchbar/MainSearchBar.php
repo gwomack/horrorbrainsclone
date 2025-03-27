@@ -2,13 +2,19 @@
 
 namespace App\Livewire\MainSearchBar;
 
-use App\Models\Tag\TagType;
+use App\Livewire\UrlParamType;
+use App\Models\Tag\Tag;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\On;
 use Livewire\Component;
 
 class MainSearchBar extends Component
 {
+    /**
+     * The URL parameters handler
+     */
+    protected SearchUrlParameters $urlHandler;
+
     /**
      * The input value for the search bar
      *
@@ -22,14 +28,6 @@ class MainSearchBar extends Component
      * @var array
      */
     public $selected = [];
-
-    /**
-     * The filtered tags for the search bar
-     * TODO: this should not exist once connected to the database
-     *
-     * @var array
-     */
-    protected $allTags;
 
     /**
      * Whether the dropdown is visible
@@ -59,30 +57,7 @@ class MainSearchBar extends Component
      */
     public function boot()
     {
-        // Temporary mock data for tags (replace with database query later)
-        $type = TagType::Tag->getLabel();
-        $this->allTags = [
-            1 => ['content' => 'Haunted House', 'type' => $type],
-            2 => ['content' => 'Supernatural', 'type' => $type],
-            3 => ['content' => 'Family Drama', 'type' => $type],
-            4 => ['content' => 'Psychological', 'type' => $type],
-            5 => ['content' => 'Found Footage', 'type' => $type],
-            6 => ['content' => 'Slasher', 'type' => $type],
-            7 => ['content' => 'Zombie', 'type' => $type],
-            8 => ['content' => 'Gore', 'type' => $type],
-            9 => ['content' => 'Paranormal', 'type' => $type],
-            10 => ['content' => 'Demonic', 'type' => $type],
-            11 => ['content' => 'Cult', 'type' => $type],
-            12 => ['content' => 'Classic', 'type' => $type],
-            13 => ['content' => 'Modern', 'type' => $type],
-            14 => ['content' => 'Indie', 'type' => $type],
-            15 => ['content' => 'Award-Winning', 'type' => $type],
-            16 => ['content' => 'Haunted House1', 'type' => $type],
-            17 => ['content' => 'Haunted House2', 'type' => $type],
-            18 => ['content' => 'Haunted House3', 'type' => $type],
-            19 => ['content' => 'Haunted House4', 'type' => $type],
-            20 => ['content' => 'Haunted House5', 'type' => $type],
-        ];
+        $this->urlHandler = new SearchUrlParameters;
     }
 
     /**
@@ -92,23 +67,8 @@ class MainSearchBar extends Component
      */
     public function buildSelectedFromRequest()
     {
-        foreach (request()->all() as $type => $rows) {
-            foreach ($rows as $row) {
-                switch ($type) {
-                    case TagType::Tag->getLabel():
-                        // TODO: this should not exist once connected to the database
-                        $tag = isset($this->allTags[$row]) ? $this->allTags[$row] : null;
-                        $this->selected[$row] = ['content' => $tag['content'] ?? 'not found tag', 'type' => $type];
-
-                        break;
-                    default:
-                        $tag = ['content' => $row, 'type' => $type];
-                        $checksum = $this->checksumOfInputTag($tag);
-                        $this->selected[$checksum] = $tag;
-
-                }
-            }
-        }
+        $params = $this->urlHandler->getFromRequest(request());
+        $this->selected = $this->urlHandler->toSelected($params);
     }
 
     /**
@@ -145,11 +105,13 @@ class MainSearchBar extends Component
         $value = trim(strtolower($value));
 
         if (strlen($value) > 2) {
+            $query = Tag::query()->where('name', 'ilike', '%'.$value.'%')->limit(10)->orderBy('name');
 
-            $this->setTags(
-                // TODO: this should not exist once connected to the database
-                collect($this->allTags)->filter(fn ($tag) => str_contains(strtolower($tag['content']), $value))->toArray()
-            );
+            $tags = $query->get()->map(function ($tag) {
+                return ['id' => $tag->getKey(), 'content' => ['content' => $tag->name, 'type' => UrlParamType::TAG]];
+            })->pluck('content', 'id')->toArray();
+
+            $this->setTags($tags);
 
             if ($this->countTags() > 0) {
                 $this->openDropdown();
@@ -328,7 +290,7 @@ class MainSearchBar extends Component
 
         if ($this->input) {
 
-            $inputTag = ['content' => $this->input, 'type' => TagType::Input->getLabel()];
+            $inputTag = ['content' => $this->input, 'type' => UrlParamType::INPUT];
             $checksum = hash('crc32b', json_encode($inputTag));
 
             if (! isset($this->selected[$checksum])) {
@@ -360,6 +322,7 @@ class MainSearchBar extends Component
     {
         if (! isset($this->selected[$index])) {
             $this->selected[$index] = $this->tags[$index];
+            $this->reset('input');
         }
     }
 
@@ -407,7 +370,7 @@ class MainSearchBar extends Component
      *
      * @param  string  $id
      * @param  string  $content
-     * @param  string  $type
+     * @param  UrlParamType  $type
      * @return void
      */
     #[On('toggletagfromsite')]
@@ -500,36 +463,9 @@ class MainSearchBar extends Component
         $this->pushInputToSelected();
 
         if (! empty($this->selected)) {
-            $this->redirect(route('movie.search', $this->buildQueryParamsFromSelected()), true);
+            $params = $this->urlHandler->toUrlParameters($this->selected);
+            $this->redirect(route('movie.search', $params), navigate: true);
         }
-    }
-
-    /**
-     * Build the query params from the selected tags
-     *
-     * @return array
-     */
-    protected function buildQueryParamsFromSelected()
-    {
-        $params = [];
-
-        $tags = collect($this->selected)
-            ->filter(fn ($tag) => $tag['type'] == TagType::Tag->getLabel())
-            ->keys();
-
-        $inputs = collect($this->selected)
-            ->filter(fn ($tag) => $tag['type'] == TagType::Input->getLabel())
-            ->pluck('content');
-
-        if ($tags->isNotEmpty()) {
-            $params[TagType::Tag->getLabel()] = $tags->toArray();
-        }
-
-        if ($inputs->isNotEmpty()) {
-            $params[TagType::Input->getLabel()] = $inputs->toArray();
-        }
-
-        return $params;
     }
 
     /**
