@@ -11,10 +11,12 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Tag extends Model
 {
     use HasFactory;
+    use SoftDeletes;
 
     /**
      * The attributes that should be cast to native types.
@@ -33,7 +35,7 @@ class Tag extends Model
         return $this->belongsToMany(Post::class)
             ->using(PostTag::class)
             ->as('post_tag')
-            ->withPivot('id', 'post_id', 'tag_id', 'type')
+            ->withPivot('id', 'post_id', 'tag_id')
             ->withTimestamps();
     }
 
@@ -51,9 +53,7 @@ class Tag extends Model
     public function parents(): BelongsToMany
     {
         return $this->belongsToMany(Tag::class, 'tag_parents', 'tag_id', 'parent_id')
-            ->using(TagParent::class)
-            ->withTimestamps()
-            ->withPivot('id', 'tag_id', 'parent_id', 'created_at', 'updated_at');
+            ->using(TagParent::class);
     }
 
     /**
@@ -77,7 +77,7 @@ class Tag extends Model
                         ->label('Tag')
                         ->required()
                         ->maxLength(255)
-                        ->live()
+                        ->live(debounce: 1000)
                         ->afterStateUpdated(function ($state, callable $set) {
                             $set('slug', str()->slug($state));
                         }),
@@ -90,7 +90,10 @@ class Tag extends Model
                         ->label('Description'),
                     Forms\Components\Select::make('parent_id')
                         ->label('Parent')
-                        ->relationship('parents', 'name')
+                        ->relationship('parents', 'name', function ($query) {
+                            $query->whereDoesntHave('parents');
+                        })
+                        ->multiple()
                         ->searchable()
                         ->dehydrated(false),
                 ]),

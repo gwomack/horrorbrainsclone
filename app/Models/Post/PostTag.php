@@ -2,10 +2,9 @@
 
 namespace App\Models\Post;
 
-use App\Models\Tag\PostTagCustomField;
 use App\Models\Tag\Tag;
+use App\Models\Tag\TagType;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 
 class PostTag extends Pivot
@@ -52,11 +51,10 @@ class PostTag extends Pivot
         return $this->belongsTo(Tag::class);
     }
 
-    /**
-     * Get the custom fields for the post tag.
-     */
-    public function postTagCustomFields(): HasMany
+    public function acting(): BelongsTo
     {
-        return $this->hasMany(PostTagCustomField::class, 'post_tag_id');
+        return $this->tag()->whereHas('parents', function ($query) {
+            $query->where('slug', TagType::ACTING->value);
+        });
     }
 }

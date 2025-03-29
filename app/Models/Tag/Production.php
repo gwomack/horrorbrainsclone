@@ -2,7 +2,6 @@
 
 namespace App\Models\Tag;
 
-use App\Models\Tag\Tag;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
@@ -15,6 +14,8 @@ class Production extends Tag
      */
     public function posts(): BelongsToMany
     {
-        return parent::posts()->wherePivot('type', 'production');
+        return parent::posts()->whereHas('parents', function ($query) {
+            $query->where('name', 'Production');
+        });
     }
 }

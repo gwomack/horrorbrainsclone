@@ -2,18 +2,20 @@
 
 namespace App\Filament\Resources;
 
-use Filament\Tables;
-use Pages\ListPosts;
-use Filament\Forms\Form;
+use App\Filament\Resources\PostResource\Pages;
 use App\Models\Post\Post;
-use Filament\Tables\Table;
-use Illuminate\Support\Str;
+use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Support\Enums\Alignment;
-use App\Filament\Resources\PostResource\Pages;
+use Filament\Tables;
+use Filament\Tables\Actions\Action;
 use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
+use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Str;
+use Mokhosh\FilamentRating\Columns\RatingColumn;
+use Mokhosh\FilamentRating\RatingTheme;
 
 class PostResource extends Resource
 {
@@ -57,6 +59,9 @@ class PostResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->filtersTriggerAction(function (Action $action) {
+                $action->button()->label('Filters');
+            })
             ->columns([
                 SpatieMediaLibraryImageColumn::make('poster')
                     ->label('Poster')
@@ -76,9 +81,11 @@ class PostResource extends Resource
                 Tables\Columns\TextColumn::make('release_date')
                     ->date()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('rating')
-                    ->numeric()
-                    ->sortable(),
+                RatingColumn::make('rating')
+                    ->label('Rating')
+                    ->sortable()
+                    ->theme(RatingTheme::HalfStars)
+                    ->size('sm'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -95,16 +102,22 @@ class PostResource extends Resource
                     ->sortable(),
             ])
             ->filters([
-                //
+                Tables\Filters\SelectFilter::make('tags')
+                    ->label('Tags')
+                    ->multiple()
+                    ->relationship('tags', 'name'),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                Tables\Actions\EditAction::make()
+                    ->label(''),
+                Tables\Actions\DeleteAction::make()
+                    ->label(''),
 
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
+                    Tables\Actions\RestoreBulkAction::make(),
                 ]),
             ]);
     }

@@ -4,6 +4,7 @@ namespace App\Models\Post;
 
 use App\Models\Tag\Field;
 use App\Models\Tag\Tag;
+use App\Models\Tag\TagType;
 use Filament\Forms;
 use Filament\Forms\Components\Fieldset;
 use Filament\Forms\Components\Grid;
@@ -84,47 +85,15 @@ class Post extends Model implements HasMedia
     public function tags(): BelongsToMany
     {
         return $this->belongsToMany(Tag::class, 'post_tags')
-            ->using(PostTag::class)
-            ->as('post_tag')
-            ->withPivot('id', 'post_id', 'tag_id', 'type')
-            ->withTimestamps();
+            ->using(PostTag::class);
     }
 
     /**
-     * Get the directors for the post.
+     * Get the post tags for the post.
      */
-    public function director(): BelongsToMany
+    public function postTag(): HasMany
     {
-        return $this->tags()->wherePivot('type', 'director')
-            ->withPivotValue('type', 'director');
-    }
-
-    /**
-     * Get the writers for the post.
-     */
-    public function writer(): BelongsToMany
-    {
-        return $this->tags()->wherePivot('type', 'writer')
-            ->withPivotValue('type', 'writer');
-    }
-
-    /**
-     * Get the production for the post.
-     */
-    public function production(): BelongsToMany
-    {
-        return $this->tags()->wherePivot('type', 'production')
-            ->withPivotValue('type', 'production');
-    }
-
-    /**
-     * Get the actors for the post.
-     */
-    public function acting(): BelongsToMany
-    {
-        return $this->belongsToMany(Tag::class, 'post_tags')->using(ActingPivot::class);
-        // return $this->tags()->wherePivot('type', 'acting')
-        //     ->withPivotValue('type', 'acting');
+        return $this->hasMany(PostTag::class);
     }
 
     /**
@@ -132,7 +101,47 @@ class Post extends Model implements HasMedia
      */
     public function actingPivot(): HasMany
     {
-        return $this->hasMany(ActingPivot::class, 'post_id', 'id');
+        return $this->postTag()->whereHas('acting');
+    }
+
+    /**
+     * Get the directors for the post.
+     */
+    public function director(): BelongsToMany
+    {
+        return $this->tags()->whereHas('parents', function ($query) {
+            $query->where('slug', TagType::DIRECTOR->value);
+        });
+    }
+
+    /**
+     * Get the writers for the post.
+     */
+    public function writer(): BelongsToMany
+    {
+        return $this->tags()->whereHas('parents', function ($query) {
+            $query->where('slug', TagType::WRITER->value);
+        });
+    }
+
+    /**
+     * Get the production for the post.
+     */
+    public function production(): BelongsToMany
+    {
+        return $this->tags()->whereHas('parents', function ($query) {
+            $query->where('slug', TagType::PRODUCTION->value);
+        });
+    }
+
+    /**
+     * Get the actors for the post.
+     */
+    public function acting(): BelongsToMany
+    {
+        return $this->tags()->whereHas('parents', function ($query) {
+            $query->where('slug', TagType::ACTING->value);
+        })->withPivot('custom');
     }
 
     /**
@@ -140,8 +149,9 @@ class Post extends Model implements HasMedia
      */
     public function country(): BelongsToMany
     {
-        return $this->tags()->wherePivot('type', 'country')
-            ->withPivotValue('type', 'country');
+        return $this->tags()->whereHas('parents', function ($query) {
+            $query->where('slug', TagType::COUNTRY->value);
+        });
     }
 
     /**
@@ -149,8 +159,9 @@ class Post extends Model implements HasMedia
      */
     public function language(): BelongsToMany
     {
-        return $this->tags()->wherePivot('type', 'language')
-            ->withPivotValue('type', 'language');
+        return $this->tags()->whereHas('parents', function ($query) {
+            $query->where('slug', TagType::LANGUAGE->value);
+        });
     }
 
     /**
@@ -158,8 +169,9 @@ class Post extends Model implements HasMedia
      */
     public function year(): BelongsToMany
     {
-        return $this->tags()->wherePivot('type', 'year')
-            ->withPivotValue('type', 'year');
+        return $this->tags()->whereHas('parents', function ($query) {
+            $query->where('slug', TagType::YEAR->value);
+        });
     }
 
     /**
@@ -167,8 +179,9 @@ class Post extends Model implements HasMedia
      */
     public function subGenre(): BelongsToMany
     {
-        return $this->tags()->wherePivot('type', 'sub_genre')
-            ->withPivotValue('type', 'sub_genre');
+        return $this->tags()->whereHas('parents', function ($query) {
+            $query->where('slug', TagType::SUB_GENRE->value);
+        });
     }
 
     /**
@@ -176,8 +189,19 @@ class Post extends Model implements HasMedia
      */
     public function genre(): BelongsToMany
     {
-        return $this->tags()->wherePivot('type', 'genre')
-            ->withPivotValue('type', 'genre');
+        return $this->tags()->whereHas('parents', function ($query) {
+            $query->where('slug', TagType::GENRE->value);
+        });
+    }
+
+    /**
+     * Get the post types for the post.
+     */
+    public function PostType(): BelongsToMany
+    {
+        return $this->tags()->whereHas('parents', function ($query) {
+            $query->where('slug', TagType::POST_TYPE->value);
+        });
     }
 
     /**
@@ -185,8 +209,9 @@ class Post extends Model implements HasMedia
      */
     public function distribution(): BelongsToMany
     {
-        return $this->tags()->wherePivot('type', 'distribution')
-            ->withPivotValue('type', 'distribution');
+        return $this->tags()->whereHas('parents', function ($query) {
+            $query->where('slug', TagType::DISTRIBUTION->value);
+        });
     }
 
     /**
@@ -195,15 +220,6 @@ class Post extends Model implements HasMedia
     public function postRatings(): HasMany
     {
         return $this->hasMany(PostRating::class);
-    }
-
-    /**
-     * Get the post types for the post.
-     */
-    public function PostType(): BelongsToMany
-    {
-        return $this->tags()->wherePivot('type', 'post_type')
-            ->withPivotValue('type', 'post_type');
     }
 
     /**
@@ -300,6 +316,7 @@ class Post extends Model implements HasMedia
                     // ->imageResizeTargetHeight(300)
                     ,
                     SpatieMediaLibraryFileUpload::make('video')
+                        ->Label('Videos')
                         ->multiple()
                         ->reorderable()
                         ->disk('post')
@@ -373,8 +390,7 @@ class Post extends Model implements HasMedia
                         ->createOptionForm(Tag::getForm())
                         // this is to make the post type a single select
                         ->getOptionLabelFromRecordUsing(fn ($record) => $record->name)
-                        ->dehydrated(false)
-                        ->multiple(false),
+                        ->dehydrated(false),
                     Forms\Components\Select::make('post_type')
                         ->label('Post Type')
                         ->searchable()
@@ -382,21 +398,20 @@ class Post extends Model implements HasMedia
                         ->createOptionForm(Tag::getForm())
                         // this is to make the post type a single select
                         ->getOptionLabelFromRecordUsing(fn ($record) => $record->name)
-                        ->dehydrated(false)
-                        ->multiple(false),
-                    Repeater::make('custom')
+                        ->dehydrated(false),
+                    Repeater::make('acting')
                         ->relationship('actingPivot')
                         ->label('Acting')
                         ->columnSpanFull()
                         ->schema([
-                            Grid::make('acting')
+                            Grid::make('acting-grid')
                                 ->label('Acting')
                                 ->columns(7)
                                 ->schema([
                                     Forms\Components\Select::make('tag_id')
                                         ->label('Actor')
                                         ->searchable()
-                                        ->options(Tag::query()->pluck('name', 'id'))
+                                        ->options(Tag::query()->whereHas('parents', fn ($query) => $query->where('slug', TagType::ACTING->value))->pluck('name', 'id'))
                                         ->required()
                                         ->createOptionForm(Tag::getForm())
                                         ->columnSpan(3),

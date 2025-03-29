@@ -14,7 +14,8 @@ class Acting extends Tag
      */
     public function posts(): BelongsToMany
     {
-        return parent::posts()->wherePivot('type', TagType::ACTING)
-            ->withPivotValue('type', TagType::ACTING);
+        return parent::posts()->whereHas('parents', function ($query) {
+            $query->where('name', 'Acting');
+        });
     }
 }

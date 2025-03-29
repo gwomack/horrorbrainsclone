@@ -31,8 +31,10 @@ class TagSeeder extends Seeder
             'Ryan Gosling',
             'Chris Hemsworth',
         ];
+        $acting = Tag::create(['name' => 'Acting', 'slug' => Str::slug('Acting')]);
         foreach ($actors as $actor) {
-            Tag::create(['name' => $actor, 'slug' => Str::slug($actor)]);
+            $actor = Tag::create(['name' => $actor, 'slug' => Str::slug($actor)]);
+            $actor->parents()->attach($acting);
         }
 
         // Leading Actresses
@@ -54,7 +56,8 @@ class TagSeeder extends Seeder
             'Zendaya',
         ];
         foreach ($actresses as $actress) {
-            Tag::create(['name' => $actress, 'slug' => Str::slug($actress)]);
+            $actress = Tag::create(['name' => $actress, 'slug' => Str::slug($actress)]);
+            $actress->parents()->attach($acting);
         }
 
         // Acclaimed Directors
@@ -75,8 +78,10 @@ class TagSeeder extends Seeder
             'Ava DuVernay',
             'Greta Gerwig',
         ];
+        $directing = Tag::create(['name' => 'Director', 'slug' => Str::slug('Director')]);
         foreach ($directors as $director) {
-            Tag::create(['name' => $director, 'slug' => Str::slug($director)]);
+            $director = Tag::create(['name' => $director, 'slug' => Str::slug($director)]);
+            $director->parents()->attach($directing);
         }
 
         // Production Companies
@@ -97,8 +102,10 @@ class TagSeeder extends Seeder
             'Pixar Animation Studios',
             'Marvel Studios',
         ];
+        $production = Tag::create(['name' => 'Production', 'slug' => Str::slug('Production')]);
         foreach ($productionCompanies as $productionCompany) {
-            Tag::create(['name' => $productionCompany, 'slug' => Str::slug($productionCompany)]);
+            $productionCompany = Tag::create(['name' => $productionCompany, 'slug' => Str::slug($productionCompany)]);
+            $productionCompany->parents()->attach($production);
         }
 
         // Distribution Companies
@@ -114,25 +121,10 @@ class TagSeeder extends Seeder
             'IFC Films',
             'Magnolia Pictures',
         ];
+        $distribution = Tag::create(['name' => 'Distribution', 'slug' => Str::slug('Distribution')]);
         foreach ($distributors as $distributor) {
-            Tag::create(['name' => $distributor, 'slug' => Str::slug($distributor)]);
-        }
-
-        // Supporting Actors/Actresses
-        $supportingTalent = [
-            'Stanley Tucci',
-            'Paul Giamatti',
-            'Dame Judi Dench',
-            'Gary Oldman',
-            'Willem Dafoe',
-            'Tilda Swinton',
-            'J.K. Simmons',
-            'Octavia Spencer',
-            'Mark Ruffalo',
-            'Laura Dern',
-        ];
-        foreach ($supportingTalent as $supportingTalent) {
-            Tag::create(['name' => $supportingTalent, 'slug' => Str::slug($supportingTalent)]);
+            $distributor = Tag::create(['name' => $distributor, 'slug' => Str::slug($distributor)]);
+            $distributor->parents()->attach($distribution);
         }
 
         // Rising Stars
@@ -149,7 +141,8 @@ class TagSeeder extends Seeder
             'Jacob Elordi',
         ];
         foreach ($risingStars as $risingStar) {
-            Tag::create(['name' => $risingStar, 'slug' => Str::slug($risingStar)]);
+            $risingStar = Tag::create(['name' => $risingStar, 'slug' => Str::slug($risingStar)]);
+            $risingStar->parents()->attach($acting);
         }
 
         // Production Teams
@@ -166,7 +159,8 @@ class TagSeeder extends Seeder
             'Colleen Atwood',
         ];
         foreach ($productionTeams as $productionTeam) {
-            Tag::create(['name' => $productionTeam, 'slug' => Str::slug($productionTeam)]);
+            $productionTeam = Tag::create(['name' => $productionTeam, 'slug' => Str::slug($productionTeam)]);
+            $productionTeam->parents()->attach($production);
         }
 
         // Genres
@@ -187,8 +181,10 @@ class TagSeeder extends Seeder
             'War Film',
             'Coming of Age',
         ];
+        $genre = Tag::create(['name' => 'Genre', 'slug' => Str::slug('Genre')]);
         foreach ($genres as $genre) {
-            Tag::create(['name' => $genre, 'slug' => Str::slug($genre)]);
+            $genre = Tag::create(['name' => $genre, 'slug' => Str::slug($genre)]);
+            $genre->parents()->attach($genre);
         }
 
         // Movie Themes
@@ -209,8 +205,10 @@ class TagSeeder extends Seeder
             'Cultural Clash',
             'Forbidden Love',
         ];
+        $movieTheme = Tag::create(['name' => 'Theme', 'slug' => Str::slug('Theme')]);
         foreach ($movieThemes as $movieTheme) {
-            Tag::create(['name' => $movieTheme, 'slug' => Str::slug($movieTheme)]);
+            $movieTheme = Tag::create(['name' => $movieTheme, 'slug' => Str::slug($movieTheme)]);
+            $movieTheme->parents()->attach($movieTheme);
         }
 
         // Movie Moods
@@ -241,8 +239,10 @@ class TagSeeder extends Seeder
             'Dynamic Duo',
             'Veteran Actors',
         ];
+        $movieMood = Tag::create(['name' => 'Mood', 'slug' => Str::slug('Mood')]);
         foreach ($movieMoods as $movieMood) {
-            Tag::create(['name' => $movieMood, 'slug' => Str::slug($movieMood)]);
+            $movieMood = Tag::create(['name' => $movieMood, 'slug' => Str::slug($movieMood)]);
+            $movieMood->parents()->attach($movieMood);
         }
 
         // Production Elements
@@ -275,8 +275,10 @@ class TagSeeder extends Seeder
             'Narrated Story',
             'Complex Plot',
         ];
+        $storyElement = Tag::create(['name' => 'Story', 'slug' => Str::slug('Story')]);
         foreach ($storyElements as $storyElement) {
-            Tag::create(['name' => $storyElement, 'slug' => Str::slug($storyElement)]);
+            $storyElement = Tag::create(['name' => $storyElement, 'slug' => Str::slug($storyElement)]);
+            $storyElement->parents()->attach($storyElement);
         }
 
         // Setting and Time Period
@@ -308,8 +310,10 @@ class TagSeeder extends Seeder
             'Cult Classic',
             'Award Winner',
         ];
+        $settingAndTimePeriodParent = Tag::create(['name' => 'Setting', 'slug' => Str::slug('Setting')]);
         foreach ($settingAndTimePeriod as $tag) {
-            Tag::create(['name' => $tag, 'slug' => Str::slug($tag)]);
+            $tag = Tag::create(['name' => $tag, 'slug' => Str::slug($tag)]);
+            $tag->parents()->attach($settingAndTimePeriodParent);
         }
 
         // Tag::factory()->count(5)->create();

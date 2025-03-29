@@ -7,6 +7,7 @@ use App\Models\Tag\Tag;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Actions\Action;
 use Filament\Tables\Table;
 
 class TagResource extends Resource
@@ -24,11 +25,15 @@ class TagResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->filtersTriggerAction(function (Action $action) {
+                $action->button()->label('Filters');
+            })
             ->columns([
                 Tables\Columns\TextColumn::make('name')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('slug')
-                    ->searchable(),
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('parents.name')
                     ->label('Parent')
                     ->searchable()
@@ -43,16 +48,22 @@ class TagResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                //
+                Tables\Filters\SelectFilter::make('parents')
+                    ->label('Parents')
+                    ->multiple()
+                    ->relationship('parents', 'name'),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
-
+                Tables\Actions\EditAction::make()
+                    ->slideOver()
+                    ->label(''),
+                Tables\Actions\DeleteAction::make()
+                    ->label(''),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
+                    Tables\Actions\RestoreBulkAction::make(),
                 ]),
             ]);
     }
@@ -69,7 +80,7 @@ class TagResource extends Resource
         return [
             'index' => Pages\ListTags::route('/'),
             'create' => Pages\CreateTag::route('/create'),
-            'edit' => Pages\EditTag::route('/{record}/edit'),
+            // 'edit' => Pages\EditTag::route('/{record}/edit'),
         ];
     }
 }

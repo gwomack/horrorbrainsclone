@@ -1,4 +1,4 @@
-<div class="flex z-0 gap-2 px-3 pt-3 pb-2 h-16 max-h-full text-white border thick-border focus:outline-none focus:ring-0 focus:border-transparent"
+<div class="flex z-0 gap-2 p-1 max-h-full text-white border thick-border focus:outline-none focus:ring-0 focus:border-transparent"
     wire:click.outside="closeDropdown" wire:keydown.escape.prevent="closeDropdown"
     wire:keydown.backspace="removeLastTag" wire:keydown.cmd.shift.backspace.prevent="resetTags"
     wire:keydown.ctrl.shift.backspace.prevent="resetTags"
@@ -7,7 +7,7 @@
     wire:keydown.down.stop.prevent="nextTagByIndex" wire:keydown.up.stop.prevent="previousTagByIndex">
 
     <div class="overflow-x-auto flex-1 cursor-text">
-        <div class="flex flex-nowrap gap-2 items-center mr-3">
+        <div class="flex flex-nowrap gap-1 items-center mr-3">
 
             @foreach($selected as $index => $tag)
             <x-tag.tag :id="$index" :content="$tag['content']" :type="$tag['type']" />

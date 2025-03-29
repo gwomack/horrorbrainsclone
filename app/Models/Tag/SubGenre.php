@@ -14,6 +14,8 @@ class SubGenre extends Tag
      */
     public function posts(): BelongsToMany
     {
-        return parent::posts()->wherePivot('type', 'sub_genre');
+        return parent::posts()->whereHas('parents', function ($query) {
+            $query->where('name', 'Sub Genre');
+        });
     }
 }
