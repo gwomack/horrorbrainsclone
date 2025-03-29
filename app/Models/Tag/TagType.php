@@ -17,6 +17,7 @@ enum TagType: string implements HasLabel
     case GENRE = 'genre';
     case SUB_GENRE = 'sub-genre';
     case POST_TYPE = 'post-type';
+    case TRENDING_HOME_PAGE = 'trending-home-page';
 
     /**
      * Get the label for the tag type.
@@ -35,6 +36,7 @@ enum TagType: string implements HasLabel
             self::GENRE => 'Genre',
             self::SUB_GENRE => 'Sub Genre',
             self::POST_TYPE => 'Post Type',
+            self::TRENDING_HOME_PAGE => 'Trending Home Page',
             default => throw new \Exception('Invalid tag type'),
         };
     }
@@ -53,6 +55,7 @@ enum TagType: string implements HasLabel
             self::LANGUAGE => '<i class="pr-1 fas fa-language"></i>',
             self::COUNTRY => '<i class="pr-1 fas fa-flag"></i>',
             self::YEAR => '<i class="pr-1 fas fa-calendar"></i>',
+            self::TRENDING_HOME_PAGE => '<i class="pr-1 fas fa-home"></i>',
             default => throw new \Exception('Invalid tag type'),
         };
     }
@@ -71,6 +74,7 @@ enum TagType: string implements HasLabel
             self::LANGUAGE->getLabel() => self::LANGUAGE,
             self::COUNTRY->getLabel() => self::COUNTRY,
             self::YEAR->getLabel() => self::YEAR,
+            self::TRENDING_HOME_PAGE->getLabel() => self::TRENDING_HOME_PAGE,
             default => throw new \Exception("Invalid tag type: $label"),
         };
     }

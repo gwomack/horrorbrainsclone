@@ -39,9 +39,9 @@ class Post extends Model implements HasMedia
         parent::boot();
 
         // Add global scope to order by release date by default
-        static::addGlobalScope('published', function ($query) {
-            $query->published();
-        });
+        // self::addGlobalScope('published', function ($query) {
+        //     $query->published();
+        // });
 
         // Save the published at date when the post is published
         self::saving(function ($post) {
@@ -73,12 +73,20 @@ class Post extends Model implements HasMedia
     }
 
     /**
+     * Scope a query to only include draft posts.
+     */
+    public function scopeDraft($query)
+    {
+        return $query->where('is_published', false);
+    }
+
+    /**
      * Get the is new attribute.
      */
     protected function isNew(): Attribute
     {
         return Attribute::make(
-            get: fn (mixed $value, array $attributes) => $attributes['created_at'] > now()->subDays(5),
+            get: fn (mixed $value, array $attributes) => isset($attributes['created_at']) && $attributes['created_at'] > now()->subDays(5),
         );
     }
 
@@ -95,17 +103,19 @@ class Post extends Model implements HasMedia
     }
 
     /**
-     * Register media conversions.
+     * Get the media collections that should be registered.
      */
-    public function registerMediaConversions(?Media $media = null): void
+    public function registerMediaCollections(): void
     {
-        $this->addMediaConversion('preview')
-            ->fit(Fit::Crop, 300, 300)
-            ->nonQueued();
-
-        $this->addMediaConversion('thumbnail')
-            ->fit(Fit::Crop, 150, 150)
-            ->nonQueued();
+        $this->addMediaCollection('images')
+            ->registerMediaConversions(function () {
+                $this->addMediaConversion('preview')
+                    ->withResponsiveImages()
+                    ->nonQueued();
+                $this->addMediaConversion('thumbnail')
+                    ->fit(Fit::Crop, 640, 360)
+                    ->nonQueued();
+            });
     }
 
     /**
@@ -195,12 +205,7 @@ class Post extends Model implements HasMedia
                         ->responsiveImages()
                         ->collection('images')
                         ->disk('post')
-                        ->imagePreviewHeight(150)
-                    // ->imageResizeMode('cover')
-                    // ->imageCropAspectRatio('1:1')
-                    // ->imageResizeTargetWidth(300)
-                    // ->imageResizeTargetHeight(300)
-                    ,
+                        ->imagePreviewHeight(150),
                     SpatieMediaLibraryFileUpload::make('video')
                         ->Label('Videos')
                         ->multiple()
@@ -286,10 +291,19 @@ class Post extends Model implements HasMedia
                         ->createOptionForm(Tag::getFormForNoParents())
                         ->createOptionUsing(fn (array $data): int => self::saveTagAndParentAndGetKey($data, TagType::COUNTRY->value))
                         ->dehydrated(false),
+                    Forms\Components\Select::make('trending_home_page')
+                        ->label('Trending Home Page')
+                        ->multiple()
+                        ->searchable()
+                        ->relationship('trendingHomePage', 'name')
+                        ->createOptionForm(Tag::getFormForNoParents())
+                        ->createOptionUsing(fn (array $data): int => self::saveTagAndParentAndGetKey($data, TagType::TRENDING_HOME_PAGE->value))
+                        ->dehydrated(false),
                     Forms\Components\Select::make('year')
                         ->label('Year')
                         ->searchable()
                         ->relationship('year', 'name')
+                        ->preload()
                         ->createOptionForm(Tag::getFormForNoParents())
                         ->createOptionUsing(fn (array $data): int => self::saveTagAndParentAndGetKey($data, TagType::YEAR->value))
                         ->dehydrated(false),
@@ -297,6 +311,7 @@ class Post extends Model implements HasMedia
                         ->label('Post Type')
                         ->searchable()
                         ->relationship('postType', 'name')
+                        ->preload()
                         ->createOptionForm(Tag::getFormForNoParents())
                         ->createOptionUsing(fn (array $data): int => self::saveTagAndParentAndGetKey($data, TagType::POST_TYPE->value))
                         ->dehydrated(false),

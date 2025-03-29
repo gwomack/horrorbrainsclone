@@ -6,7 +6,7 @@ use App\Filament\Resources\PostResource;
 use Filament\Actions;
 use Filament\Resources\Components\Tab;
 use Filament\Resources\Pages\ListRecords;
-use Illuminate\Contracts\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Builder;
 
 class ListPosts extends ListRecords
 {
@@ -24,9 +24,9 @@ class ListPosts extends ListRecords
         return [
             'all' => Tab::make('All'),
             'published' => Tab::make('Published')
-                ->modifyQueryUsing(fn (Builder $query) => $query->where('is_published', true)),
+                ->modifyQueryUsing(fn (Builder $query) => $query->published()),
             'draft' => Tab::make('Draft')
-                ->modifyQueryUsing(fn (Builder $query) => $query->where('is_published', false)),
+                ->modifyQueryUsing(fn (Builder $query) => $query->draft()),
             'trashed' => Tab::make('Trashed')
                 ->modifyQueryUsing(fn (Builder $query) => $query->onlyTrashed()),
         ];

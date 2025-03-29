@@ -3,9 +3,9 @@
 namespace App\Models\Post;
 
 use App\Models\User;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class PostRating extends Model
 {
@@ -19,14 +19,14 @@ class PostRating extends Model
         parent::boot();
 
         // If the user is authenticated, set the user_id to the current user's id
-        static::saving(function ($model) {
+        self::saving(function ($model) {
             if (auth()->check()) {
                 $model->user_id = auth()->user()->id;
             }
         });
 
         // Update the post rating when a rating is saved
-        static::saved(function ($model) {
+        self::saved(function ($model) {
             $model->post()->update(['rating' => $model->getAvgRating()]);
         });
     }

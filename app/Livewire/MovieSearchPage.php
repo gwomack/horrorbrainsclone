@@ -154,6 +154,6 @@ class MovieSearchPage extends Component
      */
     public function render()
     {
-        return view('livewire.movie-search-page');
+        return view('livewire.page.movie-search-page');
     }
 }

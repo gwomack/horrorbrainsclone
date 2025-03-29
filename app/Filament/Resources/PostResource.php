@@ -11,8 +11,7 @@ use Filament\Tables;
 use Filament\Tables\Actions\Action;
 use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\HtmlString;
 use Illuminate\Support\Str;
 use Mokhosh\FilamentRating\Columns\RatingColumn;
 use Mokhosh\FilamentRating\RatingTheme;
@@ -62,6 +61,7 @@ class PostResource extends Resource
             ->filtersTriggerAction(function (Action $action) {
                 $action->button()->label('Filters');
             })
+            ->defaultSort('created_at', 'desc')
             ->columns([
                 SpatieMediaLibraryImageColumn::make('poster')
                     ->label('Poster')
@@ -72,7 +72,8 @@ class PostResource extends Resource
                 Tables\Columns\TextColumn::make('title')
                     ->searchable()
                     ->sortable()
-                    ->description(fn (Post $record) => Str::limit($record->description, 50)),
+                    ->description(fn (Post $record) => new HtmlString(Str::limit($record->description, 50)))
+                    ->html(),
                 Tables\Columns\TextColumn::make('slug')
                     ->label('Slug')
                     ->sortable()
@@ -142,16 +143,5 @@ class PostResource extends Resource
             'create' => Pages\CreatePost::route('/create'),
             'edit' => Pages\EditPost::route('/{record}/edit'),
         ];
-    }
-
-    /**
-     * Get the query builder for the resource.
-     */
-    public static function getEloquentQuery(): Builder
-    {
-        return parent::getEloquentQuery()
-            ->withoutGlobalScopes([
-                SoftDeletingScope::class,
-            ]);
     }
 }

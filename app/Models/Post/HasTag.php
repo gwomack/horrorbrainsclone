@@ -12,6 +12,7 @@ use App\Models\Tag\PostType;
 use App\Models\Tag\Production;
 use App\Models\Tag\SubGenre;
 use App\Models\Tag\Tag;
+use App\Models\Tag\TrendingHomePage;
 use App\Models\Tag\Writer;
 use App\Models\Tag\Year;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -140,6 +141,15 @@ trait HasTag
     public function distribution(): BelongsToMany
     {
         return $this->belongsToMany(Distribution::class, 'post_tags', 'post_id', 'tag_id')
+            ->using(PostTag::class);
+    }
+
+    /**
+     * Get the trending home pages for the post.
+     */
+    public function trendingHomePage(): BelongsToMany
+    {
+        return $this->belongsToMany(TrendingHomePage::class, 'post_tags', 'post_id', 'tag_id')
             ->using(PostTag::class);
     }
 }
