@@ -402,7 +402,7 @@ class MainSearchBar extends Component
     #[On('toggletagfromsite')]
     public function toggleTagFromSite($id, $content, $type)
     {
-        $tag = ['content' => $content, 'type' => UrlParamType::from($type)];
+        $tag = ['content' => $content, 'type' => $type];
 
         if (isset($this->selected[$id])) {
             unset($this->selected[$id]);

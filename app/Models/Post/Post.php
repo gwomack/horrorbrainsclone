@@ -2,6 +2,7 @@
 
 namespace App\Models\Post;
 
+use App\Models\Tag\Acting;
 use App\Models\Tag\Field;
 use App\Models\Tag\Tag;
 use App\Models\Tag\TagType;
@@ -11,10 +12,9 @@ use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Mokhosh\FilamentRating\Components\Rating;
 use Spatie\Image\Enums\Fit;
@@ -24,7 +24,10 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class Post extends Model implements HasMedia
 {
+    use HasEmbed;
     use HasFactory;
+    use HasRating;
+    use HasTag;
     use InteractsWithMedia;
     use SoftDeletes;
 
@@ -35,7 +38,13 @@ class Post extends Model implements HasMedia
     {
         parent::boot();
 
-        static::saving(function ($post) {
+        // Add global scope to order by release date by default
+        static::addGlobalScope('published', function ($query) {
+            $query->published();
+        });
+
+        // Save the published at date when the post is published
+        self::saving(function ($post) {
             if ($post->isDirty('is_published')) {
                 $post->published_at = $post->is_published ? now() : null;
             }
@@ -56,170 +65,47 @@ class Post extends Model implements HasMedia
     ];
 
     /**
+     * Scope a query to only include latest posts.
+     */
+    public function scopePublished($query)
+    {
+        return $query->where('is_published', true);
+    }
+
+    /**
+     * Get the is new attribute.
+     */
+    protected function isNew(): Attribute
+    {
+        return Attribute::make(
+            get: fn (mixed $value, array $attributes) => $attributes['created_at'] > now()->subDays(5),
+        );
+    }
+
+    /**
+     * Get the thumb badge attribute.
+     */
+    protected function thumbBadge(): Attribute
+    {
+        return Attribute::make(
+            get: function (mixed $value, array $attributes) {
+                return $this->is_new ? 'NEW' : '';
+            }
+        );
+    }
+
+    /**
      * Register media conversions.
      */
     public function registerMediaConversions(?Media $media = null): void
     {
-        $this
-            ->addMediaConversion('preview')
+        $this->addMediaConversion('preview')
             ->fit(Fit::Crop, 300, 300)
             ->nonQueued();
 
-        $this
-            ->addMediaConversion('thumbnail')
+        $this->addMediaConversion('thumbnail')
             ->fit(Fit::Crop, 150, 150)
             ->nonQueued();
-    }
-
-    /**
-     * Get the embeds for the post.
-     */
-    public function embeds(): HasMany
-    {
-        return $this->hasMany(Embed::class);
-    }
-
-    /**
-     * Get the tags for the post.
-     */
-    public function tags(): BelongsToMany
-    {
-        return $this->belongsToMany(Tag::class, 'post_tags')
-            ->using(PostTag::class);
-    }
-
-    /**
-     * Get the post tags for the post.
-     */
-    public function postTag(): HasMany
-    {
-        return $this->hasMany(PostTag::class);
-    }
-
-    /**
-     * Get the acting pivot for the post.
-     */
-    public function actingPivot(): HasMany
-    {
-        return $this->postTag()->whereHas('acting');
-    }
-
-    /**
-     * Get the directors for the post.
-     */
-    public function director(): BelongsToMany
-    {
-        return $this->tags()->whereHas('parents', function ($query) {
-            $query->where('slug', TagType::DIRECTOR->value);
-        });
-    }
-
-    /**
-     * Get the writers for the post.
-     */
-    public function writer(): BelongsToMany
-    {
-        return $this->tags()->whereHas('parents', function ($query) {
-            $query->where('slug', TagType::WRITER->value);
-        });
-    }
-
-    /**
-     * Get the production for the post.
-     */
-    public function production(): BelongsToMany
-    {
-        return $this->tags()->whereHas('parents', function ($query) {
-            $query->where('slug', TagType::PRODUCTION->value);
-        });
-    }
-
-    /**
-     * Get the actors for the post.
-     */
-    public function acting(): BelongsToMany
-    {
-        return $this->tags()->whereHas('parents', function ($query) {
-            $query->where('slug', TagType::ACTING->value);
-        })->withPivot('custom');
-    }
-
-    /**
-     * Get the countries for the post.
-     */
-    public function country(): BelongsToMany
-    {
-        return $this->tags()->whereHas('parents', function ($query) {
-            $query->where('slug', TagType::COUNTRY->value);
-        });
-    }
-
-    /**
-     * Get the languages for the post.
-     */
-    public function language(): BelongsToMany
-    {
-        return $this->tags()->whereHas('parents', function ($query) {
-            $query->where('slug', TagType::LANGUAGE->value);
-        });
-    }
-
-    /**
-     * Get the years for the post.
-     */
-    public function year(): BelongsToMany
-    {
-        return $this->tags()->whereHas('parents', function ($query) {
-            $query->where('slug', TagType::YEAR->value);
-        });
-    }
-
-    /**
-     * Get the sub genres for the post.
-     */
-    public function subGenre(): BelongsToMany
-    {
-        return $this->tags()->whereHas('parents', function ($query) {
-            $query->where('slug', TagType::SUB_GENRE->value);
-        });
-    }
-
-    /**
-     * Get the genres for the post.
-     */
-    public function genre(): BelongsToMany
-    {
-        return $this->tags()->whereHas('parents', function ($query) {
-            $query->where('slug', TagType::GENRE->value);
-        });
-    }
-
-    /**
-     * Get the post types for the post.
-     */
-    public function PostType(): BelongsToMany
-    {
-        return $this->tags()->whereHas('parents', function ($query) {
-            $query->where('slug', TagType::POST_TYPE->value);
-        });
-    }
-
-    /**
-     * Get the distributors for the post.
-     */
-    public function distribution(): BelongsToMany
-    {
-        return $this->tags()->whereHas('parents', function ($query) {
-            $query->where('slug', TagType::DISTRIBUTION->value);
-        });
-    }
-
-    /**
-     * Get the post ratings for the post.
-     */
-    public function postRatings(): HasMany
-    {
-        return $this->hasMany(PostRating::class);
     }
 
     /**
@@ -340,67 +226,82 @@ class Post extends Model implements HasMedia
                         ->multiple()
                         ->searchable()
                         ->relationship('genre', 'name')
-                        ->createOptionForm(Tag::getForm()),
+                        ->createOptionForm(Tag::getFormForNoParents())
+                        ->createOptionUsing(fn (array $data): int => self::saveTagAndParentAndGetKey($data, TagType::GENRE->value))
+                        ->dehydrated(false),
                     Forms\Components\Select::make('sub_genre')
                         ->label('Sub Genre')
                         ->multiple()
                         ->searchable()
                         ->relationship('subGenre', 'name')
-                        ->createOptionForm(Tag::getForm()),
+                        ->createOptionForm(Tag::getFormForNoParents())
+                        ->createOptionUsing(fn (array $data): int => self::saveTagAndParentAndGetKey($data, TagType::SUB_GENRE->value))
+                        ->dehydrated(false),
                     Forms\Components\Select::make('director')
                         ->label('Director')
                         ->multiple()
                         ->searchable()
                         ->relationship('director', 'name')
-                        ->createOptionForm(Tag::getForm()),
+                        ->createOptionForm(Tag::getFormForNoParents())
+                        ->createOptionUsing(fn (array $data): int => self::saveTagAndParentAndGetKey($data, TagType::DIRECTOR->value))
+                        ->dehydrated(false),
                     Forms\Components\Select::make('production')
                         ->label('Production')
                         ->multiple()
                         ->searchable()
                         ->relationship('production', 'name')
-                        ->createOptionForm(Tag::getForm()),
+                        ->createOptionForm(Tag::getFormForNoParents())
+                        ->createOptionUsing(fn (array $data): int => self::saveTagAndParentAndGetKey($data, TagType::PRODUCTION->value))
+                        ->dehydrated(false),
                     Forms\Components\Select::make('writer')
                         ->label('Writer')
                         ->multiple()
                         ->searchable()
                         ->relationship('writer', 'name')
-                        ->createOptionForm(Tag::getForm()),
+                        ->createOptionForm(Tag::getFormForNoParents())
+                        ->createOptionUsing(fn (array $data): int => self::saveTagAndParentAndGetKey($data, TagType::WRITER->value))
+                        ->dehydrated(false),
                     Forms\Components\Select::make('distribution')
                         ->label('Distribution')
                         ->multiple()
                         ->searchable()
                         ->relationship('distribution', 'name')
-                        ->createOptionForm(Tag::getForm()),
+                        ->createOptionForm(Tag::getFormForNoParents())
+                        ->createOptionUsing(fn (array $data): int => self::saveTagAndParentAndGetKey($data, TagType::DISTRIBUTION->value))
+                        ->dehydrated(false),
                     Forms\Components\Select::make('language')
                         ->label('Language')
                         ->multiple()
                         ->searchable()
                         ->relationship('language', 'name')
-                        ->createOptionForm(Tag::getForm()),
+                        ->createOptionForm(Tag::getFormForNoParents())
+                        ->createOptionUsing(fn (array $data): int => self::saveTagAndParentAndGetKey($data, TagType::LANGUAGE->value))
+                        ->dehydrated(false),
                     Forms\Components\Select::make('country')
                         ->label('Country')
                         ->multiple()
                         ->searchable()
                         ->relationship('country', 'name')
-                        ->createOptionForm(Tag::getForm()),
+                        ->createOptionForm(Tag::getForm())
+                        ->createOptionForm(Tag::getFormForNoParents())
+                        ->createOptionUsing(fn (array $data): int => self::saveTagAndParentAndGetKey($data, TagType::COUNTRY->value))
+                        ->dehydrated(false),
                     Forms\Components\Select::make('year')
                         ->label('Year')
                         ->searchable()
                         ->relationship('year', 'name')
-                        ->createOptionForm(Tag::getForm())
-                        // this is to make the post type a single select
-                        ->getOptionLabelFromRecordUsing(fn ($record) => $record->name)
+                        ->createOptionForm(Tag::getFormForNoParents())
+                        ->createOptionUsing(fn (array $data): int => self::saveTagAndParentAndGetKey($data, TagType::YEAR->value))
                         ->dehydrated(false),
                     Forms\Components\Select::make('post_type')
                         ->label('Post Type')
                         ->searchable()
                         ->relationship('postType', 'name')
-                        ->createOptionForm(Tag::getForm())
-                        // this is to make the post type a single select
-                        ->getOptionLabelFromRecordUsing(fn ($record) => $record->name)
+                        ->createOptionForm(Tag::getFormForNoParents())
+                        ->createOptionUsing(fn (array $data): int => self::saveTagAndParentAndGetKey($data, TagType::POST_TYPE->value))
                         ->dehydrated(false),
-                    Repeater::make('acting')
-                        ->relationship('actingPivot')
+                    Repeater::make('actingPivot')
+                        ->relationship()
                         ->label('Acting')
                         ->columnSpanFull()
                         ->schema([
@@ -411,9 +312,10 @@ class Post extends Model implements HasMedia
                                     Forms\Components\Select::make('tag_id')
                                         ->label('Actor')
                                         ->searchable()
-                                        ->options(Tag::query()->whereHas('parents', fn ($query) => $query->where('slug', TagType::ACTING->value))->pluck('name', 'id'))
+                                        ->options(Acting::pluck('name', 'id'))
                                         ->required()
-                                        ->createOptionForm(Tag::getForm())
+                                        ->createOptionForm(Tag::getFormForNoParents())
+                                        ->createOptionUsing(fn (array $data): int => self::saveTagAndParentAndGetKey($data, TagType::ACTING->value))
                                         ->columnSpan(3),
                                     Forms\Components\Select::make('custom.field')
                                         ->label('Field')
@@ -429,5 +331,25 @@ class Post extends Model implements HasMedia
                         ]),
                 ]),
         ];
+    }
+
+    /**
+     * Save the tag and parent and get the key.
+     */
+    protected static function saveTagAndParentAndGetKey(array $data, string $parentSlug): int
+    {
+        $tag = Tag::create([
+            'name' => $data['name'],
+            'slug' => $data['slug'],
+            'description' => $data['description'],
+        ]);
+
+        // Attach the acting parent
+        $actingParent = Tag::where('slug', $parentSlug)->first();
+        if ($actingParent) {
+            $tag->parents()->attach($actingParent->getKey());
+        }
+
+        return $tag->getKey();
     }
 }

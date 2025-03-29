@@ -3,19 +3,22 @@
 namespace App\Models\Tag;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Writer extends Tag
 {
     use HasFactory;
 
     /**
-     * Get the posts for the writer.
+     * The "booting" method of the model.
      */
-    public function posts(): BelongsToMany
+    public static function boot()
     {
-        return parent::posts()->whereHas('parents', function ($query) {
-            $query->where('name', 'Writer');
+        parent::boot();
+
+        self::addGlobalScope('writer', function ($query) {
+            $query->whereHas('parents', function ($query) {
+                $query->where('slug', TagType::WRITER->value);
+            });
         });
     }
 }

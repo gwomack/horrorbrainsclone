@@ -3,19 +3,22 @@
 namespace App\Models\Tag;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Director extends Tag
 {
     use HasFactory;
 
     /**
-     * Get the posts for the director.
+     * The "booting" method of the model.
      */
-    public function posts(): BelongsToMany
+    public static function boot()
     {
-        return parent::posts()->whereHas('parents', function ($query) {
-            $query->where('name', 'Director');
+        parent::boot();
+
+        self::addGlobalScope('director', function ($query) {
+            $query->whereHas('parents', function ($query) {
+                $query->where('slug', TagType::DIRECTOR->value);
+            });
         });
     }
 }

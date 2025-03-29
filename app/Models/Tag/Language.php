@@ -3,19 +3,22 @@
 namespace App\Models\Tag;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Language extends Tag
 {
     use HasFactory;
 
     /**
-     * Get the posts for the language.
+     * The "booting" method of the model.
      */
-    public function posts(): BelongsToMany
+    public static function boot()
     {
-        return parent::posts()->whereHas('parents', function ($query) {
-            $query->where('name', 'Language');
+        parent::boot();
+
+        self::addGlobalScope('language', function ($query) {
+            $query->whereHas('parents', function ($query) {
+                $query->where('slug', TagType::LANGUAGE->value);
+            });
         });
     }
 }

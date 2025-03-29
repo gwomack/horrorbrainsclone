@@ -10,13 +10,14 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Tag extends Model
 {
     use HasFactory;
     use SoftDeletes;
+
+    protected $table = 'tags';
 
     /**
      * The attributes that should be cast to native types.
@@ -33,18 +34,7 @@ class Tag extends Model
     public function posts(): BelongsToMany
     {
         return $this->belongsToMany(Post::class)
-            ->using(PostTag::class)
-            ->as('post_tag')
-            ->withPivot('id', 'post_id', 'tag_id')
-            ->withTimestamps();
-    }
-
-    /**
-     * Get the custom fields for the tag.
-     */
-    public function postTagCustomFields(): HasManyThrough
-    {
-        return $this->hasManyThrough(PostTagCustomField::class, PostTag::class);
+            ->using(PostTag::class);
     }
 
     /**
@@ -52,7 +42,7 @@ class Tag extends Model
      */
     public function parents(): BelongsToMany
     {
-        return $this->belongsToMany(Tag::class, 'tag_parents', 'tag_id', 'parent_id')
+        return $this->belongsToMany(self::class, 'tag_parents', 'tag_id', 'parent_id')
             ->using(TagParent::class);
     }
 
@@ -65,6 +55,30 @@ class Tag extends Model
     }
 
     /**
+     * Get the form for the tag without parents.
+     */
+    public static function getFormForNoParents(): array
+    {
+        return [
+            Forms\Components\TextInput::make('name')
+                ->label('Tag')
+                ->required()
+                ->maxLength(255)
+                ->live(debounce: 1000)
+                ->afterStateUpdated(function ($state, callable $set) {
+                    $set('slug', str()->slug($state));
+                }),
+            Forms\Components\TextInput::make('slug')
+                ->label('Slug')
+                ->required()
+                ->maxLength(255)
+                ->dehydrateStateUsing(fn ($state) => str()->slug($state)),
+            Forms\Components\Textarea::make('description')
+                ->label('Description'),
+        ];
+    }
+
+    /**
      * Get the form for the tag.
      */
     public static function getForm(): array
@@ -73,68 +87,15 @@ class Tag extends Model
             Section::make('Tag')
                 ->columns(2)
                 ->schema([
-                    Forms\Components\TextInput::make('name')
-                        ->label('Tag')
-                        ->required()
-                        ->maxLength(255)
-                        ->live(debounce: 1000)
-                        ->afterStateUpdated(function ($state, callable $set) {
-                            $set('slug', str()->slug($state));
-                        }),
-                    Forms\Components\TextInput::make('slug')
-                        ->label('Slug')
-                        ->required()
-                        ->maxLength(255)
-                        ->dehydrateStateUsing(fn ($state) => str()->slug($state)),
-                    Forms\Components\Textarea::make('description')
-                        ->label('Description'),
+                    ...self::getFormForNoParents(),
                     Forms\Components\Select::make('parent_id')
                         ->label('Parent')
                         ->relationship('parents', 'name', function ($query) {
                             $query->whereDoesntHave('parents');
                         })
                         ->multiple()
-                        ->searchable()
-                        ->dehydrated(false),
+                        ->searchable(),
                 ]),
-        ];
-    }
-
-    /**
-     * Get the form for the post tag.
-     */
-    public static function getCustomFieldsForm(): array
-    {
-        return [
-            Forms\Components\Select::make('field')
-                ->label('Field')
-                ->enum(Field::class)
-                ->options(Field::class)
-                ->default(Field::As)
-                ->required(),
-            Forms\Components\TextInput::make('value')
-                ->label('Value')
-                ->required(),
-            // Forms\Components\RichEditor::make('value')
-            //     ->label('Value')
-            //     ->required()
-            //     ->toolbarButtons([
-            //         // 'attachFiles',
-            //         // 'blockquote',
-            //         // 'bold',
-            //         // 'bulletList',
-            //         // 'codeBlock',
-            //         // 'h2',
-            //         // 'h3',
-            //         'italic',
-            //         // 'link',
-            //         // 'orderedList',
-            //         'redo',
-            //         // 'strike',
-            //         // 'underline',
-            //         'undo',
-            //     ])->inlineLabel()
-            //     ->extraInputAttributes(['class' => 'smaller-editor']),
         ];
     }
 }

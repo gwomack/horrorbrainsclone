@@ -1,21 +1,24 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Tag;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Genre extends Tag
 {
     use HasFactory;
 
     /**
-     * Get the posts for the genre.
+     * The "booting" method of the model.
      */
-    public function posts(): BelongsToMany
+    public static function boot()
     {
-        return parent::posts()->whereHas('parents', function ($query) {
-            $query->where('name', 'Genre');
+        parent::boot();
+
+        self::addGlobalScope('genre', function ($query) {
+            $query->whereHas('parents', function ($query) {
+                $query->where('slug', TagType::GENRE->value);
+            });
         });
     }
 }

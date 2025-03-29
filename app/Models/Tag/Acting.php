@@ -3,19 +3,20 @@
 namespace App\Models\Tag;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Acting extends Tag
 {
     use HasFactory;
 
-    /**
-     * Get the posts for the acting.
-     */
-    public function posts(): BelongsToMany
+    public static function boot()
     {
-        return parent::posts()->whereHas('parents', function ($query) {
-            $query->where('name', 'Acting');
+        parent::boot();
+
+        // this is to make the acting tag a single select
+        static::addGlobalScope('acting', function ($query) {
+            $query->whereHas('parents', function ($query) {
+                $query->where('slug', TagType::ACTING->value);
+            });
         });
     }
 }

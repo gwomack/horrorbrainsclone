@@ -3,19 +3,23 @@
 namespace App\Models\Tag;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class SubGenre extends Tag
 {
     use HasFactory;
 
     /**
-     * Get the posts for the sub genre.
+     * The "booting" method of the model.
      */
-    public function posts(): BelongsToMany
+    public static function boot()
     {
-        return parent::posts()->whereHas('parents', function ($query) {
-            $query->where('name', 'Sub Genre');
+        parent::boot();
+
+        // filter out the sub genre tags
+        self::addGlobalScope('sub_genre', function ($query) {
+            $query->whereHas('parents', function ($query) {
+                $query->where('slug', TagType::SUB_GENRE->value);
+            });
         });
     }
 }
