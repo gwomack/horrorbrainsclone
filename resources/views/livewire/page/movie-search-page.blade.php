@@ -55,13 +55,16 @@
 
         <!-- Two rows of movie blocks -->
         <div class="grid grid-cols-2 gap-2 mb-2 md:grid-cols-3">
-            @foreach ($this->movies as $movie)
+            @foreach ($movies as $movie)
             <x-movie.movie-block :movie="$movie" />
             @endforeach
         </div>
 
         <!-- Pagination Controls -->
-        @if($this->totalPages > 1)
+
+        {{ $movies->links() }}
+
+        {{-- @if($this->totalPages > 1)
         <div class="flex justify-center items-center pt-8 mt-8 space-x-2">
             <button wire:click="previousPage"
                 class="px-4 py-2 text-sm font-medium text-white bg-gray-800 rounded-md hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 disabled:opacity-50"
@@ -82,6 +85,6 @@
                     Next
                 </button>
         </div>
-        @endif
+        @endif --}}
     </section>
 </div>

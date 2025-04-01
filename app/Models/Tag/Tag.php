@@ -13,7 +13,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Support\Facades\Log;
 
 class Tag extends Model implements HasType
 {
@@ -64,8 +63,6 @@ class Tag extends Model implements HasType
     {
         return Attribute::make(
             get: function (mixed $value, array $attributes) {
-                Log::info('type', [debug_backtrace()[8]['function'], $value]);
-
                 return $this->getType();
             },
         );

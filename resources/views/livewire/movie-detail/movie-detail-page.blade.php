@@ -65,6 +65,17 @@
                         </div>
                     </div>
 
+                    <div class="flex gap-3 items-center">
+                        <div class="flex-none">
+                            <span class="text-gray-500">Subgenre:</span>
+                        </div>
+                        <div class="flex overflow-x-auto flex-nowrap flex-grow gap-3 scrollbar-hide">
+                            @foreach ($post->subgenre as $subgenre)
+                            <x-tag.tag :tag="$subgenre" />
+                            @endforeach
+                        </div>
+                    </div>
+
                     <!-- Cast -->
                     <div class="space-y-4">
                         {{-- <h2 class="mb-6 text-2xl font-bold text-white md:text-3xl">Main <span

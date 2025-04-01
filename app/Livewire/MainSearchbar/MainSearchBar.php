@@ -8,7 +8,6 @@ use App\View\Components\Tag\TagToUrlParameter;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Log;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\On;
 use Livewire\Component;
@@ -73,7 +72,8 @@ class MainSearchBar extends Component
     public function buildSelectedFromRequest($request = null)
     {
         $params = $this->urlHandler->getFromRequest($request ?? request());
-        $this->selected->replace($this->urlHandler->fromRequestToSelected($params));
+        $this->selected = $this->selected->replace($this->urlHandler->fromRequestToSelected($params));
+
     }
 
     /**
@@ -90,6 +90,7 @@ class MainSearchBar extends Component
         $this->buildSelectedFromRequest($request ?? request());
 
         $this->searchTags($this->input);
+
     }
 
     /**
@@ -345,11 +346,21 @@ class MainSearchBar extends Component
      * @param  string  $index
      * @return void
      */
-    public function addToSelectedFromIndex($index)
+    public function addToSelectedFromTagsIndex($index)
     {
         if (! isset($this->selected[$index])) {
             $this->selected[$index] = $this->tags[$index]->toArray();
         }
+    }
+
+    /**
+     * Add the tag to the selected tags
+     *
+     * @return void
+     */
+    public function addToSelected(array $tag)
+    {
+        $this->selected[$tag['id']] = $tag;
     }
 
     /**
@@ -417,7 +428,7 @@ class MainSearchBar extends Component
         if (isset($this->selected[$index])) {
             $this->removeFromSelectedFromIndex($index);
         } else {
-            $this->addToSelectedFromIndex($index);
+            $this->addToSelectedFromTagsIndex($index);
         }
         $this->resetInput();
         $this->closeDropdown();
@@ -444,9 +455,9 @@ class MainSearchBar extends Component
             $id = $tag->id;
 
             if (isset($this->selected[$id])) {
-                unset($this->selected[$id]);
+                $this->removeFromSelectedFromIndex($id);
             } else {
-                $this->selected[$id] = $tag->toArray();
+                $this->addToSelected($tag->toArray());
             }
         }
     }
@@ -470,8 +481,6 @@ class MainSearchBar extends Component
      */
     public function render()
     {
-        Log::info('render', [$this->selected]);
-
         return view('livewire.main-search-bar.main-search-bar');
     }
 

@@ -4,9 +4,12 @@ namespace App\Livewire;
 
 use App\Models\Post\Post;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class MovieSearchPage extends Component
 {
+    use WithPagination;
+
     /**
      * The selected tags
      *
@@ -40,21 +43,11 @@ class MovieSearchPage extends Component
     public $perPage = 12;
 
     /**
-     * Mount the component
-     *
-     * @return void
-     */
-    public function mount()
-    {
-        $this->selected = request()->all();
-    }
-
-    /**
      * Get the paginated movies
      *
      * @return array
      */
-    public function getMoviesProperty()
+    public function getMovies()
     {
         // This is a placeholder array - replace with actual movie data from your database
         $movies = collect();
@@ -163,6 +156,8 @@ class MovieSearchPage extends Component
      */
     public function render()
     {
-        return view('livewire.page.movie-search-page');
+        return view('livewire.page.movie-search-page', [
+            'movies' => $this->getMovies(),
+        ]);
     }
 }

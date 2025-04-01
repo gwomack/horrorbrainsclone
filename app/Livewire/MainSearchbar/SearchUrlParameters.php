@@ -4,6 +4,7 @@ namespace App\Livewire\MainSearchBar;
 
 use App\Livewire\UrlParamType;
 use App\Models\Tag\Tag;
+use App\View\Components\Tag\TagToUrlParameter;
 use Illuminate\Support\Collection;
 
 /**
@@ -51,16 +52,15 @@ class SearchUrlParameters
                 case UrlParamType::INPUT->value:
                     foreach ($values as $value) {
                         $prepareInputTag = ['name' => $value, 'type' => UrlParamType::INPUT];
-                        $tag = new Tag;
-                        $tag->fill([
+                        $tag = new TagToUrlParameter([
                             'id' => $checksum = $this->generateChecksum($prepareInputTag),
                             ...$prepareInputTag,
                         ]);
-                        $selected = $selected->replace([$checksum => $tag]);
+                        $selected = $selected->replace([$checksum => $tag->toArray()]);
                     }
                     break;
                 default:
-                    $selected = $selected->replace(Tag::whereIn('id', $values)->get()->keyBy('id'));
+                    $selected = $selected->replace(Tag::whereIn('id', $values)->get()->keyBy('id')->toArray());
             }
         }
 
