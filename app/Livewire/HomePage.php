@@ -63,9 +63,7 @@ class HomePage extends Component
             ->limit(3)
             ->get()
             ->map(function ($tag) {
-                $tag->posts->map(function ($post) {
-                    $post->year = optional($post->year->first())->name;
-                    $post->genre = optional($post->genre->first())->name;
+                $tag->posts->transform(function ($post) {
                     $post->description = Str::limit($post->description, 100);
                     $post->title = Str::limit($post->title, 50);
 

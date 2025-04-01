@@ -109,6 +109,30 @@ class Post extends Model implements HasMedia
     }
 
     /**
+     * Get the first year attribute.
+     */
+    protected function firstYear(): Attribute
+    {
+        return Attribute::make(
+            get: function (mixed $value, array $attributes) {
+                return $this->relationLoaded('year') ? $this->relations['year']->first()->name : '';
+            }
+        );
+    }
+
+    /**
+     * Get the first genre attribute.
+     */
+    protected function firstGenre(): Attribute
+    {
+        return Attribute::make(
+            get: function (mixed $value, array $attributes) {
+                return $this->relationLoaded('genre') ? $this->relations['genre']->first()->name : '';
+            }
+        );
+    }
+
+    /**
      * Get the media collections that should be registered.
      */
     public function registerMediaCollections(): void

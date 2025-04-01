@@ -25,7 +25,7 @@
             <p class="hidden text-sm text-gray-300 lg:block">{!! $movie->description !!}</p>
 
             <div class="flex justify-between items-center mt-3">
-                <span class="text-xs text-gray-400">{{ $movie->year }} • {{ $movie->genre }}</span>
+                <span class="text-xs text-gray-400">{{ $movie->firstYear }} • {{ $movie->firstGenre }}</span>
             </div>
 
         </div>

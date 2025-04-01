@@ -60,6 +60,7 @@ class MovieSearchPage extends Component
         $movies = collect();
 
         $movies = Post::query()
+            ->with(['year', 'genre'])
             ->when($this->filters['start_date'], function ($query) {
                 $query->where('release_date', '>=', $this->filters['start_date']);
             })
