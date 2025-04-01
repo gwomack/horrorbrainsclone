@@ -23,6 +23,7 @@ class RelationProvider extends ServiceProvider
         // Morph map for tags
         Relation::enforceMorphMap([
             // tag types
+            'tag' => 'App\Models\Tag\Tag',
             'genre' => 'App\Models\Tag\Genre',
             'director' => 'App\Models\Tag\Director',
             'acting' => 'App\Models\Tag\Acting',
@@ -34,6 +35,7 @@ class RelationProvider extends ServiceProvider
             'year' => 'App\Models\Tag\Year',
             'sub_genre' => 'App\Models\Tag\SubGenre',
             'post_type' => 'App\Models\Tag\PostType',
+            'trending_home_page' => 'App\Models\Tag\TrendingHomePage',
             // other models
             'user' => 'App\Models\User',
             'post' => 'App\Models\Post\Post',

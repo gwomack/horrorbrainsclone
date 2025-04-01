@@ -4,27 +4,35 @@ namespace App\Livewire\MainSearchBar;
 
 use App\Livewire\UrlParamType;
 use App\Models\Tag\Tag;
+use Illuminate\Support\Collection;
 
+/**
+ * Convert selected tags to URL parameters
+ */
 class SearchUrlParameters
 {
     /**
      * Convert selected tags to URL parameters
      */
-    public function toUrlParameters(array $selected): array
+    public function fromSelectedToUrl(Collection $selected): array
     {
         $params = [];
 
         foreach ($selected as $key => $tag) {
+
             $type = $tag['type']->value;
+
             if (! isset($params[$type])) {
                 $params[$type] = [];
             }
 
-            // For tag type, use the key (tag ID)
-            // For other types, use the content
-            $value = $type === UrlParamType::TAG->value ? $key : $tag['content'];
-            $params[$type][] = $value;
+            match ($type) {
+                UrlParamType::TAG->value => $params[$type][] = $key,
+                default => $params[$type][] = $tag['name'],
+            };
         }
+
+        // dd($selected, $params);
 
         return $params;
     }
@@ -32,46 +40,28 @@ class SearchUrlParameters
     /**
      * Convert URL parameters to selected tags format
      */
-    public function toSelected(array $params): array
+    public function fromRequestToSelected(array $params): Collection
     {
-        $selected = [];
-        $tagIds = [];
-        $inputValues = [];
+        $selected = collect();
 
         // First pass: collect all tag IDs and input values
         foreach ($params as $type => $values) {
-            foreach ($values as $value) {
-                switch ($type) {
-                    case UrlParamType::TAG->value:
-                        $tagIds[] = $value;
-                        break;
-                    case UrlParamType::INPUT->value:
-                        $inputValues[] = $value;
-                        break;
-                }
+            // dd($type, $values);
+            switch ($type) {
+                case UrlParamType::INPUT->value:
+                    foreach ($values as $value) {
+                        $prepareInputTag = ['name' => $value, 'type' => UrlParamType::INPUT];
+                        $tag = new Tag;
+                        $tag->fill([
+                            'id' => $checksum = $this->generateChecksum($prepareInputTag),
+                            ...$prepareInputTag,
+                        ]);
+                        $selected = $selected->replace([$checksum => $tag]);
+                    }
+                    break;
+                default:
+                    $selected = $selected->replace(Tag::whereIn('id', $values)->get()->keyBy('id'));
             }
-        }
-
-        // Batch fetch all tags at once
-        if (! empty($tagIds)) {
-            $tags = Tag::whereIn('id', $tagIds)->get()->keyBy('id');
-
-            // Process tags
-            foreach ($tagIds as $tagId) {
-                if (isset($tags[$tagId])) {
-                    $selected[$tagId] = [
-                        'content' => $tags[$tagId]->name,
-                        'type' => UrlParamType::TAG,
-                    ];
-                }
-            }
-        }
-
-        // Process input values
-        foreach ($inputValues as $value) {
-            $tag = ['content' => $value, 'type' => UrlParamType::INPUT];
-            $checksum = $this->generateChecksum($tag);
-            $selected[$checksum] = $tag;
         }
 
         return $selected;
@@ -80,7 +70,7 @@ class SearchUrlParameters
     /**
      * Generate a checksum for a tag
      */
-    protected function generateChecksum(array $tag): string
+    public function generateChecksum(array $tag): string
     {
         return hash('crc32b', json_encode($tag));
     }
@@ -111,10 +101,9 @@ class SearchUrlParameters
     /**
      * Clean a single parameter value
      *
-     * @param  mixed  $value
-     * @return mixed
+     * @return string|array
      */
-    protected function cleanParameter($value)
+    protected function cleanParameter(array|string $value)
     {
         if (is_array($value)) {
             // Clean each array element
@@ -139,24 +128,6 @@ class SearchUrlParameters
     }
 
     /**
-     * Clean URL parameters
-     */
-    public function cleanParameters(array $params): array
-    {
-        $cleaned = [];
-
-        foreach ($params as $type => $values) {
-            $cleanedValue = $this->cleanParameter($values);
-
-            if (! empty($cleanedValue)) {
-                $cleaned[$type] = $cleanedValue;
-            }
-        }
-
-        return $cleaned;
-    }
-
-    /**
      * Get URL parameters from request
      *
      * @param  \Illuminate\Http\Request  $request
@@ -165,13 +136,19 @@ class SearchUrlParameters
     {
         $params = [];
 
-        foreach (UrlParamType::cases() as $type) {
-            $value = $request->get($type->value);
-            if (! empty($value)) {
-                $params[$type->value] = is_array($value) ? $value : [$value];
+        foreach ($request->all() as $key => $value) {
+            if (is_array($value)) {
+                foreach ($value as $v) {
+                    $cleanedKey = $this->cleanParameter($key);
+                    $cleanedValue = $this->cleanParameter($v);
+                    $params[UrlParamType::fromTagTypeValue($cleanedKey)->value][] = $cleanedValue;
+                }
+                $cleanedKey = $this->cleanParameter($key);
+                $params[UrlParamType::fromTagTypeValue($cleanedKey)->value] =
+                    array_unique($params[UrlParamType::fromTagTypeValue($cleanedKey)->value]);
             }
         }
 
-        return $this->cleanParameters($params);
+        return $params;
     }
 }

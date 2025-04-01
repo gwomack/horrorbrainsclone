@@ -3,39 +3,47 @@
     wire:keydown.backspace="removeLastTag" wire:keydown.cmd.shift.backspace.prevent="resetTags"
     wire:keydown.ctrl.shift.backspace.prevent="resetTags"
     x-on:keydown.enter.stop.prevent="$wire.submitSearch()"
-    x-on:keydown.tab.stop.prevent="$wire.toggleTagByInternalIndex()"
+    x-on:keydown.tab.stop.prevent="$wire.pushInputToSelected()"
     wire:keydown.down.stop.prevent="nextTagByIndex" wire:keydown.up.stop.prevent="previousTagByIndex">
 
     <div class="overflow-x-auto flex-1 cursor-text">
         <div class="flex flex-nowrap gap-1 items-center mr-3">
 
-            @foreach($selected as $index => $tag)
-            <x-tag.tag :id="$index" :content="$tag['content']" :type="$tag['type']" />
+            @foreach($selected ?? [] as $index => $urlParameter)
+            <x-tag.url-parameter :urlParameter="$urlParameter" />
             @endforeach
 
             <input type="text" wire:model.live.debounce.100ms="input"
                 class="flex-grow p-2 text-lg leading-none text-white bg-black border-none focus:ring-0 focus:outline-none text-nowrap"
                 x-ref="MainInputSearch"
-                @scrollmaininputsearch.window="$refs.MainInputSearch.scrollIntoView({ behavior: 'smooth', block: 'center' });" />
+                @scrollmaininputsearch.window="$refs.MainInputSearch.scrollIntoView({ behavior: 'smooth', block: 'center' });"
+                />
         </div>
     </div>
 
     <!-- Tags List -->
-    <div class="overflow-y-auto absolute left-0 top-16 z-50 p-2 mt-1 w-full max-h-96 bg-black border border-white shadow-lg min-w-48"
+    <div class="overflow-y-auto absolute left-0 top-full z-50 p-2 mt-1 w-full max-h-96 bg-black border border-white shadow-lg min-w-48"
         x-data="{ hoverIndex: @entangle('index'), showDropdown: @entangle('showDropdown') }"
-        x-show="showDropdown">
-        @foreach($tags as $index => $tag)
-        <button type="button" wire:key="tag-{{ $index }}" class="w-full lg:p-3 rounded-lg text-left text-white hover:bg-red-900
+        x-show="showDropdown"
+        x-ref="MainDropdown"
+        @scrollmaindropdownup.window="$refs.MainDropdown.scrollTop -= $refs['MainDropdownButton-' + hoverIndex ].offsetTop;"
+        @scrollmaindropdowndown.window="$refs.MainDropdown.scrollTop += $refs['MainDropdownButton-' + hoverIndex ].offsetTop;"
+        >
+
+        @foreach($tags ?? [] as $index => $tag)
+        <button type="button" wire:key="'tag-' . $index" class="w-full lg:p-3 rounded-lg text-left text-white hover:bg-red-900
             {{ $this->isSelected($index) ? 'bg-red-800/30' : '' }}"
-            :class="{ 'bg-red-800': hoverIndex == {{ $index }} }"
+            :class="{ '!bg-red-800': hoverIndex == {{ $index }} }"
             wire:click.prevent="$dispatch('toggletag', [{{ $index }}])" @mouseenter="hoverIndex = {{ $index }}"
-            @mouseleave="hoverIndex = null" :class="{ 'bg-red-800': hoverIndex === {{ $index }} }">
+            :class="{ 'bg-red-800': hoverIndex == {{ $index }} }"
+            x-ref="MainDropdownButton-{{ $index }}"
+            >
 
             <div class="flex items-center">
                 @if($this->isSelected($index))
                 <i class="mr-2 text-red-500 fas fa-check"></i>
                 @endif
-                <i class="pr-1 fas fa-tag"></i> {{ $tag['content'] }}
+                <i class="pr-1 fas fa-tag"></i> {{ $tag->name }}
             </div>
 
         </button>

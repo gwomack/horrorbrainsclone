@@ -30,7 +30,7 @@
 
         </div>
 
-        <a href="{{ route('movie.details', $movie->getKey()) }}" wire:navigate>
+        <a href="{{ route('movie.details', $movie->slug) }}" wire:navigate>
             <img src="{{ $movie->getFirstMediaUrl('images', 'thumbnail') }}" alt="{{ $movie->title }}" class="object-cover w-full h-full">
         </a>
 

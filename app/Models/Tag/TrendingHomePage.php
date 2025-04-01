@@ -8,12 +8,14 @@ class TrendingHomePage extends Tag
 {
     use HasFactory;
 
+    protected $table = 'tags';
+
     public static function boot()
     {
         parent::boot();
 
         // this is to make the acting tag a single select
-        static::addGlobalScope('trending_home_page', function ($query) {
+        self::addGlobalScope('trending_home_page', function ($query) {
             $query->whereHas('parents', function ($query) {
                 $query->where('slug', TagType::TRENDING_HOME_PAGE->value);
             });

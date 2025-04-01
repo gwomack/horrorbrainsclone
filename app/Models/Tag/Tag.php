@@ -4,19 +4,33 @@ namespace App\Models\Tag;
 
 use App\Models\Post\Post;
 use App\Models\Post\PostTag;
+use Database\Factories\Tag\TagFactory;
 use Filament\Forms;
 use Filament\Forms\Components\Section;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Log;
 
-class Tag extends Model
+class Tag extends Model implements HasType
 {
     use HasFactory;
     use SoftDeletes;
 
+    /**
+     * The factory for the model.
+     */
+    protected static function newFactory()
+    {
+        return TagFactory::new();
+    }
+
+    /**
+     * The table associated with the model.
+     */
     protected $table = 'tags';
 
     /**
@@ -29,11 +43,40 @@ class Tag extends Model
     ];
 
     /**
+     * The attributes that should be appended to the model.
+     */
+    protected $appends = [
+        'type',
+    ];
+
+    /**
+     * Get the type of the tag.
+     */
+    public function getType(): TagType
+    {
+        return TagType::TAG;
+    }
+
+    /**
+     * Get the type of the tag.
+     */
+    protected function type(): Attribute
+    {
+        return Attribute::make(
+            get: function (mixed $value, array $attributes) {
+                Log::info('type', [debug_backtrace()[8]['function'], $value]);
+
+                return $this->getType();
+            },
+        );
+    }
+
+    /**
      * Get the posts for the tag.
      */
     public function posts(): BelongsToMany
     {
-        return $this->belongsToMany(Post::class)
+        return $this->belongsToMany(Post::class, 'post_tags', 'tag_id', 'post_id')
             ->using(PostTag::class);
     }
 

@@ -58,95 +58,25 @@ use App\Models\Post\Post;
 
     </section>
 
-    <!-- Mood-Based Tags Section -->
-    <section class="py-12 bg-black">
-        <div class="flex justify-between items-center mb-8">
-            <h2 class="text-2xl font-bold text-white md:text-3xl">Disturbing <span class="blood-red">&
-                    Unsettling</span></h2>
-            <a href="#" class="flex items-center text-sm text-gray-400 hover:text-white">
-                View All <i class="ml-2 fas fa-arrow-right"></i>
-            </a>
-        </div>
-        <!-- Two rows of movie blocks -->
-        <div class="grid grid-cols-2 gap-2 mb-2 md:grid-cols-3 lg:grid-cols-4">
-                @for ($j = 1; $j <= 6; $j++)
-                    <x-movie.movie-block :movie="new Post([
-                        'id' => $j,
-                        'title' => 'Mood Movie ' . $j,
-                        'rating' => 4.5,
-                        'description' => 'A gripping horror story that will keep you on the edge of your seat.',
-                        'year' => '2024',
-                        'genre' => 'Horror/Thriller',
-                        'thumbBadge' => 'NEW'
-                    ])" />
-            @endfor
-        </div>
+    @foreach ($trendingHomePageTags as $thpTag)
+        <section class="py-12 bg-black">
+            <div class="flex justify-between items-center mb-8">
+                <h2 class="text-2xl font-bold text-white md:text-3xl">
+                    {!! $this->getTrendingTitle($thpTag->name) !!}
+                </h2>
+                <a href="#" class="flex items-center text-sm text-gray-400 hover:text-white">
+                    View All <i class="ml-2 fas fa-arrow-right"></i>
+                </a>
+            </div>
 
-        <!-- Specific Situations Section -->
-        <div class="grid grid-cols-2 gap-2 mb-2 md:grid-cols-3 lg:grid-cols-4">
-            @for ($j = 1; $j <= 6; $j++)
-                <x-movie.movie-block :movie="new Post([
-                    'id' => $j,
-                    'title' => 'Situation Movie ' . $j,
-                    'rating' => 4.5,
-                    'description' => 'A gripping horror story that will keep you on the edge of your seat.',
-                    'year' => '2024',
-                    'genre' => 'Horror/Thriller',
-                    'thumbBadge' => 'NEW'
-                ])" />
-            @endfor
-        </div>
-    </section>
-
-    <!-- Unique Themes Section -->
-    <section class="py-12 bg-black">
-        <div class="flex justify-between items-center mb-8">
-            <h2 class="text-2xl font-bold text-white md:text-3xl">Retro Horror <span class="blood-red">Classics</span>
-            </h2>
-            <a href="#" class="flex items-center text-sm text-gray-400 hover:text-white">
-                View All <i class="ml-2 fas fa-arrow-right"></i>
-            </a>
-        </div>
-        <!-- Two rows of movie blocks -->
-        <div class="grid grid-cols-2 gap-2 mb-2 md:grid-cols-3 lg:grid-cols-4">
-            @for ($j = 1; $j <= 6; $j++)
-                <x-movie.movie-block :movie="new Post([
-                    'id' => $j,
-                    'title' => 'Theme Movie ' . $j,
-                    'rating' => 4.5,
-                    'description' => 'A gripping horror story that will keep you on the edge of your seat.',
-                    'year' => '2024',
-                    'genre' => 'Horror/Thriller',
-                    'thumbBadge' => 'NEW'
-                ])" />
-            @endfor
-        </div>
-    </section>
-
-    <!-- Specific Situations Section -->
-    <section class="py-12 bg-black">
-        <div class="flex justify-between items-center mb-8">
-            <h2 class="text-2xl font-bold text-white md:text-3xl">Small Town <span class="blood-red">Terrors</span>
-            </h2>
-            <a href="#" class="flex items-center text-sm text-gray-400 hover:text-white">
-                View All <i class="ml-2 fas fa-arrow-right"></i>
-            </a>
-        </div>
-        <!-- Two rows of movie blocks -->
-        <div class="grid grid-cols-2 gap-2 mb-2 md:grid-cols-3 lg:grid-cols-4">
-            @for ($j = 1; $j <= 6; $j++)
-                <x-movie.movie-block :movie="new Post([
-                    'id' => $j,
-                    'title' => 'Situation Movie ' . $j,
-                    'rating' => 4.5,
-                    'description' => 'A gripping horror story that will keep you on the edge of your seat.',
-                    'year' => '2024',
-                    'genre' => 'Horror/Thriller',
-                    'thumbBadge' => 'NEW'
-                ])" />
-            @endfor
-        </div>
-    </section>
+            <div class="grid grid-cols-2 gap-2 mb-2 md:grid-cols-3 lg:grid-cols-4">
+            @foreach ($thpTag->posts as $post)
+                <!-- Two rows of movie blocks -->
+                <x-movie.movie-block :movie="$post" />
+            @endforeach
+            </div>
+        </section>
+    @endforeach
 
     <!-- Pagination -->
     {{-- <div class="flex justify-center items-center mt-8 space-x-2">

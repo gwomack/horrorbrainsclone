@@ -43,7 +43,8 @@ trait HasTag
     public function acting(): BelongsToMany
     {
         return $this->belongsToMany(Acting::class, 'post_tags', 'post_id', 'tag_id')
-            ->using(PostTag::class);
+            ->using(PostTag::class)
+            ->withPivot('custom');
     }
 
     /**

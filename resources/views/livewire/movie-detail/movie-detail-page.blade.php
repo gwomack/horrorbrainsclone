@@ -11,13 +11,13 @@
         <div class="lg:col-span-2">
             <div>
                 <h1 class="text-4xl font-bold tracking-tight text-white md:text-6xl horror-title blood-red">
-                    The Haunting of Willow Creek
+                    {{ $post->title }}
                 </h1>
             </div>
 
             <div class="mt-6">
                 <!-- Hero Section with Movie Poster -->
-                <livewire:photo-gallery />
+                <livewire:photo-gallery :post="$post" />
             </div>
 
             <!-- Movie Info -->
@@ -36,9 +36,9 @@
                     </div>
                     <div class="flex items-center space-x-2">
                         <span class="text-gray-500">Release:</span>
-                        <span class="text-gray-300">March 15, 2024</span>
+                        <span class="text-gray-300">{{ $post->release_date->format('m/d/Y') }}</span>
                     </div>
-                    <x-tag.tag id="200" content="2024" :type="UrlParamType::TAG" />
+                    <x-tag.tag :tag="$post->year->first()" />
                 </div>
 
                 <!-- Synopsis -->
@@ -46,12 +46,7 @@
                     {{-- <h2 class="mb-6 text-2xl font-bold text-white md:text-3xl">Movie <span
                             class="blood-red">Synopsis</span></h2> --}}
                     <p class="leading-relaxed text-gray-300">
-                        After inheriting an old Victorian mansion in the remote town of Willow Creek, Sarah Thompson and
-                        her family move in, hoping for a fresh start. But the house holds dark secrets. As strange
-                        occurrences begin to plague their daily lives, Sarah discovers that the mansion was once a
-                        sanctuary for troubled souls, and some of them never left. With the help of a local historian
-                        and a paranormal investigator, she must uncover the truth before her family becomes the next
-                        victims of the house's malevolent past.
+                        {!! $post->description !!}
                     </p>
                 </div>
 
@@ -64,16 +59,9 @@
                             <span class="text-gray-500">Genre:</span>
                         </div>
                         <div class="flex overflow-x-auto flex-nowrap flex-grow gap-3 scrollbar-hide">
-                            <x-tag.tag id="1" content="Haunted House" :type="UrlParamType::TAG" />
-                            <x-tag.tag id="2" content="Supernatural" :type="UrlParamType::TAG" />
-                            <x-tag.tag id="3" content="Family Drama" :type="UrlParamType::TAG" />
-                            <x-tag.tag id="4" content="Psychological" :type="UrlParamType::TAG" />
-                            <x-tag.tag id="5" content="Supernatural Horror" :type="UrlParamType::TAG" />
-                            <x-tag.tag id="6" content="Supernatural Horror" :type="UrlParamType::TAG" />
-                            <x-tag.tag id="7" content="Supernatural Horror" :type="UrlParamType::TAG" />
-                            <x-tag.tag id="8" content="Supernatural Horror" :type="UrlParamType::TAG" />
-                            <x-tag.tag id="9" content="Supernatural Horror" :type="UrlParamType::TAG" />
-                            <x-tag.tag id="10" content="Supernatural Horror" :type="UrlParamType::TAG" />
+                            @foreach ($post->genre as $genre)
+                            <x-tag.tag :tag="$genre" />
+                            @endforeach
                         </div>
                     </div>
 
@@ -87,42 +75,15 @@
                                     <span class="text-gray-500">Acting:</span>
                                 </div>
                                 <div class="flex overflow-x-auto flex-nowrap flex-grow gap-1 scrollbar-hide">
+                                    @foreach ($post->acting as $acting)
                                     <div class="p-1 text-center">
-                                        <x-tag.tag id="100" content="Emily Blunt" :type="UrlParamType::TAG" />
-                                        <p class="text-sm text-gray-400 text-nowrap"><span class="italic">as</span>
-                                            Sarah Thompson</p>
+                                        <x-tag.tag :tag="$acting" />
+                                        <p class="text-sm text-gray-400 text-nowrap">
+                                            <span class="italic">{{ $acting->pivot->custom['field'] ?? '' }}</span>
+                                            {{ $acting->pivot->custom['value'] ?? '' }}
+                                        </p>
                                     </div>
-                                    <div class="p-1 text-center">
-                                        <x-tag.tag id="101" content="Michael Fassbender"
-                                            :type="UrlParamType::TAG" />
-                                        <p class="text-sm text-gray-400 text-nowrap"><span class="italic">as</span>
-                                            David Thompson</p>
-                                    </div>
-                                    <div class="p-1 text-center">
-                                        <x-tag.tag id="102" content="Viola Davis" :type="UrlParamType::TAG" />
-                                        <p class="text-sm text-gray-400 text-nowrap"><span class="italic">as</span> Dr.
-                                            Margaret Chen</p>
-                                    </div>
-                                    <div class="p-1 text-center">
-                                        <x-tag.tag id="103" content="James McAvoy" :type="UrlParamType::TAG" />
-                                        <p class="text-sm text-gray-400 text-nowrap"><span class="italic">as</span>
-                                            Marcus Bennett</p>
-                                    </div>
-                                    <div class="p-1 text-center">
-                                        <x-tag.tag id="104" content="Daniel Kaluuya" :type="UrlParamType::TAG" />
-                                        <p class="text-sm text-gray-400 text-nowrap"><span class="italic">as</span>
-                                            Marcus Bennett</p>
-                                    </div>
-                                    <div class="p-1 text-center">
-                                        <x-tag.tag id="105" content="Daniel Kaluuya" :type="UrlParamType::TAG" />
-                                        <p class="text-sm text-gray-400 text-nowrap"><span class="italic">as</span>
-                                            Marcus Bennett</p>
-                                    </div>
-                                    <div class="p-1 text-center">
-                                        <x-tag.tag id="106" content="Daniel Kaluuya" :type="UrlParamType::TAG" />
-                                        <p class="text-sm text-gray-400 text-nowrap"><span class="italic">as</span>
-                                            Marcus Bennett</p>
-                                    </div>
+                                    @endforeach
                                 </div>
                             </div>
                         </div>
@@ -135,8 +96,9 @@
                                             <span class="text-gray-500">Production:</span>
                                         </div>
                                         <div class="flex overflow-x-auto flex-nowrap flex-grow gap-3 scrollbar-hide">
-                                            <x-tag.tag id="301" content="New Line Cinema"
-                                                :type="UrlParamType::TAG" />
+                                            @foreach ($post->production as $production)
+                                            <x-tag.tag :tag="$production" />
+                                            @endforeach
                                         </div>
                                     </div>
                                 </div>
@@ -146,8 +108,9 @@
                                             <span class="text-gray-500">Distribution:</span>
                                         </div>
                                         <div class="flex overflow-x-auto flex-nowrap flex-grow gap-3 scrollbar-hide">
-                                            <x-tag.tag id="301" content="Warner Bros. Pictures"
-                                                :type="UrlParamType::TAG" />
+                                            @foreach ($post->distribution as $distribution)
+                                            <x-tag.tag :tag="$distribution" />
+                                            @endforeach
                                         </div>
                                     </div>
                                 </div>
@@ -159,7 +122,9 @@
                                         <span class="text-gray-500">Director:</span>
                                     </div>
                                     <div class="flex overflow-x-auto flex-nowrap flex-grow gap-3 scrollbar-hide">
-                                        <x-tag.tag id="300" content="John Doe" :type="UrlParamType::TAG" />
+                                        @foreach ($post->director as $director)
+                                        <x-tag.tag :tag="$director" />
+                                        @endforeach
                                     </div>
                                 </div>
                                 <div class="flex gap-3 items-center">
@@ -167,7 +132,9 @@
                                         <span class="text-gray-500">Writer:</span>
                                     </div>
                                     <div class="flex overflow-x-auto flex-nowrap flex-grow gap-3 scrollbar-hide">
-                                        <x-tag.tag id="301" content="Jane Doe" :type="UrlParamType::TAG" />
+                                        @foreach ($post->writer as $writer)
+                                        <x-tag.tag :tag="$writer" />
+                                        @endforeach
                                     </div>
                                 </div>
                             </div>
@@ -179,8 +146,9 @@
                                             <span class="text-gray-500">Country:</span>
                                         </div>
                                         <div class="flex overflow-x-auto flex-nowrap flex-grow gap-3 scrollbar-hide">
-                                            <x-tag.tag id="301" content="United States"
-                                                :type="UrlParamType::TAG" />
+                                            @foreach ($post->country as $country)
+                                            <x-tag.tag :tag="$country" />
+                                            @endforeach
                                         </div>
                                     </div>
                                 </div>
@@ -190,7 +158,9 @@
                                             <span class="text-gray-500">Language:</span>
                                         </div>
                                         <div class="flex overflow-x-auto flex-nowrap flex-grow gap-3 scrollbar-hide">
-                                            <x-tag.tag id="301" content="English" :type="UrlParamType::TAG" />
+                                            @foreach ($post->language as $language)
+                                            <x-tag.tag :tag="$language" />
+                                            @endforeach
                                         </div>
                                     </div>
                                 </div>
@@ -360,12 +330,12 @@
                 <h2 class="mb-6 text-2xl font-bold text-white md:text-3xl">Similar <span class="blood-red">Movies</span>
                 </h2>
                 <div class="space-y-4">
-                    <x-movie-block title="The Conjuring"
+                    <x-movie.movie-block title="The Conjuring"
                         image="https://m.media-amazon.com/images/M/MV5BMTY5NjI5NjY5Ml5BMl5BanBnXkFtZTgwNjY5NjI5NjY5._V1_.jpg"
                         rating="5.0"
                         description="A chilling tale of a family haunted by a dark presence in their farmhouse."
                         year="2013" genre="Supernatural Horror" badge="TRENDING" />
-                    <x-movie-block title="Insidious"
+                    <x-movie.movie-block title="Insidious"
                         image="https://m.media-amazon.com/images/M/MV5BMTY5NjI5NjY5Ml5BMl5BanBnXkFtZTgwNjY5NjI5NjY5._V1_.jpg"
                         rating="4.0"
                         description="A family discovers their son has the ability to travel to the spirit world."

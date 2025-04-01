@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Models\Post\Post;
 use Livewire\Component;
 
 class MovieSearchPage extends Component
@@ -56,22 +57,29 @@ class MovieSearchPage extends Component
     public function getMoviesProperty()
     {
         // This is a placeholder array - replace with actual movie data from your database
-        $movies = [];
-        for ($i = 1; $i <= 50; $i++) {
-            $movies[] = [
-                'title' => "Mood Movie {$i}",
-                'image' => 'https://m.media-amazon.com/images/M/MV5BNzM0OGZiZWItYmZiNC00NDgzLTg1MjMtYjM4MWZhOGZhMDUwXkEyXkFqcGdeQXVyMTkxNjUyNQ@@._V1_.jpg',
-                'rating' => '4.5',
-                'description' => 'A gripping horror story that will keep you on the edge of your seat.',
-                'year' => '2024',
-                'genre' => 'Horror/Thriller',
-                'badge' => 'NEW',
-            ];
-        }
+        $movies = collect();
 
-        $start = ($this->page - 1) * $this->perPage;
+        $movies = Post::query()
+            ->when($this->filters['start_date'], function ($query) {
+                $query->where('release_date', '>=', $this->filters['start_date']);
+            })
+            ->when($this->filters['end_date'], function ($query) {
+                $query->where('release_date', '<=', $this->filters['end_date']);
+            })
+            ->when($this->filters['rating'], function ($query) {
+                $query->where('rating', '>=', $this->filters['rating']);
+            })->when(isset($this->selected[UrlParamType::TAG->value]), function ($query) {
+                $query->whereHas('tags', function ($query) {
+                    $tagIds = $this->selected[UrlParamType::TAG->value];
+                    $query->whereIn('tags.id', $tagIds);
+                });
+            })->when(isset($this->selected[UrlParamType::INPUT->value]), function ($query) {
+                $input = $this->selected[UrlParamType::INPUT->value];
+                $query->where('title', 'like', '%'.$input.'%')
+                    ->orWhere('description', 'like', '%'.$input.'%');
+            })->paginate($this->perPage);
 
-        return array_slice($movies, $start, $this->perPage);
+        return $movies;
     }
 
     /**

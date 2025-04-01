@@ -5,8 +5,8 @@ use App\Livewire\MovieDetailPage;
 use App\Livewire\MovieSearchPage;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', HomePage::class);
+Route::get('/', HomePage::class)->name('home');
 
 Route::get('/search', MovieSearchPage::class)->name('movie.search');
 
-Route::get('/{id?}', MovieDetailPage::class)->name('movie.details');
+Route::get('/{post?}', MovieDetailPage::class)->name('movie.details');

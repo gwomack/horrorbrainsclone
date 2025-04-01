@@ -2,6 +2,7 @@
 
 namespace App\Models\Post;
 
+use App\Forms\Components\MyRating;
 use App\Models\Tag\Acting;
 use App\Models\Tag\Field;
 use App\Models\Tag\Tag;
@@ -47,6 +48,11 @@ class Post extends Model implements HasMedia
         self::saving(function ($post) {
             if ($post->isDirty('is_published')) {
                 $post->published_at = $post->is_published ? now() : null;
+            }
+
+            // Set default rating to 0 for new posts
+            if (! $post->exists && ! $post->rating) {
+                $post->rating = 0;
             }
         });
     }
@@ -131,8 +137,8 @@ class Post extends Model implements HasMedia
                         ->required()
                         ->maxLength(255)
                         ->columns(1)
-                        ->live(debounce: 1000)
-                        ->afterStateUpdated(function ($state, callable $set) {
+                        ->live(onBlur: true)
+                        ->afterStateUpdated(function ($state, Forms\Set $set) {
                             $set('slug', str()->slug($state));
                         }),
                     Forms\Components\TextInput::make('slug')
@@ -159,15 +165,10 @@ class Post extends Model implements HasMedia
                             Forms\Components\DatePicker::make('release_date')
                                 ->native(false)
                                 ->columns(1),
+                            // MyRating::make('rating')
+                            //     ->label('My Rating'),
                             Rating::make('rating')
                                 ->label('Rating')
-                                ->dehydrated(false)
-                                ->beforeStateDehydrated(function ($state, $record) {
-                                    $record->postRatings()->updateOrCreate(
-                                        ['user_id' => auth()->user()->id],
-                                        ['rating' => $state]
-                                    );
-                                })
                                 ->required()
                                 ->stars(5),
                         ]),
@@ -190,6 +191,7 @@ class Post extends Model implements HasMedia
                                 ->preload(),
                             Forms\Components\TextInput::make('embed')
                                 ->label('Embed Video')
+                                ->required()
                                 ->columnSpan(2)
                                 ->placeholder('https://www.youtube.com/watch?v=...')
                                 ->helperText('Enter the video ID'),

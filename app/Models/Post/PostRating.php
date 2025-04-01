@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Facades\Auth;
 
 class PostRating extends Model
 {
@@ -20,8 +21,8 @@ class PostRating extends Model
 
         // If the user is authenticated, set the user_id to the current user's id
         self::saving(function ($model) {
-            if (auth()->check()) {
-                $model->user_id = auth()->user()->id;
+            if (Auth::check()) {
+                $model->user_id = Auth::id();
             }
         });
 
@@ -39,7 +40,7 @@ class PostRating extends Model
     protected $casts = [
         'id' => 'integer',
         'post_id' => 'integer',
-        'rating' => 'integer',
+        'rating' => 'float',
         'user_id' => 'integer',
     ];
 

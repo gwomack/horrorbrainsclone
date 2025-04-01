@@ -2,11 +2,10 @@
 
 namespace App\Models\Post;
 
-use App\Models\Post\EmbedType;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Embed extends Model
 {
@@ -38,6 +37,14 @@ class Embed extends Model
                 $model->published_at = $model->is_published ? now() : null;
             }
         });
+    }
+
+    /**
+     * Scope a query to only include published embeds.
+     */
+    public function scopePublished($query)
+    {
+        return $query->where('is_published', true);
     }
 
     /**

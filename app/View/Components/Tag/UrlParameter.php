@@ -2,18 +2,17 @@
 
 namespace App\View\Components\Tag;
 
-use App\Models\Tag\Tag as TagModel;
 use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
-class Tag extends Component
+class UrlParameter extends Component
 {
     /**
      * Create a new component instance.
      */
     public function __construct(
-        public TagModel $tag,
+        public array $urlParameter,
     ) {}
 
     /**
@@ -21,6 +20,6 @@ class Tag extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.tag.tag');
+        return view('components.tag.url-parameter');
     }
 }

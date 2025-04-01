@@ -1,5 +1,8 @@
 <?php
 
+use App\Models\User;
+use Livewire\Livewire;
+
 /*
 |--------------------------------------------------------------------------
 | Test Case
@@ -12,7 +15,7 @@
 */
 
 pest()->extend(Tests\TestCase::class)
- // ->use(Illuminate\Foundation\Testing\RefreshDatabase::class)
+    ->use(Illuminate\Foundation\Testing\RefreshDatabase::class)
     ->in('Feature');
 
 /*
@@ -41,7 +44,8 @@ expect()->extend('toBeOne', function () {
 |
 */
 
-function something()
+function login($user = null)
 {
-    // ..
+    return Livewire::actingAs($user ?? User::factory()->create());
+    // return test()->actingAs($user ?? User::factory()->create());
 }
