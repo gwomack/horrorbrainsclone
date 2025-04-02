@@ -30,7 +30,7 @@ class MovieDetailPage extends Component
 
         $this->post = Post::with(['embeds' => function ($query) {
             $query->published();
-        }], 'media', 'year', 'genre', 'acting', 'production', 'distribution', 'country', 'language', 'sub_genre')
+        }])->with('media', 'year', 'genre', 'acting', 'production', 'distribution', 'country', 'language', 'subGenre')
             ->where('slug', $this->slug)->first();
 
         if (! $this->post) {

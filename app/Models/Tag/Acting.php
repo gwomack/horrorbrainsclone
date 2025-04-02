@@ -8,6 +8,14 @@ class Acting extends Tag
 {
     use HasFactory;
 
+    /**
+     * Get the type of the tag.
+     */
+    public function getType(): TagType
+    {
+        return TagType::ACTING;
+    }
+
     public static function boot()
     {
         parent::boot();

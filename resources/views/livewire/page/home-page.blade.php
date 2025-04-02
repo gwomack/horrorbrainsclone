@@ -5,7 +5,7 @@ use App\Livewire\UrlParamType;
 use App\Models\Post\Post;
 @endphp
 
-<div class="px-4 mx-auto lg:container">
+<div class="px-4 mx-auto space-y-14 lg:container">
 
     <!-- Featured Tags Section -->
     <section class="pb-6 bg-black border-b light-border">
@@ -39,7 +39,7 @@ use App\Models\Post\Post;
     </section>
 
     <!-- Latest Releases Section -->
-    <section id="latest" class="py-12 bg-black">
+    <section id="latest" class="bg-black">
 
         <div class="flex justify-between items-center mb-8">
             <h2 class="text-2xl font-bold text-white md:text-3xl">Latest <span class="blood-red">Releases</span></h2>
@@ -59,7 +59,7 @@ use App\Models\Post\Post;
     </section>
 
     @foreach ($trendingHomePageTags as $thpTag)
-        <section class="py-12 bg-black">
+        <section class="bg-black">
             <div class="flex justify-between items-center mb-8">
                 <h2 class="text-2xl font-bold text-white md:text-3xl">
                     {!! $this->getTrendingTitle($thpTag->name) !!}
@@ -71,30 +71,14 @@ use App\Models\Post\Post;
 
             <div class="grid grid-cols-2 gap-2 mb-2 md:grid-cols-3 lg:grid-cols-4">
             @foreach ($thpTag->posts as $post)
-                <!-- Two rows of movie blocks -->
                 <x-movie.movie-block :movie="$post" />
             @endforeach
             </div>
         </section>
     @endforeach
 
-    <!-- Pagination -->
-    {{-- <div class="flex justify-center items-center mt-8 space-x-2">
-        <a href="#" class="px-4 py-2 text-sm text-gray-400 bg-gray-800 rounded-md hover:bg-gray-700">
-            <i class="fas fa-chevron-left"></i>
-        </a>
-        <a href="#" class="px-4 py-2 text-sm text-white bg-red-800 rounded-md">1</a>
-        <a href="#" class="px-4 py-2 text-sm text-gray-400 bg-gray-800 rounded-md hover:bg-gray-700">2</a>
-        <a href="#" class="px-4 py-2 text-sm text-gray-400 bg-gray-800 rounded-md hover:bg-gray-700">3</a>
-        <span class="px-4 py-2 text-sm text-gray-400">...</span>
-        <a href="#" class="px-4 py-2 text-sm text-gray-400 bg-gray-800 rounded-md hover:bg-gray-700">10</a>
-        <a href="#" class="px-4 py-2 text-sm text-gray-400 bg-gray-800 rounded-md hover:bg-gray-700">
-            <i class="fas fa-chevron-right"></i>
-        </a>
-    </div> --}}
-
     <!-- Categories Section -->
-    <section class="py-12">
+    <section class="">
         <div class="px-4">
             <h2 class="mb-8 text-2xl font-bold text-white md:text-3xl">Browse by <span class="blood-red">Category</span>
             </h2>

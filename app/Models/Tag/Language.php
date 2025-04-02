@@ -9,6 +9,14 @@ class Language extends Tag
     use HasFactory;
 
     /**
+     * Get the type of the tag.
+     */
+    public function getType(): TagType
+    {
+        return TagType::LANGUAGE;
+    }
+
+    /**
      * The "booting" method of the model.
      */
     public static function boot()

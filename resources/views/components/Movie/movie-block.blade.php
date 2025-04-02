@@ -5,34 +5,30 @@
                 {{ $movie->thumbBadge }}
             </div>
         @endif
-        <div class="absolute bottom-0 left-0 p-4 w-full">
-            <h3 class="mb-2 text-lg font-semibold text-white">{{ $movie->title }}</h3>
-            <div class="flex items-center mb-2">
-                <div class="flex text-yellow-500">
-                    @for($i = 1; $i <= 5; $i++)
-                        @if($i <= $movie->rating)
-                            <i class="fas fa-star"></i>
-                        @elseif($i - 0.5 <= $movie->rating)
-                            <i class="fas fa-star-half-alt"></i>
-                        @else
-                            <i class="far fa-star"></i>
-                        @endif
-                    @endfor
-                </div>
-                <span class="ml-2 text-sm text-gray-400">{{ number_format($movie->rating, 1) }}/5</span>
-            </div>
-
-            <p class="hidden text-sm text-gray-300 lg:block">{!! $movie->description !!}</p>
-
-            <div class="flex justify-between items-center mt-3">
-                <span class="text-xs text-gray-400">{{ $movie->firstYear }} • {{ $movie->firstGenre }}</span>
-            </div>
-
-        </div>
 
         <a href="{{ route('movie.details', $movie->slug) }}" wire:navigate>
             <img src="{{ $movie->getFirstMediaUrl('images', 'thumbnail') }}" alt="{{ $movie->title }}" class="object-cover w-full h-full">
         </a>
+    </div>
 
+    <div class="py-4">
+        <h3 class="mb-2 text-lg font-semibold text-white truncate">{{ $movie->title }}</h3>
+        <div class="flex items-center mb-2">
+            <div class="flex text-yellow-500">
+                @for($i = 1; $i <= 5; $i++)
+                    @if($i <= $movie->rating)
+                        <i class="fas fa-star"></i>
+                    @elseif($i - 0.5 <= $movie->rating)
+                        <i class="fas fa-star-half-alt"></i>
+                    @else
+                        <i class="far fa-star"></i>
+                    @endif
+                @endfor
+            </div>
+            <span class="ml-2 text-sm text-gray-400">{{ number_format($movie->rating, 1) }}/5</span>
+            <span class="mx-2 text-sm text-gray-400">•</span>
+            <span class="text-sm text-gray-400">{{ $movie->firstYear->name ?? '' }} • {{ $movie->firstGenre->name ?? '' }}</span>
+        </div>
+        <div class="text-sm text-gray-300 line-clamp-3">{!! $movie->description !!}</div>
     </div>
 </div>

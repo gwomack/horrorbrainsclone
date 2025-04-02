@@ -53,7 +53,7 @@
     </div>
 
     <div class="flex-none">
-        <button wire:click.prevent="submitSearch" class="px-6 py-2 text-white bg-red-800 rounded-md hover:bg-red-700">
+        <button wire:click.prevent="submitSearch" class="px-4 py-2 text-white bg-red-800 hover:bg-red-700">
             <i class="fas fa-search"></i>
         </button>
     </div>

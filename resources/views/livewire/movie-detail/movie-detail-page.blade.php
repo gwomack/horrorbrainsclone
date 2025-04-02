@@ -38,7 +38,7 @@
                         <span class="text-gray-500">Release:</span>
                         <span class="text-gray-300">{{ $post->release_date->format('m/d/Y') }}</span>
                     </div>
-                    <x-tag.tag :tag="$post->year->first()" />
+                    <x-tag.tag :tag="$post->firstYear" />
                 </div>
 
                 <!-- Synopsis -->
@@ -51,22 +51,25 @@
                 </div>
 
                 <!-- Movie Tags -->
-                <div class="space-y-4">
+                <div class="space-y-1">
                     {{-- <h2 class="mb-6 text-2xl font-bold text-white md:text-3xl">Movie <span
                             class="blood-red">Tags</span></h2> --}}
-                    <div class="flex gap-3 items-center">
-                        <div class="flex-none">
+
+                    @if ($post->genre->isNotEmpty())
+                    <div class="flex gap-1 items-center">
+                        <div class="flex-none w-24">
                             <span class="text-gray-500">Genre:</span>
                         </div>
-                        <div class="flex overflow-x-auto flex-nowrap flex-grow gap-3 scrollbar-hide">
+                        <div class="flex overflow-x-auto flex-nowrap flex-grow gap-1 scrollbar-hide">
                             @foreach ($post->genre as $genre)
                             <x-tag.tag :tag="$genre" />
                             @endforeach
                         </div>
                     </div>
-
-                    <div class="flex gap-3 items-center">
-                        <div class="flex-none">
+                    @endif
+                    @if ($post->subgenre->isNotEmpty())
+                    <div class="flex gap-1 items-center">
+                        <div class="flex-none w-24">
                             <span class="text-gray-500">Subgenre:</span>
                         </div>
                         <div class="flex overflow-x-auto flex-nowrap flex-grow gap-3 scrollbar-hide">
@@ -75,127 +78,115 @@
                             @endforeach
                         </div>
                     </div>
-
-                    <!-- Cast -->
-                    <div class="space-y-4">
-                        {{-- <h2 class="mb-6 text-2xl font-bold text-white md:text-3xl">Main <span
-                                class="blood-red">Cast</span></h2> --}}
-                        <div>
-                            <div class="flex gap-3 items-center">
-                                <div class="flex-none">
-                                    <span class="text-gray-500">Acting:</span>
-                                </div>
-                                <div class="flex overflow-x-auto flex-nowrap flex-grow gap-1 scrollbar-hide">
-                                    @foreach ($post->acting as $acting)
-                                    <div class="p-1 text-center">
-                                        <x-tag.tag :tag="$acting" />
-                                        <p class="text-sm text-gray-400 text-nowrap">
-                                            <span class="italic">{{ $acting->pivot->custom['field'] ?? '' }}</span>
-                                            {{ $acting->pivot->custom['value'] ?? '' }}
-                                        </p>
-                                    </div>
-                                    @endforeach
-                                </div>
-                            </div>
+                    @endif
+                    @if ($post->acting->isNotEmpty())
+                    <div class="flex gap-1 items-center">
+                        <div class="flex-none w-24">
+                            <span class="text-gray-500">Acting:</span>
                         </div>
-                        <div class="grid grid-cols-3 gap-4">
-
-                            <div class="col-span-1 space-y-4">
-                                <div>
-                                    <div class="flex gap-3 items-center">
-                                        <div class="flex-none">
-                                            <span class="text-gray-500">Production:</span>
-                                        </div>
-                                        <div class="flex overflow-x-auto flex-nowrap flex-grow gap-3 scrollbar-hide">
-                                            @foreach ($post->production as $production)
-                                            <x-tag.tag :tag="$production" />
-                                            @endforeach
-                                        </div>
-                                    </div>
-                                </div>
-                                <div>
-                                    <div class="flex gap-3 items-center">
-                                        <div class="flex-none">
-                                            <span class="text-gray-500">Distribution:</span>
-                                        </div>
-                                        <div class="flex overflow-x-auto flex-nowrap flex-grow gap-3 scrollbar-hide">
-                                            @foreach ($post->distribution as $distribution)
-                                            <x-tag.tag :tag="$distribution" />
-                                            @endforeach
-                                        </div>
-                                    </div>
-                                </div>
+                        <div class="flex overflow-x-auto flex-nowrap flex-grow scrollbar-hide">
+                            @foreach ($post->acting as $acting)
+                            <div class="p-1 text-center">
+                                <x-tag.tag :tag="$acting" />
+                                <p class="text-sm text-gray-400 text-nowrap">
+                                    <span class="italic">{{ $acting->pivot->custom['field'] ?? '' }}</span>
+                                    {{ $acting->pivot->custom['value'] ?? '' }}
+                                </p>
                             </div>
-
-                            <div class="col-span-1 space-y-4">
-                                <div class="flex gap-3 items-center space-between">
-                                    <div class="flex-none">
-                                        <span class="text-gray-500">Director:</span>
-                                    </div>
-                                    <div class="flex overflow-x-auto flex-nowrap flex-grow gap-3 scrollbar-hide">
-                                        @foreach ($post->director as $director)
-                                        <x-tag.tag :tag="$director" />
-                                        @endforeach
-                                    </div>
-                                </div>
-                                <div class="flex gap-3 items-center">
-                                    <div class="flex-none">
-                                        <span class="text-gray-500">Writer:</span>
-                                    </div>
-                                    <div class="flex overflow-x-auto flex-nowrap flex-grow gap-3 scrollbar-hide">
-                                        @foreach ($post->writer as $writer)
-                                        <x-tag.tag :tag="$writer" />
-                                        @endforeach
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-span-1 space-y-4">
-                                <div>
-                                    <div class="flex gap-3 items-center">
-                                        <div class="flex-none">
-                                            <span class="text-gray-500">Country:</span>
-                                        </div>
-                                        <div class="flex overflow-x-auto flex-nowrap flex-grow gap-3 scrollbar-hide">
-                                            @foreach ($post->country as $country)
-                                            <x-tag.tag :tag="$country" />
-                                            @endforeach
-                                        </div>
-                                    </div>
-                                </div>
-                                <div>
-                                    <div class="flex gap-3 items-center">
-                                        <div class="flex-none">
-                                            <span class="text-gray-500">Language:</span>
-                                        </div>
-                                        <div class="flex overflow-x-auto flex-nowrap flex-grow gap-3 scrollbar-hide">
-                                            @foreach ($post->language as $language)
-                                            <x-tag.tag :tag="$language" />
-                                            @endforeach
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            @endforeach
                         </div>
-
                     </div>
+                    @endif
+                    @if ($post->production->isNotEmpty())
+                    <div class="flex gap-1 items-center">
+                        <div class="flex-none w-24">
+                            <span class="text-gray-500">Production:</span>
+                        </div>
+                        <div class="flex overflow-x-auto flex-nowrap flex-grow gap-1 scrollbar-hide">
+                            @foreach ($post->production as $production)
+                            <x-tag.tag :tag="$production" />
+                            @endforeach
+                        </div>
+                    </div>
+                    @endif
+                    @if ($post->distribution->isNotEmpty())
+                    <div class="flex gap-1 items-center">
+                        <div class="flex-none w-24">
+                            <span class="text-gray-500">Distribution:</span>
+                        </div>
+                        <div class="flex overflow-x-auto flex-nowrap flex-grow gap-1 scrollbar-hide">
+                            @foreach ($post->distribution as $distribution)
+                            <x-tag.tag :tag="$distribution" />
+                            @endforeach
+                        </div>
+                    </div>
+                    @endif
+                    @if ($post->director->isNotEmpty())
+                    <div class="flex gap-1 items-center">
+                        <div class="flex-none w-24">
+                            <span class="text-gray-500">Director:</span>
+                        </div>
+                        <div class="flex overflow-x-auto flex-nowrap flex-grow gap-1 scrollbar-hide">
+                            @foreach ($post->director as $director)
+                            <x-tag.tag :tag="$director" />
+                            @endforeach
+                        </div>
+                    </div>
+                    @endif
+                    @if ($post->writer->isNotEmpty())
+                    <div class="flex gap-1 items-center">
+                        <div class="flex-none w-24">
+                            <span class="text-gray-500">Writer:</span>
+                        </div>
+                        <div class="flex overflow-x-auto flex-nowrap flex-grow gap-1 scrollbar-hide">
+                            @foreach ($post->writer as $writer)
+                            <x-tag.tag :tag="$writer" />
+                            @endforeach
+                        </div>
+                    </div>
+                    @endif
+                    @if ($post->country->isNotEmpty())
+                    <div class="flex gap-1 items-center">
+                        <div class="flex-none w-24">
+                            <span class="text-gray-500">Country:</span>
+                        </div>
+                        <div class="flex overflow-x-auto flex-nowrap flex-grow gap-1 scrollbar-hide">
+                            @foreach ($post->country as $country)
+                            <x-tag.tag :tag="$country" />
+                            @endforeach
+                        </div>
+                    </div>
+                    @endif
+                    @if ($post->language->isNotEmpty())
+                    <div class="flex gap-1 items-center">
+                        <div class="flex-none w-24">
+                            <span class="text-gray-500">Language:</span>
+                        </div>
+                        <div class="flex overflow-x-auto flex-nowrap flex-grow gap-1 scrollbar-hide">
+                            @foreach ($post->language as $language)
+                            <x-tag.tag :tag="$language" />
+                            @endforeach
+                        </div>
+                    </div>
+                    @endif
+
                 </div>
 
                 <!-- External Resources -->
                 <div class="">
                     <h2 class="mb-6 text-2xl font-bold text-white md:text-3xl">External <span
                             class="blood-red">Resources</span></h2>
-                    <div class="flex flex-wrap gap-4">
+                    <div class="flex flex-wrap gap-1">
                         <a href="#"
-                            class="flex items-center px-6 py-3 text-white bg-yellow-600 rounded-lg shadow-lg transition-all duration-300 hover:bg-yellow-500">
+                            class="flex items-center px-6 py-3 text-white bg-yellow-600 shadow-lg transition-all duration-300 hover:bg-yellow-500">
                             <i class="mr-3 text-xl fab fa-imdb"></i> IMDb
                         </a>
                         <a href="#"
-                            class="flex items-center px-6 py-3 text-white bg-red-700 rounded-lg shadow-lg transition-all duration-300 hover:bg-red-600">
+                            class="flex items-center px-6 py-3 text-white bg-red-700 shadow-lg transition-all duration-300 hover:bg-red-600">
                             <i class="mr-3 text-xl fas fa-tv"></i> Trakt.tv
                         </a>
                         <a href="#"
-                            class="flex items-center px-6 py-3 text-white bg-gray-700 rounded-lg shadow-lg transition-all duration-300 hover:bg-gray-600">
+                            class="flex items-center px-6 py-3 text-white bg-gray-700 shadow-lg transition-all duration-300 hover:bg-gray-600">
                             <i class="mr-3 text-xl fab fa-wikipedia-w"></i> Wikipedia
                         </a>
                     </div>
@@ -205,13 +196,13 @@
                 <div class="">
                     <h2 class="mb-6 text-2xl font-bold text-white md:text-3xl">Where to <span
                             class="blood-red">Watch</span></h2>
-                    <div class="flex flex-wrap gap-4">
+                    <div class="flex flex-wrap gap-1">
                         <a href="#"
-                            class="flex items-center px-6 py-3 text-white bg-red-700 rounded-lg shadow-lg transition-all duration-300 hover:bg-red-600">
+                            class="flex items-center px-6 py-3 text-white bg-red-700 shadow-lg transition-all duration-300 hover:bg-red-600">
                             <i class="mr-3 text-xl fab fa-amazon"></i> Amazon Prime
                         </a>
                         <a href="#"
-                            class="flex items-center px-6 py-3 text-white bg-red-700 rounded-lg shadow-lg transition-all duration-300 hover:bg-red-600">
+                            class="flex items-center px-6 py-3 text-white bg-red-700 shadow-lg transition-all duration-300 hover:bg-red-600">
                             <i class="mr-3 text-xl fab fa-netflix"></i> Netflix
                         </a>
                     </div>
@@ -223,32 +214,32 @@
                             class="blood-red">Reviews</span></h2>
 
                     <!-- Comment Form -->
-                    <div class="p-6 mb-8 bg-gray-800 rounded-lg border border-gray-700">
+                    <div class="p-6 mb-8 bg-gray-800">
                         <h3 class="mb-4 text-xl font-semibold text-white">Leave a Review</h3>
                         <form action="#" method="POST" class="space-y-4">
                             @csrf
-                            <div class="grid grid-cols-2 gap-4">
+                            <div class="grid grid-cols-2 gap-1">
                                 <div>
                                     {{-- <label for="username"
                                         class="block mb-1 text-sm font-medium text-gray-300">Username</label> --}}
                                     <input type="text" placeholder="Username" id="username" name="username" required
-                                        class="px-4 py-2 w-full text-white bg-gray-700 rounded-lg border border-gray-600 focus:outline-none focus:border-red-500">
+                                        class="px-4 py-2 w-full text-white bg-gray-700 border border-gray-600 focus:outline-none focus:border-red-500">
                                 </div>
                                 <div>
                                     {{-- <label for="email"
                                         class="block mb-1 text-sm font-medium text-gray-300">Email</label> --}}
                                     <input type="email" placeholder="Email" id="email" name="email" required
-                                        class="px-4 py-2 w-full text-white bg-gray-700 rounded-lg border border-gray-600 focus:outline-none focus:border-red-500">
+                                        class="px-4 py-2 w-full text-white bg-gray-700 border border-gray-600 focus:outline-none focus:border-red-500">
                                 </div>
                                 <div class="col-span-2">
                                     {{-- <label for="comment" class="block mb-1 text-sm font-medium text-gray-300">Your
                                         Review</label> --}}
                                     <textarea id="comment" name="comment" placeholder="Your Review" rows="4" required
-                                        class="px-4 py-2 w-full text-white bg-gray-700 rounded-lg border border-gray-600 resize-none focus:outline-none focus:border-red-500"></textarea>
+                                        class="px-4 py-2 w-full text-white bg-gray-700 border border-gray-600 resize-none focus:outline-none focus:border-red-500"></textarea>
                                 </div>
                                 <div class="col-span-2">
                                     <button type="submit"
-                                        class="px-6 py-2 text-white bg-red-700 rounded-lg shadow-lg transition-all duration-300 hover:bg-red-600 focus:outline-none">
+                                        class="px-6 py-2 text-white bg-red-700 shadow-lg transition-all duration-300 hover:bg-red-600 focus:outline-none">
                                         Submit Review
                                     </button>
                                 </div>

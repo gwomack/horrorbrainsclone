@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Livewire\MainSearchBar\SearchUrlParameters;
 use App\Models\Post\Post;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -9,13 +10,6 @@ use Livewire\WithPagination;
 class MovieSearchPage extends Component
 {
     use WithPagination;
-
-    /**
-     * The selected tags
-     *
-     * @var array|null
-     */
-    public $selected;
 
     /**
      * Filter properties
@@ -27,6 +21,11 @@ class MovieSearchPage extends Component
         'end_date' => '',
         'rating' => 0,
     ];
+
+    /**
+     * The URL parameters handler
+     */
+    protected SearchUrlParameters $urlHandler;
 
     /**
      * The current page number
@@ -62,13 +61,13 @@ class MovieSearchPage extends Component
             })
             ->when($this->filters['rating'], function ($query) {
                 $query->where('rating', '>=', $this->filters['rating']);
-            })->when(isset($this->selected[UrlParamType::TAG->value]), function ($query) {
+            })->when(isset($this->filters['tag']), function ($query) {
                 $query->whereHas('tags', function ($query) {
-                    $tagIds = $this->selected[UrlParamType::TAG->value];
+                    $tagIds = $this->filters['tag'];
                     $query->whereIn('tags.id', $tagIds);
                 });
-            })->when(isset($this->selected[UrlParamType::INPUT->value]), function ($query) {
-                $input = $this->selected[UrlParamType::INPUT->value];
+            })->when(isset($this->filters['input']), function ($query) {
+                $input = $this->filters['input'];
                 $query->where('title', 'like', '%'.$input.'%')
                     ->orWhere('description', 'like', '%'.$input.'%');
             })->paginate($this->perPage);
@@ -77,51 +76,16 @@ class MovieSearchPage extends Component
     }
 
     /**
-     * Get the total number of pages
+     * Build the selected tags from the request
      *
-     * @return int
-     */
-    public function getTotalPagesProperty()
-    {
-        // This is a placeholder - replace with actual total count from your database
-        return ceil(50 / $this->perPage);
-    }
-
-    /**
-     * Go to the next page
-     *
+     * @param  Request|null  $request
      * @return void
      */
-    public function nextPage()
+    public function buildFiltersFromRequest($request = null)
     {
-        if ($this->page < $this->totalPages) {
-            $this->page++;
-        }
-    }
-
-    /**
-     * Go to the previous page
-     *
-     * @return void
-     */
-    public function previousPage()
-    {
-        if ($this->page > 1) {
-            $this->page--;
-        }
-    }
-
-    /**
-     * Go to a specific page
-     *
-     * @param  int  $page
-     * @return void
-     */
-    public function goToPage($page)
-    {
-        if ($page >= 1 && $page <= $this->totalPages) {
-            $this->page = $page;
-        }
+        $this->urlHandler = new SearchUrlParameters;
+        $params = $this->urlHandler->getFromRequest($request ?? request());
+        $this->filters = array_merge($this->filters, $params);
     }
 
     /**
@@ -156,6 +120,8 @@ class MovieSearchPage extends Component
      */
     public function render()
     {
+        $this->buildFiltersFromRequest();
+
         return view('livewire.page.movie-search-page', [
             'movies' => $this->getMovies(),
         ]);

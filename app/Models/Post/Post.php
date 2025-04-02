@@ -115,7 +115,7 @@ class Post extends Model implements HasMedia
     {
         return Attribute::make(
             get: function (mixed $value, array $attributes) {
-                return $this->relationLoaded('year') ? $this->relations['year']->first()->name : '';
+                return $this->relationLoaded('year') ? $this->relations['year']->first() : '';
             }
         );
     }
@@ -127,7 +127,7 @@ class Post extends Model implements HasMedia
     {
         return Attribute::make(
             get: function (mixed $value, array $attributes) {
-                return $this->relationLoaded('genre') ? $this->relations['genre']->first()->name : '';
+                return $this->relationLoaded('genre') ? $this->relations['genre']->first() : '';
             }
         );
     }
