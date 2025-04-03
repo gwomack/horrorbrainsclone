@@ -72,7 +72,7 @@
                         <div class="flex-none w-24">
                             <span class="text-gray-500">Subgenre:</span>
                         </div>
-                        <div class="flex overflow-x-auto flex-nowrap flex-grow gap-3 scrollbar-hide">
+                        <div class="flex overflow-x-auto flex-nowrap flex-grow gap-1 scrollbar-hide">
                             @foreach ($post->subgenre as $subgenre)
                             <x-tag.tag :tag="$subgenre" />
                             @endforeach
@@ -84,11 +84,11 @@
                         <div class="flex-none w-24">
                             <span class="text-gray-500">Acting:</span>
                         </div>
-                        <div class="flex overflow-x-auto flex-nowrap flex-grow scrollbar-hide">
+                        <div class="flex overflow-x-auto flex-nowrap flex-grow gap-1 scrollbar-hide">
                             @foreach ($post->acting as $acting)
-                            <div class="p-1 text-center">
+                            <div>
                                 <x-tag.tag :tag="$acting" />
-                                <p class="text-sm text-gray-400 text-nowrap">
+                                <p class="text-sm text-center text-gray-400 text-nowrap">
                                     <span class="italic">{{ $acting->pivot->custom['field'] ?? '' }}</span>
                                     {{ $acting->pivot->custom['value'] ?? '' }}
                                 </p>
@@ -329,7 +329,8 @@
         <div class="lg:col-span-1">
             <!-- Similar Movies -->
             <div class="">
-                <h2 class="mb-6 text-2xl font-bold text-white md:text-3xl">Similar <span class="blood-red">Movies</span>
+                <h2 class="mb-6 text-2xl font-bold text-white md:text-3xl">
+                    Similar <span class="blood-red">Movies</span>
                 </h2>
                 <x-similar-posts :post="$post" />
             </div>
