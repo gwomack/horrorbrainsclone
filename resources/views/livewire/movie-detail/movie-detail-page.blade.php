@@ -2,7 +2,7 @@
 
 @section('title', 'The Haunting of Willow Creek')
 
-<div class="container mx-auto min-h-screen lg:px-4 lg:py-8">
+<div class="container mx-auto min-h-screen lg:px-4 lg:pb-8">
 
     <!-- Movie Details Section -->
     <div class="grid grid-cols-1 gap-20 lg:grid-cols-4">

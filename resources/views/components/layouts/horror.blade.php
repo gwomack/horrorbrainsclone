@@ -20,13 +20,71 @@
     @livewireStyles
     @filamentStyles
     @vite('resources/css/app.css')
+
+    <style>
+        /* Header transition styles */
+        header {
+            transition: all 0.3s ease;
+        }
+
+        header.compact {
+            padding-top: 0.25rem;
+            padding-bottom: 0.25rem;
+        }
+
+        header.compact .horror-title {
+            font-size: 1.5rem;
+            margin-bottom: 0;
+        }
+
+        header.compact .h-12 {
+            height: 2rem;
+        }
+
+        header.compact .container {
+            padding-top: 0.25rem;
+            padding-bottom: 0.25rem;
+        }
+
+        /* Row layout for compact header */
+        header.compact .max-w-3xl {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            max-width: 100%;
+        }
+
+        header.compact .text-center {
+            text-align: left;
+        }
+
+        header.compact .mx-auto {
+            margin-left: 0;
+            margin-right: 0;
+        }
+
+        header.compact .flex {
+            margin-left: 1rem;
+        }
+
+        header.compact .relative {
+            margin-left: 1rem;
+            width: 200px;
+        }
+
+        @media (min-width: 768px) {
+            header.compact .horror-title {
+                font-size: 2rem;
+            }
+        }
+    </style>
 </head>
 
 <body class="flex flex-col min-h-screen antialiased bg-black">
     <!-- Header -->
     @persist('header')
-    <header class="top-0 z-50 flex-none">
-        <section class="py-8">
+    <header class="fixed top-0 right-0 left-0 z-50 bg-black">
+        <section class="py-4">
             <div class="container px-4 mx-auto">
                 <div class="mx-auto max-w-3xl text-center">
                     <a href="/" wire:navigate>
@@ -67,7 +125,7 @@
     </header>
     @endpersist
 
-    <main class="flex-grow">
+    <main class="flex-grow pt-56">
         {{ $slot }}
     </main>
 
@@ -135,6 +193,22 @@
 
             menuButton.addEventListener('click', function() {
                 mobileMenu.classList.toggle('hidden');
+            });
+
+            // Header scroll effect
+            const header = document.querySelector('header');
+            let lastScrollTop = 0;
+
+            window.addEventListener('scroll', function() {
+                const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+                if (scrollTop > 200) {
+                    header.classList.add('compact');
+                } else {
+                    header.classList.remove('compact');
+                }
+
+                lastScrollTop = scrollTop;
             });
         });
     </script>
