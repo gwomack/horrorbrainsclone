@@ -3,7 +3,10 @@ import laravel, { refreshPaths } from "laravel-vite-plugin";
 
 export default defineConfig({
     server: {
-        host: 'horrorbrainsclone.test',
+        host: '0.0.0.0',
+        hmr: {
+            host: 'localhost'
+        },
     },
     plugins: [
         laravel({
@@ -14,10 +17,15 @@ export default defineConfig({
             ],
             refresh: [
                 ...refreshPaths,
-                "app/Livewire/**",
-                "app/Filament/**",
-                "app/Providers/**",
+                'app/Filament/**',
+                'app/Forms/Components/**',
+                'app/Livewire/**',
+                'app/Infolists/Components/**',
+                'app/Providers/**',
+                'app/Providers/Filament/**',
+                'app/Tables/Columns/**',
+                'resources/views/**',
             ],
         }),
     ],
-});
+})

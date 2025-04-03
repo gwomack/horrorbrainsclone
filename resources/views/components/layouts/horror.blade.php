@@ -80,7 +80,7 @@
     </style>
 </head>
 
-<body class="flex flex-col min-h-screen antialiased bg-black">
+<body class="flex flex-col min-h-screen antialiased bg-black site">
     <!-- Header -->
     @persist('header')
     <header class="fixed top-0 right-0 left-0 z-50 bg-black">
@@ -212,6 +212,8 @@
             });
         });
     </script>
+
+    @livewire('notifications')
 
     @livewireScripts
     @filamentScripts

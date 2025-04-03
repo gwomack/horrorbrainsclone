@@ -25,6 +25,7 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class Post extends Model implements HasMedia
 {
+    use HasComment;
     use HasEmbed;
     use HasFactory;
     use HasRating;
