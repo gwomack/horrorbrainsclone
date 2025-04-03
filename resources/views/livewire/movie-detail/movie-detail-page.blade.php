@@ -2,13 +2,13 @@
 
 @section('title', 'The Haunting of Willow Creek')
 
-<div class="container mx-auto min-h-screen lg:py-8">
+<div class="container mx-auto min-h-screen lg:px-4 lg:py-8">
 
     <!-- Movie Details Section -->
-    <div class="grid grid-cols-1 gap-20 lg:grid-cols-3">
+    <div class="grid grid-cols-1 gap-20 lg:grid-cols-4">
 
         <!-- Main Content -->
-        <div class="lg:col-span-2">
+        <div class="lg:col-span-3">
             <div>
                 <h1 class="text-4xl font-bold tracking-tight text-white md:text-6xl horror-title blood-red">
                     {{ $post->title }}
@@ -331,18 +331,7 @@
             <div class="">
                 <h2 class="mb-6 text-2xl font-bold text-white md:text-3xl">Similar <span class="blood-red">Movies</span>
                 </h2>
-                <div class="space-y-4">
-                    <x-movie.movie-block title="The Conjuring"
-                        image="https://m.media-amazon.com/images/M/MV5BMTY5NjI5NjY5Ml5BMl5BanBnXkFtZTgwNjY5NjI5NjY5._V1_.jpg"
-                        rating="5.0"
-                        description="A chilling tale of a family haunted by a dark presence in their farmhouse."
-                        year="2013" genre="Supernatural Horror" badge="TRENDING" />
-                    <x-movie.movie-block title="Insidious"
-                        image="https://m.media-amazon.com/images/M/MV5BMTY5NjI5NjY5Ml5BMl5BanBnXkFtZTgwNjY5NjI5NjY5._V1_.jpg"
-                        rating="4.0"
-                        description="A family discovers their son has the ability to travel to the spirit world."
-                        year="2010" genre="Supernatural Horror" badge="CLASSIC" />
-                </div>
+                <x-similar-posts :post="$post" />
             </div>
         </div>
     </div>
