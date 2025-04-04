@@ -27,11 +27,6 @@
             transition: all 0.3s ease;
         }
 
-        header.compact {
-            padding-top: 0.25rem;
-            padding-bottom: 0.25rem;
-        }
-
         header.compact .horror-title {
             font-size: 1.5rem;
             margin-bottom: 0;
@@ -39,11 +34,6 @@
 
         header.compact .h-12 {
             height: 2rem;
-        }
-
-        header.compact .container {
-            padding-top: 0.25rem;
-            padding-bottom: 0.25rem;
         }
 
         /* Row layout for compact header */
@@ -63,14 +53,21 @@
             margin-right: 0;
         }
 
-        header.compact .flex {
-            margin-left: 1rem;
+        header.compact .search-bar-container {
+            width: 60%;
         }
 
-        header.compact .relative {
-            margin-left: 1rem;
-            width: 200px;
+        header.compact .nav-container {
+            width: 30%;
         }
+
+        header.compact .logo-container {
+            width: 10%;
+        }
+
+        /* header.compact .relative {
+            margin-left: 1rem;
+        } */
 
         @media (min-width: 768px) {
             header.compact .horror-title {
@@ -83,45 +80,40 @@
 <body class="flex flex-col min-h-screen antialiased bg-black site">
     <!-- Header -->
     @persist('header')
-    <header class="fixed top-0 right-0 left-0 z-50 bg-black">
-        <section class="py-4">
-            <div class="container px-4 mx-auto">
-                <div class="mx-auto max-w-3xl text-center">
-                    <a href="/" wire:navigate>
-                        <h1 class="mb-2 text-4xl horror-title md:text-6xl blood-red">{{ config('app.name', 'Horror
-                            Brains') }}</h1>
-                    </a>
-                    {{-- <p class="mb-4 text-xl text-gray-300">Your ultimate resource for horror movie enthusiasts</p>
-                    --}}
-                    <!-- Navigation Menu -->
-                    <nav class="">
-                        <div class="container px-4 mx-auto">
-                            <div class="flex justify-center items-center h-12">
-                                <div class="hidden space-x-8 md:flex">
-                                    <a href="#" class="text-gray-300 hover:text-white">Movies</a>
-                                    <a href="#" class="text-gray-300 hover:text-white">Reviews</a>
-                                    <a href="#" class="text-gray-300 hover:text-white">News</a>
-                                    <a href="#" class="text-gray-300 hover:text-white">Community</a>
-                                    @auth
-                                    <button wire:navigate href="{{ route('filament.admin.auth.login') }}"
-                                        class="text-gray-300 hover:text-white">
-                                        <i class="fas fa-user"></i>
-                                    </button>
-                                    @endauth
-                                </div>
-                                <button class="text-gray-300 hover:text-white md:hidden">
-                                    <i class="fas fa-bars"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </nav>
-                    <div class="relative">
-                        <livewire:main-search-bar.main-search-bar />
-                    </div>
-                </div>
+    <header class="container fixed top-0 right-0 left-0 z-50 p-4 mx-auto bg-black">
+        <div class="mx-auto max-w-3xl text-center">
+            <div class="logo-container">
+                <a href="/" wire:navigate>
+                    <h1 class="mb-2 text-4xl horror-title md:text-6xl blood-red">{{ config('app.name', 'Horror
+                        Brains') }}</h1>
+                </a>
             </div>
-        </section>
-
+            {{-- <p class="mb-4 text-xl text-gray-300">Your ultimate resource for horror movie enthusiasts</p>
+            --}}
+            <!-- Navigation Menu -->
+            <nav class="container px-4 mx-auto nav-container">
+                <div class="flex justify-center items-center h-12">
+                    <div class="hidden space-x-8 md:flex">
+                        <a href="#" class="text-gray-300 hover:text-white">Movies</a>
+                        <a href="#" class="text-gray-300 hover:text-white">Reviews</a>
+                        <a href="#" class="text-gray-300 hover:text-white">News</a>
+                        <a href="#" class="text-gray-300 hover:text-white">Community</a>
+                        @auth
+                        <button wire:navigate href="{{ route('filament.admin.auth.login') }}"
+                            class="text-gray-300 hover:text-white">
+                            <i class="fas fa-user"></i>
+                        </button>
+                        @endauth
+                    </div>
+                    <button class="text-gray-300 hover:text-white md:hidden">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                </div>
+            </nav>
+            <div class="relative search-bar-container">
+                <livewire:main-search-bar.main-search-bar />
+            </div>
+        </div>
     </header>
     @endpersist
 
@@ -202,7 +194,7 @@
             window.addEventListener('scroll', function() {
                 const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
 
-                if (scrollTop > 200) {
+                if (scrollTop > 20) {
                     header.classList.add('compact');
                 } else {
                     header.classList.remove('compact');

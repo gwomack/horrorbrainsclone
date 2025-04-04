@@ -42,17 +42,22 @@ class CommentForm extends Component implements HasForms
     public function form(Form $form)
     {
         return $form
+            ->statePath('data')
             ->schema([
                 Grid::make(2)
                     ->schema([
                         TextInput::make('name')
                             ->label('')
+                            ->markAsRequired(false)
+                            ->required()
+                            ->maxLength(255)
                             ->placeholder('Username'),
                         TextInput::make('email')
                             ->label('')
                             ->email()
                             ->required()
                             ->markAsRequired(false)
+                            ->maxLength(255)
                             ->placeholder('Email*'),
                         Textarea::make('comment')
                             ->label('')
@@ -62,7 +67,7 @@ class CommentForm extends Component implements HasForms
                             ->placeholder('Your Review*')
                             ->rows(5),
                     ]),
-            ])->statePath('data');
+            ]);
     }
 
     /**
@@ -70,15 +75,7 @@ class CommentForm extends Component implements HasForms
      */
     public function create(): void
     {
-        Notification::make()
-            ->title('Comment created')
-            ->success()
-            ->send();
-
-        $this->validate([
-            'data.email' => 'required|email',
-            'data.comment' => 'required',
-        ]);
+        $this->validate();
 
         $data = $this->form->getState();
 
@@ -88,7 +85,7 @@ class CommentForm extends Component implements HasForms
         $this->post->comments()->create($data);
 
         Notification::make()
-            ->title('Comment created')
+            ->title('Comment submitted. It will be published after approval.')
             ->success()
             ->send();
 

@@ -1,4 +1,4 @@
-<div class="flex relative z-0 gap-2 p-1 max-h-full text-white border thick-border focus:outline-none focus:ring-0 focus:border-transparent"
+<div class="flex relative z-0 gap-2 p-1 max-w-full text-white border thick-border focus:outline-none focus:ring-0 focus:border-transparent"
     wire:click.outside="closeDropdown" wire:keydown.escape.prevent="closeDropdown"
     wire:keydown.backspace="removeLastTag" wire:keydown.cmd.shift.backspace.prevent="resetTags"
     wire:keydown.ctrl.shift.backspace.prevent="resetTags"
@@ -8,7 +8,7 @@
     >
 
     <div class="overflow-x-auto flex-1 cursor-text">
-        <div class="flex flex-nowrap gap-1 items-center mr-3">
+        <div class="flex flex-nowrap gap-1 items-center">
 
             @foreach($selected ?? [] as $index => $urlParameter)
             <x-tag.url-parameter :urlParameter="$urlParameter" wire:key="'urlparameter-' . $index" />

@@ -54,7 +54,7 @@
         </div> --}}
 
         <!-- Two rows of movie blocks -->
-        <div class="grid grid-cols-2 gap-2 mb-2 md:grid-cols-3">
+        <div class="grid grid-cols-2 gap-x-2 gap-y-8 mb-2 md:grid-cols-3">
             @foreach ($movies as $movie)
             <x-movie.movie-block :movie="$movie" />
             @endforeach

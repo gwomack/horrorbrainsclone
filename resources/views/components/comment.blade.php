@@ -10,7 +10,9 @@
 
     <div class="space-y-2">
 
-        <!-- Review Item -->
+        <x-comment-list :post="$post" />
+
+        {{-- <!-- Review Item -->
         <div class="p-6 bg-gray-900">
             <div class="flex items-center mb-3">
                 <div class="flex text-yellow-500">
@@ -51,11 +53,11 @@
                 <span class="text-sm text-gray-400">By MovieBuff456</span>
                 <span class="text-sm text-gray-400">March 18, 2024</span>
             </div>
-        </div>
+        </div> --}}
     </div>
 
     <!-- Pagination -->
-    <div class="mt-8">
+    {{-- <div class="mt-8">
         <div class="flex justify-center">
             <nav class="inline-flex relative z-0 -space-x-px rounded-md shadow-sm"
                 aria-label="Pagination">
@@ -81,5 +83,5 @@
                 </a>
             </nav>
         </div>
-    </div>
+    </div> --}}
 </div>
