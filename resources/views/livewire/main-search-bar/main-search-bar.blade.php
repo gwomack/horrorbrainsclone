@@ -1,21 +1,24 @@
-<div class="flex relative z-0 gap-2 p-1 max-w-full text-white border thick-border focus:outline-none focus:ring-0 focus:border-transparent"
-    wire:click.outside="closeDropdown" wire:keydown.escape.prevent="closeDropdown"
-    wire:keydown.backspace="removeLastTag" wire:keydown.cmd.shift.backspace.prevent="resetTags"
-    wire:keydown.ctrl.shift.backspace.prevent="resetTags"
-    x-on:keydown.enter.stop.prevent="$wire.submitSearch()"
-    x-on:keydown.tab.stop.prevent="$dispatch('pushinputtoselected', [ $wire.input ])"
-    wire:keydown.down.stop.prevent="nextTagByIndex" wire:keydown.up.stop.prevent="previousTagByIndex"
-    @refresh="$wire.$refresh()"
-    >
+<div class="relative"
+wire:click.outside="closeDropdown" wire:keydown.escape.prevent="closeDropdown"
+wire:keydown.backspace="removeLastTag" wire:keydown.cmd.shift.backspace.prevent="resetTags"
+wire:keydown.ctrl.shift.backspace.prevent="resetTags"
+x-on:keydown.enter.stop.prevent="$wire.submitSearch()"
+x-on:keydown.tab.stop.prevent="$dispatch('pushinputtoselected', [ $wire.input ])"
+wire:keydown.down.stop.prevent="nextTagByIndex" wire:keydown.up.stop.prevent="previousTagByIndex"
+@refresh="$wire.$refresh()"
+>
 
-    <div class="overflow-x-auto flex-1 cursor-text">
+<div class="flex relative z-0 flex-grow gap-x-1 gap-y-2 p-1 w-full text-white border thick-border focus:outline-none focus:ring-0 focus:border-transparent">
+
+    <div class="overflow-x-auto flex-1 w-full cursor-text">
+
         <div class="flex flex-nowrap gap-1 items-center">
 
             @foreach($selected ?? [] as $index => $urlParameter)
             <x-tag.url-parameter :urlParameter="$urlParameter" wire:key="'urlparameter-' . $index" />
             @endforeach
 
-            <input type="text" wire:model.live.debounce.100ms="input"
+            <input type="text" wire:model.live.debounce.200ms="input"
                 class="flex-grow p-2 text-lg leading-none text-white bg-black border-none focus:ring-0 focus:outline-none text-nowrap"
                 x-ref="MainInputSearch"
                 />
@@ -23,7 +26,7 @@
     </div>
 
     <!-- Tags List -->
-    <div class="overflow-y-auto absolute left-0 top-full z-30 p-2 mt-1 w-full max-h-96 bg-black border border-white shadow-lg min-w-48"
+    <div class="overflow-y-auto absolute left-0 top-full z-30 p-2 mt-1 max-h-96 bg-black border border-white shadow-lg min-w-48"
         x-data="{ hoverIndex: @entangle('index'), showDropdown: @entangle('showDropdown') }"
         x-show="showDropdown"
         x-ref="MainDropdown"
@@ -58,4 +61,12 @@
             <i class="fas fa-search"></i>
         </button>
     </div>
+</div>
+
+<div class="absolute top-0 w-10 grow-0" style="font-size: 0.8rem; right: -40px;">
+    <button wire:click.prevent="resetAll" class="px-3 py-4 text-white">
+        <i class="fas fa-xmark"></i>
+    </button>
+</div>
+
 </div>

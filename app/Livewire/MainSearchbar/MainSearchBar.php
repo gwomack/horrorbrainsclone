@@ -317,7 +317,7 @@ class MainSearchBar extends Component
         if (strlen($input) > 2) {
 
             $params = ['name' => $input, 'type' => UrlParamType::INPUT];
-            $checksum = $this->urlHandler->generateChecksum($params);
+            $checksum = generateChecksum($params);
             $params['id'] = $checksum;
             $inputTag = new TagToUrlParameter($params);
 
@@ -539,9 +539,12 @@ class MainSearchBar extends Component
     #[On('submitSearch')]
     public function submitSearch()
     {
+        $this->pushInputToSelected();
+
         if ($this->showDropdown) {
             $this->toggleTagByInternalIndex();
         } elseif (! empty($this->selected)) {
+            $this->dispatch('refresh');
             $params = $this->urlHandler->fromSelectedToUrl($this->selected);
             $this->redirectRoute('movie.search', $params, navigate: true);
         }

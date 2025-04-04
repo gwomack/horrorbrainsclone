@@ -67,9 +67,10 @@ class MovieSearchPage extends Component
                     $query->whereIn('tags.id', $tagIds);
                 });
             })->when(isset($this->filters['input']), function ($query) {
-                $input = $this->filters['input'];
-                $query->where('title', 'like', '%'.$input.'%')
-                    ->orWhere('description', 'like', '%'.$input.'%');
+                foreach ($this->filters['input'] as $input) {
+                    $query->where('title', 'like', '%'.$input.'%')
+                        ->orWhere('description', 'like', '%'.$input.'%');
+                }
             })->orderBy('release_date', 'desc')
             ->paginate($this->perPage);
 

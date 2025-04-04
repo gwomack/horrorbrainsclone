@@ -91,7 +91,7 @@
             {{-- <p class="mb-4 text-xl text-gray-300">Your ultimate resource for horror movie enthusiasts</p>
             --}}
             <!-- Navigation Menu -->
-            <nav class="container px-4 mx-auto nav-container">
+            <nav class="container mx-auto nav-container">
                 <div class="flex justify-center items-center h-10">
                     <div class="hidden space-x-8 md:flex">
                         <a href="#" class="text-gray-300 hover:text-white">Movies</a>
@@ -110,7 +110,7 @@
                     </button>
                 </div>
             </nav>
-            <div class="relative search-bar-container">
+            <div class="relative pr-4 search-bar-container">
                 <livewire:main-search-bar.main-search-bar />
             </div>
         </div>
