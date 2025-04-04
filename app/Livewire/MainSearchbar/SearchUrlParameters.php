@@ -54,7 +54,7 @@ class SearchUrlParameters
                     foreach ($values as $value) {
                         $prepareInputTag = ['name' => $value, 'type' => UrlParamType::INPUT];
                         $tag = new TagToUrlParameter([
-                            'id' => $checksum = $this->generateChecksum($prepareInputTag),
+                            'id' => $checksum = generateChecksum($prepareInputTag),
                             ...$prepareInputTag,
                         ]);
                         $selected = $selected->replace([$checksum => $tag->toArray()]);
@@ -66,14 +66,6 @@ class SearchUrlParameters
         }
 
         return $selected;
-    }
-
-    /**
-     * Generate a checksum for a tag
-     */
-    public function generateChecksum(array $tag): string
-    {
-        return hash('crc32b', json_encode($tag));
     }
 
     /**

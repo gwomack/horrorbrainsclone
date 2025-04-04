@@ -19,3 +19,33 @@ if (! function_exists('isVideo')) {
         return str_contains($mimeType, 'video');
     }
 }
+
+/**
+ * Generate a checksum for some data
+ */
+if (! function_exists('generateChecksum')) {
+    function generateChecksum(array $data): string
+    {
+        return hash('crc32b', json_encode($data));
+    }
+}
+
+/**
+ * Get the IP address of the user
+ */
+if (! function_exists('getIpAddress')) {
+    function getIpAddress()
+    {
+        return request()->ip();
+    }
+}
+
+/**
+ * Get the user agent of the user
+ */
+if (! function_exists('getUserAgent')) {
+    function getUserAgent()
+    {
+        return request()->userAgent();
+    }
+}

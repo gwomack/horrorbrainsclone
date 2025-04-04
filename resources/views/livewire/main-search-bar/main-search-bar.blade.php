@@ -5,6 +5,7 @@
     x-on:keydown.enter.stop.prevent="$wire.submitSearch()"
     x-on:keydown.tab.stop.prevent="$dispatch('pushinputtoselected', [ $wire.input ])"
     wire:keydown.down.stop.prevent="nextTagByIndex" wire:keydown.up.stop.prevent="previousTagByIndex"
+    @refresh="$wire.$refresh()"
     >
 
     <div class="overflow-x-auto flex-1 cursor-text">

@@ -439,6 +439,34 @@ class MainSearchBar extends Component
     }
 
     /**
+     * Add the tag from the site
+     *
+     * @return void
+     */
+    #[On('addtagfromsite')]
+    public function addTagFromSite(array $modelarray, $navigate = false)
+    {
+        if (! empty($modelarray['id'])) {
+
+            try {
+                $tag = Tag::find($modelarray['id']);
+            } catch (ModelNotFoundException $e) {
+                return;
+            }
+
+            if (! isset($this->selected[$modelarray['id']])) {
+                $tag = new TagToUrlParameter($tag->toArray());
+                $this->addToSelected($tag->toArray());
+                $this->dispatch('refresh');
+            }
+
+            if ($navigate) {
+                return $this->submitSearch();
+            }
+        }
+    }
+
+    /**
      * Remove the last tag
      *
      * @return void

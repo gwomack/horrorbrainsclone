@@ -2,10 +2,9 @@
 
 namespace Database\Factories\Post;
 
-use App\Models\User;
 use App\Models\Post\Post;
-use Illuminate\Support\Str;
 use App\Models\Post\PostRating;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class PostRatingFactory extends Factory
@@ -26,6 +25,7 @@ class PostRatingFactory extends Factory
             'post_id' => Post::factory(),
             'rating' => fake()->randomNumber(),
             'user_id' => User::factory(),
+            'public_user' => fake()->uuid(),
         ];
     }
 }

@@ -1,6 +1,6 @@
-<div class="mx-auto lg:container">
+<div class="px-4 mx-auto lg:container">
     <section class="pb-6 bg-black border-b light-border">
-        <div class="flex flex-col gap-4 px-4">
+        <div class="flex flex-col gap-4">
             {{-- <div class="flex justify-between items-center">
                 <h3 class="text-lg font-medium text-white">Advanced Filters</h3>
             </div> --}}

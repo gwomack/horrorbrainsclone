@@ -70,7 +70,8 @@ class MovieSearchPage extends Component
                 $input = $this->filters['input'];
                 $query->where('title', 'like', '%'.$input.'%')
                     ->orWhere('description', 'like', '%'.$input.'%');
-            })->paginate($this->perPage);
+            })->orderBy('release_date', 'desc')
+            ->paginate($this->perPage);
 
         return $movies;
     }

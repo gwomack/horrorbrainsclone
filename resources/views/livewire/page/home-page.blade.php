@@ -43,7 +43,7 @@ use App\Models\Post\Post;
 
         <div class="flex justify-between items-center mb-8">
             <h2 class="text-2xl font-bold text-white md:text-3xl">Latest <span class="blood-red">Releases</span></h2>
-            <a href="#" class="flex items-center text-sm text-gray-400 hover:text-white">
+            <a wire:navigate href="{{ route('movie.search') }}" class="flex items-center text-sm text-gray-400 hover:text-white">
                 View All <i class="ml-2 fas fa-arrow-right"></i>
             </a>
         </div>
@@ -64,8 +64,8 @@ use App\Models\Post\Post;
                 <h2 class="text-2xl font-bold text-white md:text-3xl">
                     {!! $this->getTrendingTitle($thpTag->name) !!}
                 </h2>
-                <a wire:navigate wire:click="$dispatch('toggletagfromsite', [ @js($thpTag->toArray()) ])"
-                    href="{{ $thpTag->searchUrl }}"
+                <a wire:click.prevent="$dispatch('addtagfromsite', { modelarray: @js($thpTag->toArray()), navigate: true })"
+                    href="#"
                     class="flex items-center text-sm text-gray-400 hover:text-white"
                 >View All <i class="ml-2 fas fa-arrow-right"></i>
                 </a>

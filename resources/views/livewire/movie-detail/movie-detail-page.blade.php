@@ -23,8 +23,10 @@
             <!-- Movie Info -->
             <div class="space-y-12">
 
+
                 <div class="flex flex-wrap gap-6 items-center mb-8">
-                    <div class="flex items-center space-x-2">
+                    <livewire:post-rating :post="$post" />
+                    {{-- <div class="flex items-center space-x-2">
                         <div class="flex text-yellow-500">
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
@@ -33,7 +35,7 @@
                             <i class="fas fa-star-half-alt"></i>
                         </div>
                         <span class="font-medium text-gray-300">4.5/5</span>
-                    </div>
+                    </div> --}}
                     <div class="flex items-center space-x-2">
                         <span class="text-gray-500">Release:</span>
                         <span class="text-gray-300">{{ $post->release_date->format('m/d/Y') }}</span>

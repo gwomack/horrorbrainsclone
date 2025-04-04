@@ -18,6 +18,7 @@ return new class extends Migration
             $table->foreignId('post_id')->constrained();
             $table->unsignedInteger('rating');
             $table->foreignId('user_id')->nullable()->constrained();
+            $table->string('public_user');
             $table->timestamps();
         });
 
