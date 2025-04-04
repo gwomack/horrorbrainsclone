@@ -60,6 +60,9 @@ class HomePage extends Component
             ->with(['posts' => function ($query) {
                 $query->with(['year', 'genre'])->published()->orderBy('release_date', 'desc')->limit(8);
             }])
+            ->whereHas('posts', function ($query) {
+                $query->published();
+            }, '>', 3)
             ->limit(3)
             ->get()
             ->map(function ($tag) {

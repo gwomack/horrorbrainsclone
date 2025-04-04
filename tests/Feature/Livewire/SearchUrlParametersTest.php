@@ -39,6 +39,15 @@ it('gets the parameters from the request', function () {
     expect($response)->toBe($correctResponseParams);
 });
 
+it('ignores non array parameters', function () {
+    $request = new Request;
+    $request->query->set('page', 1);
+    $parameters = new SearchUrlParameters;
+    $response = $parameters->getFromRequest($request);
+
+    expect($response)->toBe([]);
+});
+
 it('removes script tags from parameters and returns the correct parameters', function () {
     $script = '<script>alert("test")</script>';
     $cleanedScript = 'alert("test")';

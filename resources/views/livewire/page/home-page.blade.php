@@ -64,8 +64,10 @@ use App\Models\Post\Post;
                 <h2 class="text-2xl font-bold text-white md:text-3xl">
                     {!! $this->getTrendingTitle($thpTag->name) !!}
                 </h2>
-                <a href="#" class="flex items-center text-sm text-gray-400 hover:text-white">
-                    View All <i class="ml-2 fas fa-arrow-right"></i>
+                <a wire:navigate wire:click="$dispatch('toggletagfromsite', [ @js($thpTag->toArray()) ])"
+                    href="{{ $thpTag->searchUrl }}"
+                    class="flex items-center text-sm text-gray-400 hover:text-white"
+                >View All <i class="ml-2 fas fa-arrow-right"></i>
                 </a>
             </div>
 

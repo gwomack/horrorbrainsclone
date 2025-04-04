@@ -4,6 +4,7 @@ namespace App\Livewire\MainSearchBar;
 
 use App\Livewire\UrlParamType;
 use App\Models\Tag\Tag;
+use App\Models\Tag\TagType;
 use App\View\Components\Tag\TagToUrlParameter;
 use Illuminate\Support\Collection;
 
@@ -136,14 +137,15 @@ class SearchUrlParameters
     {
         $params = [];
 
-        foreach ($request->all() as $key => $value) {
+        foreach ($request->only(
+            array_map(fn ($type) => $type->value, array_merge(UrlParamType::cases(), TagType::cases()))
+        ) as $key => $value) {
             if (is_array($value)) {
                 foreach ($value as $v) {
                     $cleanedKey = $this->cleanParameter($key);
                     $cleanedValue = $this->cleanParameter($v);
                     $params[UrlParamType::fromTagTypeValue($cleanedKey)->value][] = $cleanedValue;
                 }
-                $cleanedKey = $this->cleanParameter($key);
                 $params[UrlParamType::fromTagTypeValue($cleanedKey)->value] =
                     array_unique($params[UrlParamType::fromTagTypeValue($cleanedKey)->value]);
             }

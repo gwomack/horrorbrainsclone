@@ -63,11 +63,12 @@ class PostResource extends Resource
             })
             ->defaultSort('created_at', 'desc')
             ->columns([
-                SpatieMediaLibraryImageColumn::make('poster')
-                    ->label('Poster')
+                SpatieMediaLibraryImageColumn::make('thumb')
+                    ->label('Thumb')
                     ->collection('images')
+                    ->conversion('thumbnail')
                     ->disk('posts')
-                    ->alignment(Alignment::End)
+                    ->alignment(Alignment::Center)
                     ->limit(1),
                 Tables\Columns\TextColumn::make('title')
                     ->searchable()

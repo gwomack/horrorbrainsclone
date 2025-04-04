@@ -2,6 +2,7 @@
 
 namespace App\Models\Tag;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class TrendingHomePage extends Tag
@@ -20,5 +21,15 @@ class TrendingHomePage extends Tag
                 $query->where('slug', TagType::TRENDING_HOME_PAGE->value);
             });
         });
+    }
+
+    /**
+     * Get the search url attribute.
+     */
+    protected function searchUrl(): Attribute
+    {
+        return Attribute::make(
+            get: fn (mixed $value, array $attributes) => route('movie.search', ['tag' => [$attributes['id']]]),
+        );
     }
 }
