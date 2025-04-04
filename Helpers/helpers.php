@@ -49,3 +49,26 @@ if (! function_exists('getUserAgent')) {
         return request()->userAgent();
     }
 }
+
+/**
+ * Get the public user checksum
+ */
+if (! function_exists('getPublicUserChecksum')) {
+    function getPublicUserChecksum()
+    {
+        return generateChecksum([
+            'ip' => getIpAddress(),
+            'user_agent' => getUserAgent(),
+        ]);
+    }
+}
+
+/**
+ * Get the rate limiter key
+ */
+if (! function_exists('getRateLimiterKey')) {
+    function getRateLimiterKey(string $checksum, string $key)
+    {
+        return "{$checksum}:{$key}";
+    }
+}

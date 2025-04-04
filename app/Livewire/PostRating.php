@@ -2,7 +2,6 @@
 
 namespace App\Livewire;
 
-use App\Models\Post\PostRating as PostRatingModel;
 use Filament\Notifications\Notification;
 use Illuminate\Support\Facades\RateLimiter;
 use Livewire\Attributes\Validate;
@@ -73,52 +72,54 @@ class PostRating extends Component
      */
     public function saveUserRating($rating)
     {
-        $checksum = PostRatingModel::getChecksum();
-        $executed = RateLimiter::attempt($checksum, 5, function () use ($checksum, $rating) {
-            dd($checksum);
-            $this->userRating = $rating;
-            $this->validate();
+        $checksum = getPublicUserChecksum();
+        $executed = RateLimiter::attempt(getRateLimiterKey($checksum, $this->post->getKey()),
+            5, function () {});
 
-            $data = [
-                'rating' => $this->userRating,
-                'public_user' => $checksum,
-            ];
+        if (! $executed) {
+            Notification::make()
+                ->title('Rate limit exceeded')
+                ->body('You have exceeded the rate limit for rating this post.')
+                ->send();
 
-            if (auth()->check()) {
+            return;
+        }
 
-                $save = $this->post->postRatings()->updateOrCreate(
-                    ['user_id' => auth()->user()->id],
-                    $data,
-                );
+        $this->userRating = $rating;
+        $this->validate();
 
-            } else {
+        $data = [
+            'rating' => $this->userRating,
+            'public_user' => $checksum,
+        ];
 
-                $save = $this->post->postRatings()->updateOrCreate(
-                    ['public_user' => $checksum],
-                    $data,
-                );
-            }
+        if (auth()->check()) {
 
-            if ($save->wasRecentlyCreated) {
-                Notification::make()
-                    ->title('Rating saved')
-                    ->body('Your rating has been saved')
-                    ->send();
-            } else {
-                Notification::make()
-                    ->title('Rating updated')
-                    ->body('Your rating has been updated')
-                    ->send();
-            }
+            $save = $this->post->postRatings()->updateOrCreate(
+                ['user_id' => auth()->user()->id],
+                $data,
+            );
 
-            $this->post->refresh();
+        } else {
 
-            return true;
-        });
+            $save = $this->post->postRatings()->updateOrCreate(
+                ['public_user' => $checksum],
+                $data,
+            );
+        }
 
-        Notification::make()
-            ->title('Rate limit exceeded')
-            ->body('You have exceeded the rate limit for rating this post.')
-            ->send();
+        if ($save->wasRecentlyCreated) {
+            Notification::make()
+                ->title('Rating saved')
+                ->body('Your rating has been saved')
+                ->send();
+        } else {
+            Notification::make()
+                ->title('Rating updated')
+                ->body('Your rating has been updated')
+                ->send();
+        }
+
+        $this->post->refresh();
     }
 }

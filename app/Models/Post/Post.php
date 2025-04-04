@@ -2,7 +2,6 @@
 
 namespace App\Models\Post;
 
-use App\Forms\Components\MyRating;
 use App\Models\Tag\Acting;
 use App\Models\Tag\Field;
 use App\Models\Tag\Tag;
@@ -66,7 +65,7 @@ class Post extends Model implements HasMedia
     protected $casts = [
         'id' => 'integer',
         'release_date' => 'date',
-        'rating' => 'float',
+        'rating' => 'decimal:1',
         'is_published' => 'boolean',
         'published_at' => 'datetime',
     ];

@@ -92,7 +92,7 @@
             --}}
             <!-- Navigation Menu -->
             <nav class="container px-4 mx-auto nav-container">
-                <div class="flex justify-center items-center h-12">
+                <div class="flex justify-center items-center h-10">
                     <div class="hidden space-x-8 md:flex">
                         <a href="#" class="text-gray-300 hover:text-white">Movies</a>
                         <a href="#" class="text-gray-300 hover:text-white">Reviews</a>

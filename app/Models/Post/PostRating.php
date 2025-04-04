@@ -67,15 +67,4 @@ class PostRating extends Model
     {
         return $this->belongsTo(User::class);
     }
-
-    /**
-     * Get the checksum for the rating.
-     */
-    public static function getChecksum()
-    {
-        return generateChecksum([
-            'public_user' => getIpAddress(),
-            'user_agent' => getUserAgent(),
-        ]);
-    }
 }
