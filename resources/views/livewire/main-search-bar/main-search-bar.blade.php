@@ -5,7 +5,7 @@ wire:keydown.ctrl.shift.backspace.prevent="resetTags"
 x-on:keydown.enter.stop.prevent="$wire.submitSearch()"
 x-on:keydown.tab.stop.prevent="$dispatch('pushinputtoselected', [ $wire.input ])"
 wire:keydown.down.stop.prevent="nextTagByIndex" wire:keydown.up.stop.prevent="previousTagByIndex"
-@refresh="$wire.$refresh()"
+@main-searchbar-refresh="$wire.$refresh()"
 >
 
 <div class="flex relative z-0 flex-grow gap-x-1 gap-y-2 p-1 w-full text-white border thick-border focus:outline-none focus:ring-0 focus:border-transparent">

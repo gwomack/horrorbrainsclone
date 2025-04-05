@@ -9,17 +9,21 @@ enum UrlParamType: string implements HasLabel
 {
     case TAG = 'tag';
     case INPUT = 'input';
-    case RELEASE_DATE = 'release_date';
+    case START_DATE = 'start_date';
+    case END_DATE = 'end_date';
+    case RATING = 'rating';
 
     /**
      * Get the tag type from a value.
      */
-    public static function myFrom(int|string $value): static
+    public static function fromKey(int|string $value): static
     {
         return match ($value) {
             self::TAG->value => self::TAG,
             self::INPUT->value => self::INPUT,
-            self::RELEASE_DATE->value => self::RELEASE_DATE,
+            self::START_DATE->value => self::START_DATE,
+            self::END_DATE->value => self::END_DATE,
+            self::RATING->value => self::RATING,
             default => self::TAG,
         };
     }
@@ -32,7 +36,9 @@ enum UrlParamType: string implements HasLabel
         return match ($this) {
             self::TAG => 'Tag',
             self::INPUT => 'Input',
-            self::RELEASE_DATE => 'Release Date',
+            self::START_DATE => 'Start Date',
+            self::END_DATE => 'End Date',
+            self::RATING => 'Rating',
             default => 'Tag',
         };
     }
@@ -45,7 +51,9 @@ enum UrlParamType: string implements HasLabel
         return match ($this) {
             self::TAG => '<i class="pr-1 fas fa-tag"></i>',
             self::INPUT => '<i class="pr-1 fas fa-italic"></i>',
-            self::RELEASE_DATE => '<i class="pr-1 fas fa-calendar-alt"></i>',
+            self::START_DATE => '<i class="pr-1 fas fa-calendar-alt"></i>',
+            self::END_DATE => '<i class="pr-1 fas fa-calendar-alt"></i>',
+            self::RATING => '<i class="pr-1 fas fa-star"></i>',
             default => '<i class="pr-1 fas fa-tag"></i>',
         };
     }
@@ -58,7 +66,9 @@ enum UrlParamType: string implements HasLabel
         return match ($label) {
             self::TAG->getLabel() => self::TAG,
             self::INPUT->getLabel() => self::INPUT,
-            self::RELEASE_DATE->getLabel() => self::RELEASE_DATE,
+            self::START_DATE->getLabel() => self::START_DATE,
+            self::END_DATE->getLabel() => self::END_DATE,
+            self::RATING->getLabel() => self::RATING,
             default => self::TAG,
         };
     }

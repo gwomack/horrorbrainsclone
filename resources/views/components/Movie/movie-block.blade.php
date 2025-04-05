@@ -10,11 +10,10 @@
                 </div>
             @endif
 
-            {{-- <img src="{{ $movie->getFirstMediaUrl('images', 'thumbnail') }}" alt="{{ $movie->title }}" class="object-cover w-full h-full"> --}}
-            {{ $movie->getFirstMedia('images')->img()->attributes([
-                    'class' => 'object-cover w-full h-full',
-                    'loading' => 'lazy'
-                ])->lazy() }}
+            <img src="{{ $movie->getFirstMediaUrl('images', 'thumbnail') }}"
+                alt="{{ $movie->title }}"
+                class="object-cover w-full h-full"
+                />
         </div>
     </a>
 

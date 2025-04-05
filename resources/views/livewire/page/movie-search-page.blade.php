@@ -1,54 +1,55 @@
-<div class="px-4 mx-auto lg:container">
-    <section class="pb-6 bg-black border-b light-border">
-        <div class="flex flex-col gap-4">
+<div class="px-4 mx-auto lg:container" @movie-search-page-refresh="$wire.$refresh()">
+    <section class="pb-6 mx-auto max-w-3xl bg-black">
+        <div class="flex flex-col gap-2">
             {{-- <div class="flex justify-between items-center">
                 <h3 class="text-lg font-medium text-white">Advanced Filters</h3>
             </div> --}}
 
 
-            <div class="grid grid-cols-1 gap-8 md:grid-cols-12">
+            <div class="grid grid-cols-1 gap-8 md:grid-cols-4">
                 <!-- Release Date Range -->
-                <div class="col-span-4 space-y-2">
+                <div class="col-span-2 space-y-2">
                     <label class="block text-sm font-medium text-gray-300">Release Date Range</label>
                     <div class="flex gap-1">
                         <div class="flex-1">
-                            <input type="date" wire:model.live="filters.start_date"
+                            <input type="date" wire:model="filters.start_date"
                                 class="px-4 py-2 w-full text-white bg-gray-800 border-none focus:ring-2 focus:ring-red-500 focus:border-transparent">
                         </div>
                         <div class="flex-1">
-                            <input type="date" wire:model.live="filters.end_date"
+                            <input type="date" wire:model="filters.end_date"
                                 class="px-4 py-2 w-full text-white bg-gray-800 border-none focus:ring-2 focus:ring-red-500 focus:border-transparent">
                         </div>
                     </div>
                 </div>
 
                 <!-- Rating Filter -->
-                <div class="col-span-2 space-y-2">
+                <div class="col-span-2 space-y-4">
                     <label class="block text-sm font-medium text-gray-300">Minimum Rating</label>
-                    <div class="flex gap-2 items-center">
+                    <x-filter-rating :rating="$filters['rating']" />
+                    {{-- <div class="flex gap-2 items-center">
                         @for($i = 1; $i <= 5; $i++) <button wire:click="$set('filters.rating', {{ $i }})"
                             class="text-3xl focus:outline-none transition-colors duration-300 {{ $filters['rating'] >= $i ? 'text-yellow-500' : 'text-gray-600' }}">
                             ★
                             </button>
                             @endfor
-                    </div>
+                    </div> --}}
                 </div>
             </div>
 
             <div class="flex justify-between">
-                <button wire:click="applyFilters"
+                <button wire:click="$dispatch('submitSearch', { filters: @js($filters) })"
                     class="px-6 py-2 text-white bg-red-800 transition-colors duration-300 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 focus:ring-offset-black">
                     Apply Filters
                 </button>
                 <button wire:click="resetFilters"
-                    class="text-sm text-gray-400 transition-colors duration-300 hover:text-white">
+                    class="px-6 py-2 text-sm text-gray-400 bg-gray-800 transition-colors duration-300 hover:text-white">
                     Reset Filters
                 </button>
             </div>
         </div>
     </section>
 
-    <section class="py-12 bg-black">
+    <section class="py-12 bg-black border-t light-border">
         {{-- <div class="flex justify-between items-center mb-8">
             <h2 class="text-2xl font-bold text-white md:text-3xl">Results</h2>
         </div> --}}

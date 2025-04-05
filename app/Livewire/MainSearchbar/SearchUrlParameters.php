@@ -4,7 +4,6 @@ namespace App\Livewire\MainSearchBar;
 
 use App\Livewire\UrlParamType;
 use App\Models\Tag\Tag;
-use App\Models\Tag\TagType;
 use App\View\Components\Tag\TagToUrlParameter;
 use Illuminate\Support\Collection;
 
@@ -40,6 +39,25 @@ class SearchUrlParameters
     }
 
     /**
+     * Convert filters to URL parameters
+     */
+    public function fromFiltersToUrl(Collection $filters): Collection
+    {
+        return $filters
+            ->only(array_map(fn ($type) => $type->value, UrlParamType::cases()));
+    }
+
+    /**
+     * Convert URL parameters to filters format
+     */
+    public function fromRequestToFilters(array $params): Collection
+    {
+        return collect($params)
+            ->only(array_map(fn ($type) => $type->value, UrlParamType::cases()))
+            ->except(['tag', 'input']);
+    }
+
+    /**
      * Convert URL parameters to selected tags format
      */
     public function fromRequestToSelected(array $params): Collection
@@ -60,7 +78,7 @@ class SearchUrlParameters
                         $selected = $selected->replace([$checksum => $tag->toArray()]);
                     }
                     break;
-                default:
+                case UrlParamType::TAG->value:
                     $selected = $selected->replace(Tag::whereIn('id', $values)->get()->keyBy('id')->toArray());
             }
         }
@@ -94,9 +112,9 @@ class SearchUrlParameters
     /**
      * Clean a single parameter value
      *
-     * @return string|array
+     * @return string|array|null
      */
-    protected function cleanParameter(array|string $value)
+    protected function cleanParameter(array|string|null $value)
     {
         if (is_array($value)) {
             // Clean each array element
@@ -130,16 +148,19 @@ class SearchUrlParameters
         $params = [];
 
         foreach ($request->only(
-            array_map(fn ($type) => $type->value, array_merge(UrlParamType::cases(), TagType::cases()))
+            array_map(fn ($type) => $type->value, UrlParamType::cases())
         ) as $key => $value) {
             if (is_array($value)) {
                 foreach ($value as $v) {
                     $cleanedKey = $this->cleanParameter($key);
                     $cleanedValue = $this->cleanParameter($v);
-                    $params[UrlParamType::fromTagTypeValue($cleanedKey)->value][] = $cleanedValue;
+                    $params[UrlParamType::fromKey($cleanedKey)->value][] = $cleanedValue;
+                    $params[UrlParamType::fromKey($cleanedKey)->value] =
+                        array_unique($params[UrlParamType::fromKey($cleanedKey)->value]);
                 }
-                $params[UrlParamType::fromTagTypeValue($cleanedKey)->value] =
-                    array_unique($params[UrlParamType::fromTagTypeValue($cleanedKey)->value]);
+            } else {
+                $cleanedKey = $this->cleanParameter($key);
+                $params[UrlParamType::fromKey($cleanedKey)->value] = $this->cleanParameter($value);
             }
         }
 

@@ -55,6 +55,13 @@ class MainSearchBar extends Component
     public $tags;
 
     /**
+     * The filters for the search bar
+     *
+     * @var Collection
+     */
+    public $filters;
+
+    /**
      * Boot the component
      *
      * @return void
@@ -78,6 +85,8 @@ class MainSearchBar extends Component
     ) {
         $this->buildSelectedFromRequest($request ?? request());
 
+        $this->buildFiltersFromRequest($request ?? request());
+
         $this->searchTags($this->input);
 
     }
@@ -91,7 +100,17 @@ class MainSearchBar extends Component
     {
         $params = $this->urlHandler->getFromRequest($request ?? request());
         $this->selected = $this->selected->replace($this->urlHandler->fromRequestToSelected($params));
+    }
 
+    /**
+     * Build the filters from the request
+     *
+     * @return void
+     */
+    public function buildFiltersFromRequest($request = null)
+    {
+        $params = $this->urlHandler->getFromRequest($request ?? request());
+        $this->filters = $this->urlHandler->fromRequestToFilters($params);
     }
 
     /**
@@ -457,7 +476,7 @@ class MainSearchBar extends Component
             if (! isset($this->selected[$modelarray['id']])) {
                 $tag = new TagToUrlParameter($tag->toArray());
                 $this->addToSelected($tag->toArray());
-                $this->dispatch('refresh');
+                $this->dispatchRefresh();
             }
 
             if ($navigate) {
@@ -537,17 +556,36 @@ class MainSearchBar extends Component
      * @return void
      */
     #[On('submitSearch')]
-    public function submitSearch()
+    public function submitSearch(array $filters = [])
     {
         $this->pushInputToSelected();
 
         if ($this->showDropdown) {
+
             $this->toggleTagByInternalIndex();
-        } elseif (! empty($this->selected)) {
-            $this->dispatch('refresh');
+
+        } elseif ($this->selected->isNotEmpty()) {
+
+            $this->dispatchRefresh();
             $params = $this->urlHandler->fromSelectedToUrl($this->selected);
-            $this->redirectRoute('movie.search', $params, navigate: true);
+
+            if (! empty($filters)) {
+                $this->filters = collect($filters);
+            }
+
+            $this->filters = $this->urlHandler->fromFiltersToUrl($this->filters);
+            $this->redirectRoute('movie.search', array_merge($params, $this->filters->toArray()), navigate: true);
         }
+    }
+
+    /**
+     * Dispatch the refresh event
+     *
+     * @return void
+     */
+    public function dispatchRefresh()
+    {
+        $this->dispatch('main-searchbar-refresh');
     }
 
     /**
