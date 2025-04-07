@@ -12,6 +12,8 @@ enum UrlParamType: string implements HasLabel
     case START_DATE = 'start_date';
     case END_DATE = 'end_date';
     case RATING = 'rating';
+    case ORDER_BY = 'order_by';
+    case ORDER_DIRECTION = 'order_direction';
 
     /**
      * Get the tag type from a value.
@@ -24,6 +26,8 @@ enum UrlParamType: string implements HasLabel
             self::START_DATE->value => self::START_DATE,
             self::END_DATE->value => self::END_DATE,
             self::RATING->value => self::RATING,
+            self::ORDER_BY->value => self::ORDER_BY,
+            self::ORDER_DIRECTION->value => self::ORDER_DIRECTION,
             default => self::TAG,
         };
     }
@@ -39,6 +43,8 @@ enum UrlParamType: string implements HasLabel
             self::START_DATE => 'Start Date',
             self::END_DATE => 'End Date',
             self::RATING => 'Rating',
+            self::ORDER_BY => 'Order By',
+            self::ORDER_DIRECTION => 'Order Direction',
             default => 'Tag',
         };
     }
@@ -51,9 +57,6 @@ enum UrlParamType: string implements HasLabel
         return match ($this) {
             self::TAG => '<i class="pr-1 fas fa-tag"></i>',
             self::INPUT => '<i class="pr-1 fas fa-italic"></i>',
-            self::START_DATE => '<i class="pr-1 fas fa-calendar-alt"></i>',
-            self::END_DATE => '<i class="pr-1 fas fa-calendar-alt"></i>',
-            self::RATING => '<i class="pr-1 fas fa-star"></i>',
             default => '<i class="pr-1 fas fa-tag"></i>',
         };
     }
@@ -69,6 +72,8 @@ enum UrlParamType: string implements HasLabel
             self::START_DATE->getLabel() => self::START_DATE,
             self::END_DATE->getLabel() => self::END_DATE,
             self::RATING->getLabel() => self::RATING,
+            self::ORDER_BY->getLabel() => self::ORDER_BY,
+            self::ORDER_DIRECTION->getLabel() => self::ORDER_DIRECTION,
             default => self::TAG,
         };
     }

@@ -2,7 +2,7 @@
 
 use App\Livewire\HomePage;
 use App\Livewire\MovieDetailPage;
-use App\Livewire\MovieSearchPage;
+use App\Livewire\MovieSearchPage\MovieSearchPage;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', HomePage::class)->name('home');

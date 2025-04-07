@@ -7,6 +7,9 @@ export default {
     presets: [
         preset
     ],
+    plugins: [
+        require('@tailwindcss/forms'),
+    ],
     content: [
         './vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php',
         './storage/framework/views/*.php',
@@ -59,5 +62,4 @@ export default {
             },
         },
     },
-    plugins: [],
 };

@@ -1,12 +1,12 @@
 <div class="px-4 mx-auto lg:container" @movie-search-page-refresh="$wire.$refresh()">
     <section class="pb-6 mx-auto max-w-3xl bg-black">
-        <div class="flex flex-col gap-2">
+        <div class="flex flex-col flex-wrap gap-2">
             {{-- <div class="flex justify-between items-center">
                 <h3 class="text-lg font-medium text-white">Advanced Filters</h3>
             </div> --}}
 
 
-            <div class="flex gap-8">
+            <div class="flex gap-4">
                 <!-- Release Date Range -->
                 <div class="space-y-2">
                     <label class="block text-sm font-medium text-gray-300">Release Date Range</label>
@@ -18,6 +18,33 @@
                         <div class="flex-1">
                             <input type="date" wire:model="filters.end_date"
                                 class="px-4 py-2 w-full text-white bg-gray-800 border-none focus:ring-2 focus:ring-red-500 focus:border-transparent">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex gap-4">
+                    <div class="space-y-2">
+                        <label class="block text-sm font-medium text-gray-300">Sorting</label>
+
+                        <div class="flex gap-1">
+                            <div class="flex-1">
+                                <select wire:model="filters.order_by" class="px-4 py-2 w-full text-white bg-gray-800 border-none focus:ring-2 focus:ring-red-500 focus:border-transparent">
+                                    @foreach ($orderByTypes as $orderByType)
+                                    <option value="{{ $orderByType['id'] }}"
+                                        {{ $orderByType['id'] === ($filters['order_by'] ?? 'release_date') ? 'selected' : '' }}
+                                    >{{ $orderByType['label'] }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="flex-1">
+                                <select wire:model="filters.order_direction" class="px-4 py-2 w-full text-white bg-gray-800 border-none focus:ring-2 focus:ring-red-500 focus:border-transparent">
+                                    @foreach ($orderDirectionTypes as $orderDirectionType)
+                                    <option value="{{ $orderDirectionType['id'] }}"
+                                        {{ $orderDirectionType['id'] === ($filters['order_direction'] ?? 'desc') ? 'selected' : '' }}
+                                    >{{ $orderDirectionType['label'] }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
                         </div>
                     </div>
                 </div>

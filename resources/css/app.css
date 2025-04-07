@@ -2,7 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 @tailwind variants;
-@import "./node_modules/preline/variants.css";
+
+/* Plugins */
+@plugin "@tailwindcss/forms";
 
 /* Horror Theme Custom Styles */
 

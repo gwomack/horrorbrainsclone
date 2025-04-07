@@ -339,7 +339,8 @@ class MainSearchBar extends Component
             $this->addToSelected($inputTag->toArray());
 
             $this->closeDropdown();
-            $this->resetInput();
+            // $this->resetInput();
+            $this->reset('input');
             // $this->dispatch('scrollrightmaininputsearch');
         }
     }
