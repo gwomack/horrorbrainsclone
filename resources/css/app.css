@@ -2,6 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 @tailwind variants;
+@import "./node_modules/preline/variants.css";
 
 /* Horror Theme Custom Styles */
 

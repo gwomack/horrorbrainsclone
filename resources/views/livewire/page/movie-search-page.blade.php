@@ -6,9 +6,9 @@
             </div> --}}
 
 
-            <div class="grid grid-cols-1 gap-8 md:grid-cols-4">
+            <div class="flex gap-8">
                 <!-- Release Date Range -->
-                <div class="col-span-2 space-y-2">
+                <div class="space-y-2">
                     <label class="block text-sm font-medium text-gray-300">Release Date Range</label>
                     <div class="flex gap-1">
                         <div class="flex-1">
@@ -23,25 +23,31 @@
                 </div>
 
                 <!-- Rating Filter -->
-                <div class="col-span-2 space-y-4">
+                <div class="space-y-4">
                     <label class="block text-sm font-medium text-gray-300">Minimum Rating</label>
-                    <x-filter-rating :rating="$filters['rating']" />
-                    {{-- <div class="flex gap-2 items-center">
-                        @for($i = 1; $i <= 5; $i++) <button wire:click="$set('filters.rating', {{ $i }})"
-                            class="text-3xl focus:outline-none transition-colors duration-300 {{ $filters['rating'] >= $i ? 'text-yellow-500' : 'text-gray-600' }}">
-                            ★
-                            </button>
-                            @endfor
-                    </div> --}}
+                    <x-filter-rating :rating="$filters['rating'] ?? null" />
+                </div>
+
+                <div class="space-y-4">
+                    <label class="block text-sm font-medium text-gray-300">Search Type</label>
+                    <div class="flex gap-x-3 items-center">
+                        <label for="hs-basic-with-description" class="text-sm text-gray-500 dark:text-neutral-400">OR</label>
+                        <label for="hs-basic-with-description" class="inline-block relative w-11 h-6 cursor-pointer">
+                        <input type="checkbox" id="hs-basic-with-description" class="sr-only peer" wire:model="filters.st">
+                        <span class="absolute inset-0 bg-gray-200 rounded-full transition-colors duration-200 ease-in-out peer-checked:bg-blue-600 dark:bg-neutral-700 dark:peer-checked:bg-blue-500 peer-disabled:opacity-50 peer-disabled:pointer-events-none"></span>
+                        <span class="absolute top-1/2 bg-white rounded-full transition-transform duration-200 ease-in-out -translate-y-1/2 start-0.5 size-5 shadow-xs peer-checked:translate-x-full dark:bg-neutral-400 dark:peer-checked:bg-white"></span>
+                        </label>
+                        <label for="hs-basic-with-description" class="text-sm text-gray-500 dark:text-neutral-400">AND</label>
+                    </div>
                 </div>
             </div>
 
             <div class="flex justify-between">
-                <button wire:click="$dispatch('submitSearch', { filters: @js($filters) })"
+                <button wire:click="applyFilters"
                     class="px-6 py-2 text-white bg-red-800 transition-colors duration-300 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 focus:ring-offset-black">
                     Apply Filters
                 </button>
-                <button wire:click="resetFilters"
+                <button wire:click="resetAll"
                     class="px-6 py-2 text-sm text-gray-400 bg-gray-800 transition-colors duration-300 hover:text-white">
                     Reset Filters
                 </button>

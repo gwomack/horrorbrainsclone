@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\On;
+use Livewire\Attributes\Url;
 use Livewire\Component;
 
 class MainSearchBar extends Component
@@ -55,13 +56,6 @@ class MainSearchBar extends Component
     public $tags;
 
     /**
-     * The filters for the search bar
-     *
-     * @var Collection
-     */
-    public $filters;
-
-    /**
      * Boot the component
      *
      * @return void
@@ -84,8 +78,6 @@ class MainSearchBar extends Component
         ?Request $request = null,
     ) {
         $this->buildSelectedFromRequest($request ?? request());
-
-        $this->buildFiltersFromRequest($request ?? request());
 
         $this->searchTags($this->input);
 
@@ -110,7 +102,7 @@ class MainSearchBar extends Component
     public function buildFiltersFromRequest($request = null)
     {
         $params = $this->urlHandler->getFromRequest($request ?? request());
-        $this->filters = $this->urlHandler->fromRequestToFilters($params);
+        // $this->filters = $this->urlHandler->fromRequestToFilters($params);
     }
 
     /**
@@ -173,13 +165,17 @@ class MainSearchBar extends Component
      *
      * @return void
      */
-    public function resetAll()
+    public function resetAll($url = null)
     {
         $this->closeDropdown();
         $this->resetTags();
         $this->resetIndex();
         $this->resetInput();
         $this->resetSelected();
+
+        $this->submitSearch(
+            url()->livewire_current()
+        );
     }
 
     /**
@@ -498,16 +494,6 @@ class MainSearchBar extends Component
     }
 
     /**
-     * Render the component
-     *
-     * @return View
-     */
-    public function render()
-    {
-        return view('livewire.main-search-bar.main-search-bar');
-    }
-
-    /**
      * Close the dropdown
      *
      * @return void
@@ -527,7 +513,7 @@ class MainSearchBar extends Component
      */
     public function resetTags()
     {
-        $this->reset('tags');
+        $this->tags = null;
     }
 
     /**
@@ -551,30 +537,36 @@ class MainSearchBar extends Component
     }
 
     /**
+     * Get the filters
+     *
+     * @return array
+     */
+    protected function getFilters()
+    {
+        return session()->get('main-search-bar.filters') ?: [];
+    }
+
+    /**
      * Submit the search
      *
      * @return void
      */
-    #[On('submitSearch')]
-    public function submitSearch(array $filters = [])
+    #[On('submitSearch', ['routeName'])]
+    public function submitSearch($routeName = null)
     {
-        $this->pushInputToSelected();
-
         if ($this->showDropdown) {
 
             $this->toggleTagByInternalIndex();
 
-        } elseif ($this->selected->isNotEmpty()) {
+        } else {
+
+            $routeName = $routeName ?? 'movie.search';
 
             $this->dispatchRefresh();
+            $this->pushInputToSelected();
             $params = $this->urlHandler->fromSelectedToUrl($this->selected);
-
-            if (! empty($filters)) {
-                $this->filters = collect($filters);
-            }
-
-            $this->filters = $this->urlHandler->fromFiltersToUrl($this->filters);
-            $this->redirectRoute('movie.search', array_merge($params, $this->filters->toArray()), navigate: true);
+            $params = array_filter(array_merge($this->getFilters(), $params));
+            $this->redirectRoute($routeName, $params, navigate: true);
         }
     }
 
@@ -595,6 +587,16 @@ class MainSearchBar extends Component
      */
     public function resetSelected()
     {
-        $this->reset('selected');
+        $this->selected = null;
+    }
+
+    /**
+     * Render the component
+     *
+     * @return View
+     */
+    public function render()
+    {
+        return view('livewire.main-search-bar.main-search-bar');
     }
 }

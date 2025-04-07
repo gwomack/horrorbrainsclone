@@ -15,11 +15,11 @@ class SearchUrlParameters
     /**
      * Convert selected tags to URL parameters
      */
-    public function fromSelectedToUrl(Collection $selected): array
+    public function fromSelectedToUrl(?Collection $selected): array
     {
         $params = [];
 
-        foreach ($selected as $key => $tag) {
+        foreach ($selected ?? [] as $key => $tag) {
 
             $type = $tag['type']->value;
 

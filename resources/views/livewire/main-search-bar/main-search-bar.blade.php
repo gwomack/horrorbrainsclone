@@ -26,7 +26,7 @@ wire:keydown.down.stop.prevent="nextTagByIndex" wire:keydown.up.stop.prevent="pr
     </div>
 
     <!-- Tags List -->
-    <div class="overflow-y-auto absolute left-0 top-full z-30 p-2 mt-1 max-h-96 bg-black border border-white shadow-lg min-w-48"
+    <div class="overflow-y-auto absolute left-0 top-full z-30 p-2 mt-1 w-full max-h-96 bg-black border border-white shadow-lg"
         x-data="{ hoverIndex: @entangle('index'), showDropdown: @entangle('showDropdown') }"
         x-show="showDropdown"
         x-ref="MainDropdown"

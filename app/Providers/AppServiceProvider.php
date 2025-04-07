@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -42,6 +43,18 @@ class AppServiceProvider extends ServiceProvider
 
         Event::listen(function (\SocialiteProviders\Manager\SocialiteWasCalled $event) {
             $event->extendSocialite('discord', \SocialiteProviders\Google\Provider::class);
+        });
+
+        // Get the current route name
+        URL::macro('livewire_current', function () {
+            if (request()->route()->named('livewire.update')) {
+                $previousUrl = $this->previous();
+                $previousRoute = app('router')->getRoutes()->match(request()->create($previousUrl));
+
+                return $previousRoute->getName();
+            } else {
+                return request()->route()->getName();
+            }
         });
     }
 }
