@@ -1,8 +1,10 @@
 @section('title', 'Horror Movies')
 
 @php
-use App\Livewire\UrlParamType;
 use App\Models\Post\Post;
+use App\Livewire\UrlParamType;
+use App\Livewire\MovieSearchPage\OrderByType;
+use App\Livewire\MovieSearchPage\OrderDirectionType;
 @endphp
 
 <div class="px-4 mx-auto space-y-14 lg:container">
@@ -17,14 +19,14 @@ use App\Models\Post\Post;
                     <span class="text-sm font-medium whitespace-nowrap">Trending Now</span>
                 </div>
             </a>
-            <a href=""
+            <a href="{{ route('movie.search', ['order_by' => OrderByType::RATING->value, 'order_direction' => OrderDirectionType::DESC->value]) }}"
                 class="flex-none px-6 py-3 border border-gray-700 transition-colors duration-300 bg-gray-800/20 hover:bg-gray-800/30">
                 <div class="flex gap-2 items-center">
                     <i class="text-yellow-500 fas fa-star"></i>
                     <span class="text-sm font-medium whitespace-nowrap">Top Rated</span>
                 </div>
             </a>
-            <a href=""
+            <a href="{{ route('movie.search', ['start_date' => now()->format('Y-m-d')]) }}"
                 class="flex-none px-6 py-3 border border-gray-700 transition-colors duration-300 bg-gray-800/20 hover:bg-gray-800/30">
                 <div class="flex gap-2 items-center">
                     <i class="text-gray-400 fas fa-calendar"></i>

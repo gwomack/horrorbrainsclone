@@ -84,7 +84,7 @@
         <div class="mx-auto max-w-3xl text-center">
             <div class="logo-container">
                 <a href="/" wire:navigate>
-                    <h1 class="mb-2 text-4xl horror-title md:text-6xl blood-red">{{ config('app.name', 'Horror
+                    <h1 class="inline-block mb-2 text-4xl  horror-title md:text-6xl blood-red">{{ config('app.name', 'Horror
                         Brains') }}</h1>
                 </a>
             </div>

@@ -70,13 +70,13 @@
             </div>
 
             <div class="flex justify-between">
-                <button wire:click="applyFilters"
-                    class="px-6 py-2 text-white bg-red-800 transition-colors duration-300 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 focus:ring-offset-black">
-                    Apply Filters
-                </button>
                 <button wire:click="resetAll"
                     class="px-6 py-2 text-sm text-gray-400 bg-gray-800 transition-colors duration-300 hover:text-white">
                     Reset Filters
+                </button>
+                <button wire:click="applyFilters"
+                    class="px-6 py-2 text-white bg-red-800 transition-colors duration-300 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 focus:ring-offset-black">
+                    Apply Filters
                 </button>
             </div>
         </div>
