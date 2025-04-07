@@ -41,6 +41,24 @@ class MovieSearchPage extends Component
      */
     public $input = null;
 
+    // Perform actions before the component is updated on the screen
+    // this is not called when the component is mounted
+    // ref: https://app.studyraid.com/en/read/11454/358970/component-hydration-and-dehydration
+    public function hydrate()
+    {
+        $condition = data_get(request('components'), '*.calls.*.method');
+        // Log::debug($condition);
+        foreach (['previousPage', 'nextPage', 'gotoPage'] as $method) {
+            if (in_array($method, $condition)) {
+                unset($this->movies);
+            }
+        }
+    }
+
+    // Clean up sensitive data before sending to client
+    // this is called always
+    public function dehydrate() {}
+
     /**
      * The movies
      *
@@ -106,6 +124,16 @@ class MovieSearchPage extends Component
                     });
                 }
             });
+
+        // dd(request('page'));
+    }
+
+    /**
+     * Handle page updates
+     */
+    public function updated($name, $value)
+    {
+        dd($name);
     }
 
     /**
@@ -113,7 +141,14 @@ class MovieSearchPage extends Component
      *
      * @return void
      */
-    public function boot() {}
+    public function boot()
+    {
+        // Log::info(request()->all());
+
+        // if (request('page')) {
+        //     unset($this->movies);
+        // }
+    }
 
     /**
      * Mount the component
@@ -193,7 +228,7 @@ class MovieSearchPage extends Component
      */
     public function getPerPage()
     {
-        return $this->filters['perPage'] ?? null;
+        return $this->filters['perPage'] ?? self::PER_PAGE;
     }
 
     /**
@@ -214,6 +249,8 @@ class MovieSearchPage extends Component
      */
     public function buildParamsFromRequest($request = null)
     {
+        // dd(request()->all(), $this->filters);
+
         $this->urlHandler = new SearchUrlParameters;
         $params = $this->urlHandler->getFromRequest($request ?? request());
 
@@ -222,7 +259,7 @@ class MovieSearchPage extends Component
 
         $this->setFilters(
             collect($this->filters)->merge(
-                collect($params)->except('tag', 'input', 'perPage')
+                collect($params)->except('tag', 'input', 'perPage', 'page')
             )->toArray());
 
     }
@@ -339,7 +376,7 @@ class MovieSearchPage extends Component
      *
      * @return void
      */
-    public function resetPage()
+    public function resetFiltersPage()
     {
         $this->filters['page'] = self::DEFAULT_PAGE;
     }

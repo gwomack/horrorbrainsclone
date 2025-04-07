@@ -3,7 +3,7 @@
         @for ($i = 1; $i < 6; $i++)
             <button type="button"
                 wire:key="star-{{ $i }}"
-                wire:click.prevent.stop="saveUserRating({{ $i+1 }})"
+                wire:click.prevent.stop="saveUserRating({{ $i }})"
                 x-on:mouseover="event.target.style.color='yellow'"
                 x-on:mouseout="event.target.style.color='#eab308'"
                 class="star"

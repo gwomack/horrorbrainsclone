@@ -193,7 +193,6 @@ class Post extends Model implements HasMedia
                             //     ->label('My Rating'),
                             Rating::make('rating')
                                 ->label('Rating')
-                                ->required()
                                 ->stars(5),
                         ]),
                 ]),

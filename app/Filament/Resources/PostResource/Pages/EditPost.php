@@ -35,6 +35,17 @@ class EditPost extends EditRecord
         return $data;
     }
 
+    // mutate form data before save
+    public function mutateFormDataBeforeSave(array $data): array
+    {
+        if (empty($data['rating'])) {
+            unset($data['rating']);
+        }
+
+        return $data;
+    }
+
+    // mutate form data after save
     public function afterSave(): void
     {
         if (isset($this->data['rating'])) {
