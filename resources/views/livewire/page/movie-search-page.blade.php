@@ -60,7 +60,7 @@
                     <div class="flex gap-x-3 items-center">
                         <label for="hs-basic-with-description" class="text-sm text-gray-500 dark:text-neutral-400">OR</label>
                         <label for="hs-basic-with-description" class="inline-block relative w-11 h-6 cursor-pointer">
-                        <input type="checkbox" id="hs-basic-with-description" class="sr-only peer" wire:model="filters.st">
+                        <input type="checkbox" id="hs-basic-with-description" class="sr-only peer" wire:model="filters.st" {{ ($filters['st'] ?? false) ? 'checked' : '' }}>
                         <span class="absolute inset-0 bg-gray-800 rounded-full transition-colors duration-200 ease-in-out peer-checked:bg-blue-600 dark:bg-neutral-700 dark:peer-checked:bg-blue-500 peer-disabled:opacity-50 peer-disabled:pointer-events-none"></span>
                         <span class="absolute top-1/2 bg-white rounded-full transition-transform duration-200 ease-in-out -translate-y-1/2 start-0.5 size-5 shadow-xs peer-checked:translate-x-full dark:bg-neutral-400 dark:peer-checked:bg-white"></span>
                         </label>

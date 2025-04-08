@@ -14,6 +14,7 @@ enum UrlParamType: string implements HasLabel
     case RATING = 'rating';
     case ORDER_BY = 'order_by';
     case ORDER_DIRECTION = 'order_direction';
+    case SEARCH_TYPE = 'st';
 
     /**
      * Get the tag type from a value.
@@ -28,6 +29,7 @@ enum UrlParamType: string implements HasLabel
             self::RATING->value => self::RATING,
             self::ORDER_BY->value => self::ORDER_BY,
             self::ORDER_DIRECTION->value => self::ORDER_DIRECTION,
+            self::SEARCH_TYPE->value => self::SEARCH_TYPE,
             default => self::TAG,
         };
     }
@@ -45,6 +47,7 @@ enum UrlParamType: string implements HasLabel
             self::RATING => 'Rating',
             self::ORDER_BY => 'Order By',
             self::ORDER_DIRECTION => 'Order Direction',
+            self::SEARCH_TYPE => 'Search Type',
             default => 'Tag',
         };
     }
@@ -74,6 +77,7 @@ enum UrlParamType: string implements HasLabel
             self::RATING->getLabel() => self::RATING,
             self::ORDER_BY->getLabel() => self::ORDER_BY,
             self::ORDER_DIRECTION->getLabel() => self::ORDER_DIRECTION,
+            self::SEARCH_TYPE->getLabel() => self::SEARCH_TYPE,
             default => self::TAG,
         };
     }

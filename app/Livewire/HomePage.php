@@ -5,6 +5,7 @@ namespace App\Livewire;
 use App\Models\Post\Post;
 use App\Models\Tag\SubGenre;
 use App\Models\Tag\TrendingHomePage;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 use Livewire\Component;
 
@@ -26,6 +27,11 @@ class HomePage extends Component
     public $trendingHomePageTags;
 
     /**
+     * The random tags.
+     */
+    public $randomTags;
+
+    /**
      * Mount the component.
      */
     public function mount()
@@ -33,6 +39,7 @@ class HomePage extends Component
         $this->subGenreTags = $this->getSubGenreTags();
         $this->latestReleases = $this->getLatestReleases();
         $this->trendingHomePageTags = $this->getTrendingHomePageTags();
+        $this->randomTags = $this->getRandomTags();
     }
 
     /**
@@ -97,6 +104,25 @@ class HomePage extends Component
 
                 return $post;
             });
+    }
+
+    /**
+     * Get random tags.
+     */
+    protected function getRandomTags()
+    {
+        $key = 'random-tags';
+        $seconds = 3600; // 1 hour...
+
+        return Cache::remember($key, $seconds, function () {
+            return SubGenre::inRandomOrder()
+                ->withCount(['posts' => function ($query) {
+                    $query->published();
+                }])
+                ->limit(12)
+                ->get();
+        });
+
     }
 
     /**

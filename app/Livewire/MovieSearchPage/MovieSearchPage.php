@@ -119,16 +119,9 @@ class MovieSearchPage extends Component
         $this->setTag($params[UrlParamType::TAG->value] ?? null);
         $this->setInput($params[UrlParamType::INPUT->value] ?? null);
 
-        // $this->setFilters(
-        //     collect($this->filters)->merge(
-        //         collect($params)->except('tag', 'input', 'perPage', 'page')
-        //     )->toArray());
         $this->setFilters(
             collect($params)->except('tag', 'input', 'perPage', 'page')->toArray()
         );
-
-        // dd($this->filters);
-
     }
 
     /**

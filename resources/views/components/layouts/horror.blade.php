@@ -153,7 +153,7 @@
                 <div>
                     <h3 class="mb-4 text-xl horror-title blood-red">{{ config('app.name', 'Horror Brains') }}</h3>
                     <p class="text-sm text-gray-400">Your ultimate resource for horror movie enthusiasts, providing
-                        up-to-date movie releases, reviews, and discussion opportunities.</p>
+                        up-to-date movie releases and discussion opportunities.</p>
                 </div>
 
                 <div>
