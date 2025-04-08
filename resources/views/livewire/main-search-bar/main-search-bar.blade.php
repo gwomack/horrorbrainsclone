@@ -64,7 +64,7 @@ wire:keydown.down.stop.prevent="nextTagByIndex" wire:keydown.up.stop.prevent="pr
 </div>
 
 <div class="absolute top-0 w-10 grow-0" style="font-size: 0.8rem; right: -40px;">
-    <button wire:click.prevent="resetAll" class="px-3 py-4 text-white">
+    <button title="Clear Tags" wire:click.prevent="resetAll" class="px-3 py-4 text-white">
         <i class="fas fa-xmark"></i>
     </button>
 </div>

@@ -132,3 +132,74 @@
         border-color: #2d2d2d;
     }
 }
+
+/* Header transition styles */
+header {
+    transition: all 0.3s ease;
+}
+
+.horror-title {
+    font-family: "EngeHolzschrift", sans-serif !important;
+    font-weight: normal;
+    font-style: normal;
+}
+
+header.compact .logo-container {
+    flex: 0;
+    min-width: 120px;
+}
+
+header.compact .horror-title {
+    font-size: 1.5rem;
+    margin-bottom: 0;
+}
+
+header.compact .h-12 {
+    height: 2rem;
+}
+
+/* Row layout for compact header */
+header.compact > div {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 100%;
+    text-align: left;
+}
+
+header.compact .search-bar-container {
+    flex-grow: 1;
+    min-width: 0; /* trick to avoid overflow */
+}
+
+header.compact .nav-container {
+    flex: 0;
+    padding: 0 2.5rem 0 1.5rem;
+}
+
+/* Dropdown menu styles */
+header.compact #dropdown-menu {
+    position: absolute;
+    left: 0;
+    margin-top: 0.5rem;
+    width: 12rem;
+    background-color: black;
+    border: 1px solid rgb(55, 65, 81);
+    border-radius: 0.5rem;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+        0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+header.compact #mobile-menu-button {
+    display: block;
+}
+
+header.compact #desktop-menu {
+    display: none;
+}
+
+@media (min-width: 768px) {
+    header.compact .horror-title {
+        font-size: 2rem;
+    }
+}

@@ -1,6 +1,6 @@
 @php use App\Livewire\UrlParamType; @endphp
 
-@section('title', 'The Haunting of Willow Creek')
+@section('title', $post->title)
 
 <div class="container mx-auto min-h-screen lg:px-4 lg:pb-8">
 
