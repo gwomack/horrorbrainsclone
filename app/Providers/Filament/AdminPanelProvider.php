@@ -12,6 +12,7 @@ use Filament\Forms\Components\FileUpload;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
+use Filament\Navigation\NavigationItem;
 use Filament\Pages;
 use Filament\Panel;
 use Filament\PanelProvider;
@@ -94,7 +95,12 @@ class AdminPanelProvider extends PanelProvider
             ->plugins(
                 $this->getPlugins()
             )
-            ->databaseNotifications();
+            ->databaseNotifications()
+            ->navigationItems([
+                NavigationItem::make('Back to the site')
+                    ->url(config('app.url', 'http://horrorbrainsclone.test'))
+                    ->icon('heroicon-o-link'),
+            ]);
     }
 
     private function getPlugins(): array

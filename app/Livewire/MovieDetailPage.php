@@ -24,6 +24,10 @@ class MovieDetailPage extends Component
             return redirect()->route('home');
         }
 
+        if (! $this->post) {
+            abort(404);
+        }
+
         // Increment the trending view
         $this->post->incrementViewTrending();
     }
@@ -34,7 +38,7 @@ class MovieDetailPage extends Component
     #[Computed]
     public function post()
     {
-        return Post::with(['embeds' => function ($query) {
+        return Post::published()->with(['embeds' => function ($query) {
             $query->published();
         }])->with('media', 'year', 'genre', 'acting', 'production',
             'distribution', 'country', 'language', 'subGenre'
@@ -46,10 +50,6 @@ class MovieDetailPage extends Component
      */
     public function render()
     {
-        if (! $this->post) {
-            return redirect()->route('home');
-        }
-
         return view('livewire.movie-detail.movie-detail-page', [
             'post' => $this->post,
         ]);

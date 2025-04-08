@@ -553,7 +553,7 @@ class MainSearchBar extends Component
      * @return void
      */
     #[On('submitSearch', ['routeName'])]
-    public function submitSearch($routeName = null)
+    public function submitSearch(?array $routeArr = null)
     {
         if ($this->showDropdown) {
 
@@ -561,13 +561,14 @@ class MainSearchBar extends Component
 
         } else {
 
-            $routeName = $routeName ?? 'movie.search';
+            $routeArr = $routeArr ?? ['name' => 'movie.search', 'parameters' => []];
 
             $this->dispatchRefresh();
             $this->pushInputToSelected();
             $params = $this->urlHandler->fromSelectedToUrl($this->selected);
             $params = array_filter(array_merge($this->getFilters(), $params));
-            $this->redirectRoute($routeName, $params, navigate: true);
+            $params = array_filter(array_merge($routeArr['parameters'], $params));
+            $this->redirectRoute($routeArr['name'], $params, navigate: true);
         }
     }
 

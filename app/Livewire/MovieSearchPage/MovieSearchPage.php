@@ -182,8 +182,8 @@ class MovieSearchPage extends Component
     protected function getMoviesQuery()
     {
         return $this->getOrderBy() === OrderByType::TRENDING->value
-            ? Post::getTrendingPostsQuery()->with(['year', 'genre', 'media'])
-            : Post::query()->with(['year', 'genre', 'media'])
+            ? Post::getTrendingPostsQuery()->published()->with(['year', 'genre', 'media'])
+            : Post::published()->with(['year', 'genre', 'media'])
                 ->withCount('postRatings')
                 ->orderBy($this->getOrderBy(), $this->getOrderDirection())
                 ->when($this->getStartDate(), function ($query) {

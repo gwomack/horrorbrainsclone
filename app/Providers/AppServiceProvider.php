@@ -47,14 +47,23 @@ class AppServiceProvider extends ServiceProvider
 
         // Get the current route name
         URL::macro('livewire_current', function () {
+            $routeArr = [];
             if (request()->route()->named('livewire.update')) {
                 $previousUrl = $this->previous();
                 $previousRoute = app('router')->getRoutes()->match(request()->create($previousUrl));
 
-                return $previousRoute->getName();
+                $routeArr = [
+                    'name' => $previousRoute->getName(),
+                    'parameters' => $previousRoute->parameters(),
+                ];
             } else {
-                return request()->route()->getName();
+                $routeArr = [
+                    'name' => request()->route()->getName(),
+                    'parameters' => request()->route()->parameters(),
+                ];
             }
+
+            return $routeArr;
         });
     }
 }

@@ -27,6 +27,10 @@
             transition: all 0.3s ease;
         }
 
+        header.compact .logo-container {
+            flex: 0;
+            min-width: 150px;
+        }
 
         header.compact .horror-title {
             font-size: 1.5rem;
@@ -38,19 +42,17 @@
         }
 
         /* Row layout for compact header */
-        header.compact .max-w-3xl {
+        header.compact > div {
             display: flex;
             align-items: center;
             justify-content: space-between;
             max-width: 100%;
-        }
-
-        header.compact .text-center {
             text-align: left;
         }
 
         header.compact .search-bar-container {
             flex-grow: 1;
+            min-width: 0; /* trick to avoid overflow */
         }
 
         header.compact .nav-container {
@@ -149,7 +151,7 @@
         <div class="container px-4 mx-auto">
             <div class="grid grid-cols-1 gap-8 md:grid-cols-4">
                 <div>
-                    <h3 class="mb-4 text-xl horror-title blood-red">Horror Brains</h3>
+                    <h3 class="mb-4 text-xl horror-title blood-red">{{ config('app.name', 'Horror Brains') }}</h3>
                     <p class="text-sm text-gray-400">Your ultimate resource for horror movie enthusiasts, providing
                         up-to-date movie releases, reviews, and discussion opportunities.</p>
                 </div>
@@ -194,7 +196,7 @@
             </div>
 
             <div class="pt-6 mt-8 text-sm text-center text-gray-500 border-t light-border">
-                <p>&copy; {{ date('Y') }} Horror Brains. All rights reserved.</p>
+                <p>&copy; {{ date('Y') }} {{ config('app.name', 'Horror Brains') }}. All rights reserved.</p>
             </div>
         </div>
     </footer>
