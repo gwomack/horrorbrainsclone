@@ -27,6 +27,23 @@ class Comment extends Model
     ];
 
     /**
+     * The "booting" method of the model.
+     */
+    public static function boot()
+    {
+        parent::boot();
+
+        // increment the trending when the comment is approved
+        static::updated(function ($comment) {
+            if ($comment->isDirty('approved') && $comment->approved) {
+                $comment->post->trendings()->create([
+                    'rate' => Post::TRENDING_COMMENT,
+                ]);
+            }
+        });
+    }
+
+    /**
      * Get the post that the comment belongs to.
      */
     public function post(): BelongsTo

@@ -12,6 +12,7 @@ use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
+use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -29,8 +30,51 @@ class Post extends Model implements HasMedia
     use HasFactory;
     use HasRating;
     use HasTag;
+    use HasTrending;
     use InteractsWithMedia;
     use SoftDeletes;
+
+    const TRENDING_VIEW = 1;
+
+    const TRENDING_COMMENT = 50;
+
+    const TRENDING_RATING = 10;
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'title',
+        'slug',
+        'description',
+        'is_published',
+        'published_at',
+        'rating',
+    ];
+
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'id' => 'integer',
+        'release_date' => 'date',
+        'rating' => 'decimal:1',
+        'is_published' => 'boolean',
+        'published_at' => 'datetime',
+    ];
+
+    /**
+     * The attributes that should be set to default.
+     *
+     * @var array
+     */
+    protected $attributes = [
+        'rating' => 0,
+    ];
 
     /**
      * The "booting" method of the model.
@@ -49,26 +93,18 @@ class Post extends Model implements HasMedia
             if ($post->isDirty('is_published')) {
                 $post->published_at = $post->is_published ? now() : null;
             }
-
-            // Set default rating to 0 for new posts
-            if (! $post->exists && ! $post->rating) {
-                $post->rating = 0;
-            }
         });
     }
 
     /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
+     * Increment the trending view.
      */
-    protected $casts = [
-        'id' => 'integer',
-        'release_date' => 'date',
-        'rating' => 'decimal:1',
-        'is_published' => 'boolean',
-        'published_at' => 'datetime',
-    ];
+    public function incrementViewTrending()
+    {
+        return $this->trendings()->create([
+            'rate' => self::TRENDING_VIEW,
+        ]);
+    }
 
     /**
      * Scope a query to only include latest posts.
@@ -146,6 +182,21 @@ class Post extends Model implements HasMedia
                     ->fit(Fit::Crop, 640, 360)
                     ->nonQueued();
             });
+    }
+
+    /**
+     * Get the trending posts.
+     */
+    public static function getTrendingPostsQuery(): Builder
+    {
+        // query to get the posts with the highest trending score
+        return self::query()
+            ->where('posts.is_published', true)
+            ->whereHas('trendings', function ($query) {
+                $query->where('trending.updated_at', '>', now()->subDays(30));
+            })
+            ->withSum('trendings', 'rate')
+            ->orderBy('trendings_sum_rate', 'desc');
     }
 
     /**

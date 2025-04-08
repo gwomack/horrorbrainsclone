@@ -3,15 +3,11 @@
 namespace App\Livewire;
 
 use App\Models\Post\Post;
+use Livewire\Attributes\Computed;
 use Livewire\Component;
 
 class MovieDetailPage extends Component
 {
-    /**
-     * The post.
-     */
-    public $post;
-
     /**
      * The post id.
      */
@@ -28,15 +24,21 @@ class MovieDetailPage extends Component
             return redirect()->route('home');
         }
 
-        $this->post = Post::with(['embeds' => function ($query) {
+        // Increment the trending view
+        $this->post->incrementViewTrending();
+    }
+
+    /**
+     * Get the post.
+     */
+    #[Computed]
+    public function post()
+    {
+        return Post::with(['embeds' => function ($query) {
             $query->published();
         }])->with('media', 'year', 'genre', 'acting', 'production',
-            'distribution', 'country', 'language', 'subGenre',
+            'distribution', 'country', 'language', 'subGenre'
         )->where('slug', $this->slug)->first();
-
-        if (! $this->post) {
-            return redirect()->route('home');
-        }
     }
 
     /**
@@ -44,6 +46,12 @@ class MovieDetailPage extends Component
      */
     public function render()
     {
-        return view('livewire.movie-detail.movie-detail-page');
+        if (! $this->post) {
+            return redirect()->route('home');
+        }
+
+        return view('livewire.movie-detail.movie-detail-page', [
+            'post' => $this->post,
+        ]);
     }
 }

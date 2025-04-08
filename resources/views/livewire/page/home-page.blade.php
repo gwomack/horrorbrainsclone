@@ -12,7 +12,7 @@ use App\Livewire\MovieSearchPage\OrderDirectionType;
     <!-- Featured Tags Section -->
     <section class="pb-6 bg-black border-b light-border">
         <div class="flex overflow-x-auto gap-2 pb-2 scrollbar-hide">
-            <a href=""
+            <a href="{{ route('movie.search', ['order_by' => OrderByType::TRENDING->value]) }}"
                 class="flex-none px-6 py-3 border border-red-800 transition-colors duration-300 bg-red-800/20 hover:bg-red-800/30">
                 <div class="flex gap-2 items-center">
                     <i class="text-red-600 fas fa-fire"></i>

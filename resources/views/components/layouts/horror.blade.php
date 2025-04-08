@@ -27,6 +27,16 @@
             transition: all 0.3s ease;
         }
 
+        header.compact .container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        header.compact .logo-container {
+            padding-right: 2.5rem;
+        }
+
         header.compact .horror-title {
             font-size: 1.5rem;
             margin-bottom: 0;
@@ -48,21 +58,12 @@
             text-align: left;
         }
 
-        header.compact .mx-auto {
-            margin-left: 0;
-            margin-right: 0;
-        }
-
         header.compact .search-bar-container {
             width: 60%;
         }
 
         header.compact .nav-container {
             width: 30%;
-        }
-
-        header.compact .logo-container {
-            width: 10%;
         }
 
         /* header.compact .relative {
@@ -84,7 +85,7 @@
         <div class="mx-auto max-w-3xl text-center">
             <div class="logo-container">
                 <a href="/" wire:navigate>
-                    <h1 class="inline-block mb-2 text-4xl  horror-title md:text-6xl blood-red">{{ config('app.name', 'Horror
+                    <h1 class="inline-block mb-2 text-4xl horror-title md:text-6xl blood-red">{{ config('app.name', 'Horror
                         Brains') }}</h1>
                 </a>
             </div>

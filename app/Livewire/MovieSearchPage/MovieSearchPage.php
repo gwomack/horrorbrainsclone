@@ -140,7 +140,6 @@ class MovieSearchPage extends Component
     public function movies()
     {
         $query = $this->getMoviesQuery()
-            ->orderBy($this->getOrderBy(), $this->getOrderDirection())
             ->orderBy('title', 'asc');
 
         // Log::info($query->toSql());
@@ -182,45 +181,48 @@ class MovieSearchPage extends Component
      */
     protected function getMoviesQuery()
     {
-        return Post::query()->with(['year', 'genre', 'media'])
-            ->withCount('postRatings')
-            ->when($this->getStartDate(), function ($query) {
-                $query->where('release_date', '>=', $this->getStartDate());
-            })->when($this->getEndDate(), function ($query) {
-                $query->where('release_date', '<=', $this->getEndDate());
-            })->when($this->getRating(), function ($query) {
-                $query->where('rating', '>=', $this->getRating());
-            })->when($this->getTag(), function ($query) {
-                $query->whereHas('tags', function ($query) {
-                    if ($this->getSearchType()) { // if search type is AND
-                        foreach ($this->getTag() as $tag) {
-                            $query->where('tags.id', $tag);
-                        }
-                    } else {
-                        $query->whereIn('tags.id', $this->getTag());
-                    }
-                });
-            })->when($this->getInput(), function ($query) {
-                if ($this->getSearchType()) { // if search type is AND
-                    $query->where(function ($query) {
-                        $input = $this->getInput();
-                        foreach ($input as $key => $value) {
-                            $query->where('title', 'like', '%'.$value.'%')
-                                ->orWhere('description', 'like', '%'.$value.'%');
+        return $this->getOrderBy() === OrderByType::TRENDING->value
+            ? Post::getTrendingPostsQuery()->with(['year', 'genre', 'media'])
+            : Post::query()->with(['year', 'genre', 'media'])
+                ->withCount('postRatings')
+                ->orderBy($this->getOrderBy(), $this->getOrderDirection())
+                ->when($this->getStartDate(), function ($query) {
+                    $query->where('release_date', '>=', $this->getStartDate());
+                })->when($this->getEndDate(), function ($query) {
+                    $query->where('release_date', '<=', $this->getEndDate());
+                })->when($this->getRating(), function ($query) {
+                    $query->where('rating', '>=', $this->getRating());
+                })->when($this->getTag(), function ($query) {
+                    $query->whereHas('tags', function ($query) {
+                        if ($this->getSearchType()) { // if search type is AND
+                            foreach ($this->getTag() as $tag) {
+                                $query->where('tags.id', $tag);
+                            }
+                        } else {
+                            $query->whereIn('tags.id', $this->getTag());
                         }
                     });
-                } else {
-                    $query->where(function ($query) {
-                        $input = $this->getInput();
-                        foreach ($input as $key => $value) {
-                            $query->orWhere(function ($query) use ($value) {
+                })->when($this->getInput(), function ($query) {
+                    if ($this->getSearchType()) { // if search type is AND
+                        $query->where(function ($query) {
+                            $input = $this->getInput();
+                            foreach ($input as $key => $value) {
                                 $query->where('title', 'like', '%'.$value.'%')
                                     ->orWhere('description', 'like', '%'.$value.'%');
-                            });
-                        }
-                    });
-                }
-            });
+                            }
+                        });
+                    } else {
+                        $query->where(function ($query) {
+                            $input = $this->getInput();
+                            foreach ($input as $key => $value) {
+                                $query->orWhere(function ($query) use ($value) {
+                                    $query->where('title', 'like', '%'.$value.'%')
+                                        ->orWhere('description', 'like', '%'.$value.'%');
+                                });
+                            }
+                        });
+                    }
+                });
     }
 
     /**

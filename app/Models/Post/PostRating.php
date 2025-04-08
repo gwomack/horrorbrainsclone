@@ -19,10 +19,16 @@ class PostRating extends Model
     {
         parent::boot();
 
+        self::created(function ($model) {
+            $model->post->trendings()->create([
+                'rate' => $model->rating * Post::TRENDING_RATING,
+            ]);
+        });
+
         // If the user is authenticated, set the user_id to the current user's id
         self::saving(function ($model) {
             if (Auth::check()) {
-                $model->user_id = Auth::id();
+                $model->user_id = $model->user_id ?: Auth::id();
             }
         });
 

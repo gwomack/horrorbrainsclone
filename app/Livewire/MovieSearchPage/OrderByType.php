@@ -14,6 +14,8 @@ enum OrderByType: string
 
     case VOTES = 'post_ratings_count';
 
+    case TRENDING = 'trending';
+
     /**
      * Get the values
      *
@@ -27,6 +29,7 @@ enum OrderByType: string
             self::TITLE,
             self::RATING,
             self::VOTES,
+            self::TRENDING,
         ];
     }
 
@@ -44,6 +47,7 @@ enum OrderByType: string
             self::TITLE => 'Title',
             self::RATING => 'Rating',
             self::VOTES => 'Votes',
+            self::TRENDING => 'Trending',
         };
     }
 
@@ -60,6 +64,7 @@ enum OrderByType: string
             self::TITLE->value => self::TITLE->value,
             self::RATING->value => self::RATING->value,
             self::VOTES->value => self::VOTES->value,
+            self::TRENDING->value => self::TRENDING->value,
             default => self::RELEASE_DATE->value,
         };
     }
