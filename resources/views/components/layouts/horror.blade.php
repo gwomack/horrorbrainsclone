@@ -27,15 +27,6 @@
             transition: all 0.3s ease;
         }
 
-        header.compact .container {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        header.compact .logo-container {
-            padding-right: 2.5rem;
-        }
 
         header.compact .horror-title {
             font-size: 1.5rem;
@@ -59,16 +50,33 @@
         }
 
         header.compact .search-bar-container {
-            width: 60%;
+            flex-grow: 1;
         }
 
         header.compact .nav-container {
-            width: 30%;
+            flex: 0;
+            padding: 0 2.5rem 0 1.5rem;
         }
 
-        /* header.compact .relative {
-            margin-left: 1rem;
-        } */
+        /* Dropdown menu styles */
+        header.compact #dropdown-menu {
+            position: absolute;
+            left: 0;
+            margin-top: 0.5rem;
+            width: 12rem;
+            background-color: black;
+            border: 1px solid rgb(55, 65, 81);
+            border-radius: 0.5rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        header.compact #mobile-menu-button {
+            display: block;
+        }
+
+        header.compact #desktop-menu {
+            display: none;
+        }
 
         @media (min-width: 768px) {
             header.compact .horror-title {
@@ -93,8 +101,8 @@
             --}}
             <!-- Navigation Menu -->
             <nav class="container mx-auto nav-container">
-                <div class="flex justify-center items-center h-10">
-                    <div class="hidden space-x-8 md:flex">
+                <div class="flex relative justify-center items-center h-10">
+                    <div class="hidden space-x-8 md:flex" id="desktop-menu">
                         <a href="#" class="text-gray-300 hover:text-white">Movies</a>
                         <a href="#" class="text-gray-300 hover:text-white">Reviews</a>
                         <a href="#" class="text-gray-300 hover:text-white">News</a>
@@ -106,9 +114,23 @@
                         </button>
                         @endauth
                     </div>
-                    <button class="text-gray-300 hover:text-white md:hidden">
+                    <button class="text-gray-300 hover:text-white md:hidden" id="mobile-menu-button">
                         <i class="fas fa-bars"></i>
                     </button>
+                    <!-- Dropdown Menu -->
+                    <div id="dropdown-menu" class="hidden absolute right-0 top-full z-50 mt-2 w-48 bg-black rounded-lg border border-gray-700 shadow-lg">
+                        <div class="py-2">
+                            <a href="#" class="block px-4 py-2 text-gray-300 hover:text-white hover:bg-gray-800">Movies</a>
+                            <a href="#" class="block px-4 py-2 text-gray-300 hover:text-white hover:bg-gray-800">Reviews</a>
+                            <a href="#" class="block px-4 py-2 text-gray-300 hover:text-white hover:bg-gray-800">News</a>
+                            <a href="#" class="block px-4 py-2 text-gray-300 hover:text-white hover:bg-gray-800">Community</a>
+                            @auth
+                            <a href="{{ route('filament.admin.auth.login') }}" class="block px-4 py-2 text-gray-300 hover:text-white hover:bg-gray-800">
+                                <i class="mr-2 fas fa-user"></i>Account
+                            </a>
+                            @endauth
+                        </div>
+                    </div>
                 </div>
             </nav>
             <div class="relative pr-4 search-bar-container">
@@ -181,28 +203,45 @@
     <script>
         // Mobile menu toggle
         document.addEventListener('DOMContentLoaded', function() {
-            const menuButton = document.querySelector('button.md\\:hidden');
-            const mobileMenu = document.querySelector('.md\\:hidden.hidden');
-
-            menuButton.addEventListener('click', function() {
-                mobileMenu.classList.toggle('hidden');
-            });
-
-            // Header scroll effect
+            const menuButton = document.querySelector('#mobile-menu-button');
+            const dropdownMenu = document.querySelector('#dropdown-menu');
             const header = document.querySelector('header');
             let lastScrollTop = 0;
 
+            checkCompact();
+
+            // Toggle dropdown menu
+            menuButton.addEventListener('click', function(e) {
+                e.stopPropagation();
+                dropdownMenu.classList.toggle('hidden');
+            });
+
+            // Close dropdown when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!dropdownMenu.contains(e.target) && !menuButton.contains(e.target)) {
+                    dropdownMenu.classList.add('hidden');
+                }
+            });
+
+            // Header scroll effect
             window.addEventListener('scroll', function() {
+                checkCompact();
+            });
+
+            // Check if the header should be compact
+            function checkCompact() {
                 const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
 
                 if (scrollTop > 20) {
                     header.classList.add('compact');
                 } else {
                     header.classList.remove('compact');
+                    // Hide dropdown when scrolling up from compact mode
+                    dropdownMenu.classList.add('hidden');
                 }
 
                 lastScrollTop = scrollTop;
-            });
+            }
         });
     </script>
 
