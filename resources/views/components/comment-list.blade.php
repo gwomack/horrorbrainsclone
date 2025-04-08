@@ -1,4 +1,4 @@
-<div>
+<div class="space-y-2">
     @foreach ($comments as $comment)
     <div class="p-6 bg-gray-900">
         <div class="flex items-center mb-3">
