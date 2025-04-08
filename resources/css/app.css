@@ -1,3 +1,12 @@
+@font-face {
+    font-family: "EngeHolzschrift";
+    src: url("../fonts/enge-holzschrift-font/EngeHolzschrift-PKW2.ttf")
+        format("truetype");
+    font-weight: normal;
+    font-style: normal;
+    font-display: block;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -70,7 +79,7 @@
      */
 
     .site .horror-title {
-        font-family: "Creepster", cursive;
+        font-family: "Valdero", sans-serif;
     }
 
     .site .horror-text {
@@ -78,7 +87,12 @@
     }
 
     .site .blood-red {
-        @apply text-red-800;
+        /* @apply text-red-800; */
+        color: rgb(193, 0, 0);
+    }
+
+    .site .blood-red-bg {
+        background-color: rgb(193, 0, 0);
     }
 
     .site .movie-card-aspect {

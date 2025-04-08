@@ -57,7 +57,7 @@ wire:keydown.down.stop.prevent="nextTagByIndex" wire:keydown.up.stop.prevent="pr
     </div>
 
     <div class="flex-none">
-        <button wire:click.prevent="submitSearch" class="px-4 py-2 text-white bg-red-800 hover:bg-red-700">
+        <button wire:click.prevent="submitSearch" class="px-4 py-2 text-white blood-red hover:text-white hover:bg-red-700">
             <i class="fas fa-search"></i>
         </button>
     </div>
