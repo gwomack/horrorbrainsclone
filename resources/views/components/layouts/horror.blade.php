@@ -40,8 +40,8 @@
                     <div class="hidden space-x-8 md:flex" id="desktop-menu">
                         <a href="#" class="text-gray-300 hover:text-white">Movies</a>
                         <a wire:navigate href="{{ route('aboutus') }}" class="text-gray-300 hover:text-white">About Us</a>
-                        <a href="#" class="text-gray-300 hover:text-white">News</a>
-                        <a href="#" class="text-gray-300 hover:text-white">Community</a>
+                        <a wire:navigate href="{{ route('privacy.policy') }}" class="text-gray-300 hover:text-white">Privacy Policy</a>
+                        <a wire:navigate href="{{ route('terms.conditions') }}" class="text-gray-300 hover:text-white">Terms and Conditions</a>
                         @auth
                         <button wire:navigate href="{{ route('filament.admin.auth.login') }}"
                             class="text-gray-300 hover:text-white">

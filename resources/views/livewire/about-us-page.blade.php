@@ -10,13 +10,9 @@
         <!-- Main Content -->
         <div class="space-y-12 lg:col-span-3">
             <div>
-                {{-- <h1 class="text-4xl font-bold tracking-tight text-white md:text-6xl horror-title blood-red">
+                <h1 class="pb-6 text-4xl font-bold tracking-tight text-white md:text-6xl horror-title blood-red">
                     About Us
-                </h1> --}}
-
-                <h2 class="pb-12 text-2xl font-bold text-white md:text-3xl">
-                    About <span class="blood-red">Us</span>
-                </h2>
+                </h1>
 
                 <p class="leading-relaxed text-gray-300">
                     Welcome to Horror Brains – not just another website, but a space pulsating with the dark heart of the horror genre. Born from an undeniable passion shared by true horror aficionados, this platform is fueled by dedication and the insatiable curiosity of enthusiasts like you.
