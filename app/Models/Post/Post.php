@@ -187,11 +187,11 @@ class Post extends Model implements HasMedia
     /**
      * Get the trending posts.
      */
-    public static function getTrendingPostsQuery(): Builder
+    // convert this function into a local scope
+    public function scopeTrendingPosts(Builder $query): void
     {
         // query to get the posts with the highest trending score
-        return self::query()
-            ->where('posts.is_published', true)
+        $query->where('posts.is_published', true)
             ->whereHas('trendings', function ($query) {
                 $query->where('trending.updated_at', '>', now()->subDays(30));
             })

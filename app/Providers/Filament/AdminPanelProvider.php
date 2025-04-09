@@ -98,7 +98,12 @@ class AdminPanelProvider extends PanelProvider
             ->databaseNotifications()
             ->navigationItems([
                 NavigationItem::make('Back to the site')
-                    ->url(config('app.url', 'http://horrorbrainsclone.test'))
+                    ->url(config('app.url', env('APP_URL')))
+                    ->icon('heroicon-o-link'),
+            ])
+            ->navigationItems([
+                NavigationItem::make('Telescope')
+                    ->url(config('app.url', env('APP_URL')).'/telescope')
                     ->icon('heroicon-o-link'),
             ]);
     }

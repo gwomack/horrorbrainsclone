@@ -9,7 +9,7 @@
     </div>
     @if ($showCount && isset($tag->posts_count) && $tag->posts_count > 0)
         <div class="flex gap-2 items-center text-gray-500" style="font-size: 0.8rem;">
-            {{ $tag->posts_count }} movies
+            {{ $tag->posts_count }} {{ Str::plural('movie', $tag->posts_count) }}
         </div>
     @endif
 </button>

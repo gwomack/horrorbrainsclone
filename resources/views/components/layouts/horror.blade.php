@@ -38,10 +38,19 @@
             <nav class="container mx-auto nav-container">
                 <div class="flex relative justify-center items-center h-10">
                     <div class="hidden space-x-8 md:flex" id="desktop-menu">
-                        <a href="#" class="text-gray-300 hover:text-white">Movies</a>
+                        <a wire:navigate href="{{ route('movie.search', ['order_by' => 'trending']) }}" class="text-gray-300 hover:text-white">
+                            <i class="text-red-600 fas fa-fire"></i>
+                            <span class="text-sm font-medium whitespace-nowrap">Trending Now</span>
+                        </a>
+                        <a wire:navigate href="{{ route('movie.search', ['order_by' => 'rating', 'order_direction' => 'desc']) }}" class="text-gray-300 hover:text-white">
+                            <i class="text-yellow-500 fas fa-star"></i>
+                            <span class="text-sm font-medium whitespace-nowrap">Top Rated</span>
+                        </a>
+                        <a wire:navigate href="{{ route('movie.search', ['start_date' => now()->format('Y-m-d')]) }}" class="text-gray-300 hover:text-white">
+                            <i class="text-gray-400 fas fa-calendar"></i>
+                            <span class="text-sm font-medium whitespace-nowrap">Coming Soon</span>
+                        </a>
                         <a wire:navigate href="{{ route('aboutus') }}" class="text-gray-300 hover:text-white">About Us</a>
-                        <a wire:navigate href="{{ route('privacy.policy') }}" class="text-gray-300 hover:text-white">Privacy Policy</a>
-                        <a wire:navigate href="{{ route('terms.conditions') }}" class="text-gray-300 hover:text-white">Terms and Conditions</a>
                         @auth
                         <button wire:navigate href="{{ route('filament.admin.auth.login') }}"
                             class="text-gray-300 hover:text-white">
@@ -79,60 +88,9 @@
         {{ $slot }}
     </main>
 
+
     <!-- Footer -->
-    <footer class="flex-none py-8 mt-20 border-t thick-border">
-        <div class="container px-4 mx-auto">
-            <div class="grid grid-cols-1 gap-8 md:grid-cols-4">
-                <div>
-                    <h3 class="mb-4 text-xl horror-title blood-red">{{ config('app.name', 'Horror Brains') }}</h3>
-                    <p class="text-sm text-gray-400">Your ultimate resource for horror movie enthusiasts, providing
-                        up-to-date movie releases and discussion opportunities.</p>
-                </div>
-
-                <div>
-                    <h4 class="mb-4 font-semibold text-white">Quick Links</h4>
-                    <ul class="space-y-2 text-sm">
-                        <li><a href="#" class="text-gray-400 hover:text-white">Latest Movies</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white">Top Rated</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white">Coming Soon</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white">Reviews</a></li>
-                    </ul>
-                </div>
-
-                <div>
-                    <h4 class="mb-4 font-semibold text-white">Categories</h4>
-                    <ul class="space-y-2 text-sm">
-                        <li><a href="#" class="text-gray-400 hover:text-white">Slasher</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white">Supernatural</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white">Psychological</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white">Found Footage</a></li>
-                    </ul>
-                </div>
-
-                <div>
-                    <h4 class="mb-4 font-semibold text-white">Connect With Us</h4>
-                    <div class="flex space-x-4 text-gray-400">
-                        <a href="#" class="hover:text-white"><i class="fab fa-twitter"></i></a>
-                        <a href="#" class="hover:text-white"><i class="fab fa-facebook"></i></a>
-                        <a href="#" class="hover:text-white"><i class="fab fa-instagram"></i></a>
-                        <a href="#" class="hover:text-white"><i class="fab fa-youtube"></i></a>
-                    </div>
-                    <p class="mt-4 text-sm text-gray-400">Subscribe to our newsletter for the latest horror updates.</p>
-                    <div class="flex mt-2">
-                        <input type="email" placeholder="Your email"
-                            class="px-3 py-2 w-full text-sm text-white bg-black border-r-0 thick-border focus:outline-none focus:ring-1 focus:ring-red-700">
-                        <button class="px-3 py-2 text-sm text-white bg-red-800 rounded-r hover:bg-red-700">
-                            Subscribe
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="pt-6 mt-8 text-sm text-center text-gray-500 border-t light-border">
-                <p>&copy; {{ date('Y') }} {{ config('app.name', 'Horror Brains') }}. All rights reserved.</p>
-            </div>
-        </div>
-    </footer>
+    <x-footer />
 
     <!-- Scripts -->
     <script>

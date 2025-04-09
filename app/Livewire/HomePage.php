@@ -55,10 +55,12 @@ class HomePage extends Component
      */
     protected function getSubGenreTags()
     {
-        return SubGenre::withCount('posts')
-            ->orderBy('posts_count', 'desc')
-            ->orderBy('name', 'asc')
-            ->limit(10)->get();
+        return Cache::remember('sub-genre-tags', 3600, function () {
+            return SubGenre::withCount('posts')
+                ->orderBy('posts_count', 'desc')
+                ->orderBy('name', 'asc')
+                ->limit(15)->get();
+        });
     }
 
     /**
