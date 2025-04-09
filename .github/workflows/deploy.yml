@@ -1,0 +1,124 @@
+name: Test and Deploy
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  # test:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Checkout code
+  #       uses: actions/checkout@v4
+
+  # - name: "Create env file"
+  #   run: |
+  #     touch .env
+  #     cat .env
+
+  # - name: Cache js dependencies
+  #       id: cache-js
+  #       uses: actions/cache@v3
+  #       with:
+  #         path: node_modules
+  #         key: deps-${{ hashFiles('**/package-lock.json') }}
+
+  #     - name: Cache php dependencies
+  #       id: cache-php
+  #       uses: actions/cache@v3
+  #       with:
+  #         path: vendor
+  #         key: deps-${{ hashFiles('**/composer.lock') }}
+
+  #     - name: Install js dependencies
+  #       if: steps.cache-js.outputs.cache-hit != 'true'
+  #       run: npm ci
+
+  #     - name: Install php dependencies
+  #       if: steps.cache-php.outputs.cache-hit != 'true'
+  #       run: composer install
+
+  # - name: Run tests
+  #   run: npm test  # Add your test command here (if any)
+
+  deploy:
+    # needs: test
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install js dependencies
+        run: npm ci
+
+      - name: Install php dependencies
+        run: composer install
+
+      - name: "Create env file"
+        run: |
+          touch .env
+
+          echo APP_NAME="${{ vars.APP_NAME }}" >> .env
+          echo APP_ENV=production >> .env
+          echo APP_KEY=${{ secrets.APP_KEY }} >> .env
+          echo APP_DEBUG=false >> .env
+          echo APP_TIMEZONE=America/Sao_Paulo >> .env
+          echo APP_URL=${{ vars.APP_URL }} >> .env # For development if image cannot display
+          echo APP_LOCALE=en >> .env
+          echo APP_FALLBACK_LOCALE=en >> .env
+          echo APP_FAKER_LOCALE=en_US >> .env
+
+          echo APP_MAINTENANCE_DRIVER=file >> .env
+
+          echo BCRYPT_ROUNDS=12 >> .env
+
+          echo LOG_CHANNEL=stack >> .env
+          echo LOG_STACK=daily >> .env
+          echo LOG_DEPRECATIONS_CHANNEL=null >> .env
+          echo LOG_LEVEL=error >> .env
+
+          echo DB_CONNECTION=${{ secrets.DB_CONNECTION }} >> .env
+          echo DB_HOST=${{ secrets.DB_HOST }} >> .env
+          echo DB_PORT=${{ secrets.DB_PORT }} >> .env
+          echo DB_DATABASE=${{ secrets.DB_DATABASE }} >> .env
+          echo DB_USERNAME=${{ secrets.DB_USERNAME }} >> .env
+          echo DB_PASSWORD=${{ secrets.DB_PASSWORD }} >> .env
+
+          echo SESSION_DRIVER=${{ vars.SESSION_DRIVER }} >> .env
+          echo SESSION_LIFETIME=120 >> .env
+          echo SESSION_ENCRYPT=false >> .env
+          echo SESSION_PATH=/ >> .env
+          echo SESSION_DOMAIN=null >> .env
+
+          echo BROADCAST_CONNECTION=log >> .env
+          echo FILESYSTEM_DISK=local >> .env
+          echo QUEUE_CONNECTION=${{ vars.QUEUE_CONNECTION }} >> .env
+
+          echo CACHE_STORE=${{ vars.CACHE_STORE }} >> .env
+          echo CACHE_PREFIX= >> .env
+
+          echo REDIS_CLIENT=${{ secrets.REDIS_CLIENT }} >> .env
+          echo REDIS_HOST=${{ secrets.REDIS_HOST }} >> .env
+          echo REDIS_PASSWORD=${{ secrets.REDIS_PASSWORD }} >> .env
+          echo REDIS_PORT=${{ secrets.REDIS_PORT }} >> .env
+
+          echo VITE_APP_NAME="${{ vars.APP_NAME }}" >> .env
+
+          cat .env
+
+      - name: Deploy to VPS via SSH
+        uses: appleboy/scp-action@v0.1.6
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USERNAME }}
+          port: ${{ secrets.VPS_PORT || 22 }}
+          key: ${{ secrets.VPS_SSH_KEY }}
+          script: |
+            cd /home/${{ secrets.VPS_USERNAME }}/dev/php
+            git pull origin main
+            composer install --no-dev
+            php artisan migrate
+            npm install
+            vite build
