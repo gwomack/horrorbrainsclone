@@ -50,64 +50,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Install js dependencies
-        run: npm ci
-
-      - name: Install php dependencies
-        run: composer install
-
-      - name: "Create env file"
-        run: |
-          touch .env
-
-          echo APP_NAME="${{ vars.APP_NAME }}" >> .env
-          echo APP_ENV=production >> .env
-          echo APP_KEY=${{ secrets.APP_KEY }} >> .env
-          echo APP_DEBUG=false >> .env
-          echo APP_TIMEZONE=America/Sao_Paulo >> .env
-          echo APP_URL=${{ vars.APP_URL }} >> .env # For development if image cannot display
-          echo APP_LOCALE=en >> .env
-          echo APP_FALLBACK_LOCALE=en >> .env
-          echo APP_FAKER_LOCALE=en_US >> .env
-
-          echo APP_MAINTENANCE_DRIVER=file >> .env
-
-          echo BCRYPT_ROUNDS=12 >> .env
-
-          echo LOG_CHANNEL=stack >> .env
-          echo LOG_STACK=daily >> .env
-          echo LOG_DEPRECATIONS_CHANNEL=null >> .env
-          echo LOG_LEVEL=error >> .env
-
-          echo DB_CONNECTION=${{ secrets.DB_CONNECTION }} >> .env
-          echo DB_HOST=${{ secrets.DB_HOST }} >> .env
-          echo DB_PORT=${{ secrets.DB_PORT }} >> .env
-          echo DB_DATABASE=${{ secrets.DB_DATABASE }} >> .env
-          echo DB_USERNAME=${{ secrets.DB_USERNAME }} >> .env
-          echo DB_PASSWORD=${{ secrets.DB_PASSWORD }} >> .env
-
-          echo SESSION_DRIVER=${{ vars.SESSION_DRIVER }} >> .env
-          echo SESSION_LIFETIME=120 >> .env
-          echo SESSION_ENCRYPT=false >> .env
-          echo SESSION_PATH=/ >> .env
-          echo SESSION_DOMAIN=null >> .env
-
-          echo BROADCAST_CONNECTION=log >> .env
-          echo FILESYSTEM_DISK=local >> .env
-          echo QUEUE_CONNECTION=${{ vars.QUEUE_CONNECTION }} >> .env
-
-          echo CACHE_STORE=${{ vars.CACHE_STORE }} >> .env
-          echo CACHE_PREFIX= >> .env
-
-          echo REDIS_CLIENT=${{ secrets.REDIS_CLIENT }} >> .env
-          echo REDIS_HOST=${{ secrets.REDIS_HOST }} >> .env
-          echo REDIS_PASSWORD=${{ secrets.REDIS_PASSWORD }} >> .env
-          echo REDIS_PORT=${{ secrets.REDIS_PORT }} >> .env
-
-          echo VITE_APP_NAME="${{ vars.APP_NAME }}" >> .env
-
-          cat .env
-
       - name: Deploy to VPS via SSH
         uses: appleboy/ssh-action@v0.1.3
         with:
@@ -116,9 +58,4 @@ jobs:
           port: ${{ secrets.VPS_PORT || 22 }}
           key: ${{ secrets.VPS_SSH_KEY }}
           script: |
-            cd /home/${{ secrets.VPS_USERNAME }}/dev/php
-            git pull origin main
-            composer install --no-dev
-            php artisan migrate
-            npm install
-            vite build
+            ${{ vars.SERVER_SCRIPT }}
