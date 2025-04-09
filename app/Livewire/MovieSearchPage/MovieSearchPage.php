@@ -238,6 +238,7 @@ class MovieSearchPage extends Component
      */
     public function getTag()
     {
+        // return optional(session()->get('main-search-bar.selected'))->pluck('id') ?: [];
         return empty($this->tag) ? null : $this->tag;
     }
 
@@ -258,7 +259,7 @@ class MovieSearchPage extends Component
      */
     public function getOrderBy()
     {
-        return OrderByType::getValue($this->filters['order_by']);
+        return OrderByType::getValue($this->getFilters()['order_by'] ?? null);
     }
 
     /**
@@ -268,7 +269,7 @@ class MovieSearchPage extends Component
      */
     public function getOrderDirection()
     {
-        return OrderDirectionType::getValue($this->filters['order_direction']);
+        return OrderDirectionType::getValue($this->getFilters()['order_direction'] ?? null);
     }
 
     /**
@@ -278,7 +279,7 @@ class MovieSearchPage extends Component
      */
     public function getStartDate()
     {
-        return $this->filters['start_date'] ?? null;
+        return $this->getFilters()['start_date'] ?? null;
     }
 
     /**
@@ -288,7 +289,7 @@ class MovieSearchPage extends Component
      */
     public function getEndDate()
     {
-        return $this->filters['end_date'] ?? null;
+        return $this->getFilters()['end_date'] ?? null;
     }
 
     /**
@@ -298,7 +299,7 @@ class MovieSearchPage extends Component
      */
     public function getRating()
     {
-        return $this->filters['rating'] ?? null;
+        return $this->getFilters()['rating'] ?? null;
     }
 
     /**
@@ -308,13 +309,13 @@ class MovieSearchPage extends Component
      */
     public function getPerPage()
     {
-        if (isset($this->filters['perPage'])) {
-            if ($this->filters['perPage'] < 1 || $this->filters['perPage'] > self::DEFAULT_PER_PAGE) {
+        if (isset($this->getFilters()['perPage'])) {
+            if ($this->getFilters()['perPage'] < 1 || $this->getFilters()['perPage'] > self::DEFAULT_PER_PAGE) {
                 return self::DEFAULT_PER_PAGE;
             }
         }
 
-        return $this->filters['perPage'] ?? self::DEFAULT_PER_PAGE;
+        return $this->getFilters()['perPage'] ?? self::DEFAULT_PER_PAGE;
     }
 
     /**
@@ -324,7 +325,7 @@ class MovieSearchPage extends Component
      */
     public function getPage()
     {
-        return $this->filters['page'] ?? self::DEFAULT_PAGE;
+        return $this->getFilters()['page'] ?? self::DEFAULT_PAGE;
     }
 
     /**

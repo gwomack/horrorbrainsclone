@@ -8,8 +8,10 @@ use App\View\Components\Tag\TagToUrlParameter;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Log;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\On;
+use Livewire\Attributes\Session;
 use Livewire\Attributes\Url;
 use Livewire\Component;
 
@@ -32,6 +34,7 @@ class MainSearchBar extends Component
      *
      * @var Collection<array-key, array<string, mixed>>
      */
+    // #[Session('main-search-bar.selected')]
     public $selected;
 
     /**
@@ -60,13 +63,16 @@ class MainSearchBar extends Component
      *
      * @return void
      */
-    public function boot()
-    {
+    public function boot(
+        ?Request $request = null,
+    ) {
         $this->urlHandler = new SearchUrlParameters;
 
         $this->selected = $this->selected ?? collect();
 
         $this->tags = $this->tags ?? collect();
+
+        $this->buildSelectedFromRequest($request ?? request());
     }
 
     /**
@@ -74,13 +80,30 @@ class MainSearchBar extends Component
      *
      * @return void
      */
-    public function mount(
-        ?Request $request = null,
-    ) {
+    public function mount()
+    {
+        $this->searchTags($this->input);
+    }
+
+    /**
+     * Hydrate the component
+     *
+     * @return void
+     */
+    public function hydrate()
+    {
         $this->buildSelectedFromRequest($request ?? request());
 
-        $this->searchTags($this->input);
+    }
 
+    /**
+     * Replace the selected tags
+     *
+     * @return void
+     */
+    protected function replaceSelected(Collection $replace)
+    {
+        $this->selected = $this->selected->replace($replace);
     }
 
     /**
@@ -91,7 +114,9 @@ class MainSearchBar extends Component
     public function buildSelectedFromRequest($request = null)
     {
         $params = $this->urlHandler->getFromRequest($request ?? request());
-        $this->selected = $this->selected->replace($this->urlHandler->fromRequestToSelected($params));
+        // Log::debug('buildSelectedFromRequest', ['params' => $params]);
+        $this->replaceSelected($this->urlHandler->fromRequestToSelected($params));
+        // Log::debug('buildSelectedFromRequest', ['selected' => $this->selected]);
     }
 
     /**
@@ -102,7 +127,7 @@ class MainSearchBar extends Component
     public function buildFiltersFromRequest($request = null)
     {
         $params = $this->urlHandler->getFromRequest($request ?? request());
-        // $this->filters = $this->urlHandler->fromRequestToFilters($params);
+        $this->setFilters($this->urlHandler->fromRequestToFilters($params));
     }
 
     /**
@@ -568,6 +593,7 @@ class MainSearchBar extends Component
             $params = $this->urlHandler->fromSelectedToUrl($this->selected);
             $params = array_filter(array_merge($this->getFilters(), $params));
             $params = array_filter(array_merge($routeArr['parameters'], $params));
+            // dd($routeArr['name'], $params);
             $this->redirectRoute($routeArr['name'], $params, navigate: true);
         }
     }

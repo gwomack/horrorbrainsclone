@@ -38,21 +38,21 @@
             <nav class="container mx-auto nav-container">
                 <div class="flex relative justify-center items-center h-10">
                     <div class="hidden space-x-8 md:flex" id="desktop-menu">
-                        <a wire:navigate href="{{ route('movie.search', ['order_by' => 'trending']) }}" class="text-gray-300 hover:text-white">
+                        <a href="{{ route('movie.search', ['order_by' => 'trending']) }}" class="text-gray-300 hover:text-white">
                             <i class="text-red-600 fas fa-fire"></i>
                             <span class="text-sm font-medium whitespace-nowrap">Trending Now</span>
                         </a>
-                        <a wire:navigate href="{{ route('movie.search', ['order_by' => 'rating', 'order_direction' => 'desc']) }}" class="text-gray-300 hover:text-white">
+                        <a href="{{ route('movie.search', ['order_by' => 'rating', 'order_direction' => 'desc']) }}" class="text-gray-300 hover:text-white">
                             <i class="text-yellow-500 fas fa-star"></i>
                             <span class="text-sm font-medium whitespace-nowrap">Top Rated</span>
                         </a>
-                        <a wire:navigate href="{{ route('movie.search', ['start_date' => now()->format('Y-m-d')]) }}" class="text-gray-300 hover:text-white">
+                        <a href="{{ route('movie.search', ['start_date' => now()->format('Y-m-d')]) }}" class="text-gray-300 hover:text-white">
                             <i class="text-gray-400 fas fa-calendar"></i>
                             <span class="text-sm font-medium whitespace-nowrap">Coming Soon</span>
                         </a>
-                        <a wire:navigate href="{{ route('aboutus') }}" class="text-gray-300 hover:text-white">About Us</a>
+                        <a href="{{ route('aboutus') }}" class="text-gray-300 hover:text-white">About Us</a>
                         @auth
-                        <button wire:navigate href="{{ route('filament.admin.auth.login') }}"
+                        <button href="{{ route('filament.admin.auth.login') }}"
                             class="text-gray-300 hover:text-white">
                             <i class="fas fa-user"></i>
                         </button>
