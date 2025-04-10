@@ -52,10 +52,10 @@
                         </a>
                         <a href="{{ route('aboutus') }}" class="text-gray-300 hover:text-white">About Us</a>
                         @auth
-                        <button href="{{ route('filament.admin.auth.login') }}"
+                        <a href="{{ route('filament.admin.auth.login') }}"
                             class="text-gray-300 hover:text-white">
                             <i class="fas fa-user"></i>
-                        </button>
+                        </a>
                         @endauth
                     </div>
                     <button class="text-gray-300 hover:text-white md:hidden" id="mobile-menu-button">
