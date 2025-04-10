@@ -57,5 +57,7 @@ jobs:
           username: ${{ secrets.VPS_USERNAME }}
           port: ${{ secrets.VPS_PORT || 22 }}
           key: ${{ secrets.VPS_SSH_KEY }}
+          script_stop: true # Stop on error
+          timeout: 10m
           script: |
             ${{ vars.SERVER_SCRIPT }}
