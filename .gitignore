@@ -8,7 +8,6 @@
 /vendor
 .env
 .env.backup
-.env.production
 .phpactor.json
 .phpunit.result.cache
 Homestead.json
@@ -23,3 +22,4 @@ yarn-error.log
 /.zed
 /.cursor
 .DS_Store
+.env.keys
