@@ -52,6 +52,8 @@ jobs:
 
       - name: Deploy to VPS via SSH
         uses: appleboy/ssh-action@v0.1.3
+        env:
+          DOTENV_PRIVATE_KEY_PRODUCTION: ${{ secrets.DOTENV_PRIVATE_KEY_PRODUCTION }}
         with:
           host: ${{ secrets.VPS_HOST }}
           username: ${{ secrets.VPS_USERNAME }}
