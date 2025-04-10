@@ -64,10 +64,10 @@
                     <!-- Dropdown Menu -->
                     <div id="dropdown-menu" class="hidden absolute right-0 top-full z-50 mt-2 w-48 bg-black rounded-lg border border-gray-700 shadow-lg">
                         <div class="py-2">
-                            <a href="#" class="block px-4 py-2 text-gray-300 hover:text-white hover:bg-gray-800">Movies</a>
-                            <a href="#" class="block px-4 py-2 text-gray-300 hover:text-white hover:bg-gray-800">Reviews</a>
-                            <a href="#" class="block px-4 py-2 text-gray-300 hover:text-white hover:bg-gray-800">News</a>
-                            <a href="#" class="block px-4 py-2 text-gray-300 hover:text-white hover:bg-gray-800">Community</a>
+                            <a href="{{ route('movie.search', ['order_by' => 'trending']) }}" class="block px-4 py-2 text-gray-300 hover:text-white hover:bg-gray-800">Trending Now</a>
+                            <a href="{{ route('movie.search', ['order_by' => 'rating', 'order_direction' => 'desc']) }}" class="block px-4 py-2 text-gray-300 hover:text-white hover:bg-gray-800">Top Rated</a>
+                            <a href="{{ route('movie.search', ['start_date' => now()->format('Y-m-d')]) }}" class="block px-4 py-2 text-gray-300 hover:text-white hover:bg-gray-800">Coming Soon</a>
+                            <a href="{{ route('aboutus') }}" class="block px-4 py-2 text-gray-300 hover:text-white hover:bg-gray-800">About Us</a>
                             @auth
                             <a href="{{ route('filament.admin.auth.login') }}" class="block px-4 py-2 text-gray-300 hover:text-white hover:bg-gray-800">
                                 <i class="mr-2 fas fa-user"></i>Account
