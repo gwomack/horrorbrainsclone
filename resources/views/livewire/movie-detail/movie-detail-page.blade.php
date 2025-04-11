@@ -166,7 +166,7 @@
 
                 </div>
 
-                <!-- External Resources -->
+                {{-- <!-- External Resources -->
                 <div class="">
                     <h2 class="mb-6 text-2xl font-bold text-white md:text-3xl">External <span
                             class="blood-red">Resources</span></h2>
@@ -200,7 +200,7 @@
                             <i class="mr-3 text-xl fab fa-netflix"></i> Netflix
                         </a>
                     </div>
-                </div>
+                </div> --}}
 
                 <!-- User Reviews -->
                 <x-comment :post="$post" />
