@@ -61,5 +61,6 @@ jobs:
           key: ${{ secrets.VPS_SSH_KEY }}
           script_stop: true # Stop on error
           timeout: 10m
+          envs: DOTENV_PRIVATE_KEY_PRODUCTION
           script: |
             ${{ vars.SERVER_SCRIPT }}
