@@ -14,7 +14,7 @@ class AboutUsPage extends Component
         $key = 'random-movies';
 
         return cache()->remember($key, 360, function () {
-            return Post::with('year', 'genre')->inRandomOrder()->limit(3)->get();
+            return Post::published()->with('year', 'genre')->inRandomOrder()->limit(3)->get();
         });
     }
 

@@ -179,7 +179,9 @@ class MovieSearchPage extends Component
         return $post->when($this->getOrderBy() === OrderByType::TRENDING->value, function ($query) use ($post) {
             return $post->trendingPosts();
         })->when($this->getOrderBy() === OrderByType::COMMENTS->value, function ($query) {
-            return $query->withCount('comments');
+            return $query->withCount(['comments' => function ($query) {
+                $query->approved();
+            }]);
         })->when($this->getOrderBy() === OrderByType::VOTES->value, function ($query) {
             return $query->withCount('postRatings');
         })->when($this->getStartDate(), function ($query) {
