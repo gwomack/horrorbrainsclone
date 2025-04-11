@@ -1,11 +1,14 @@
-# Horror Brains Clone
+# Scream Hive
 
 A modern, reliable resource for horror movie enthusiasts, providing up-to-date movie releases, reviews, and discussion opportunities.
-// ... existing code ...
 
 ## About
 
-Horror Brains is a minimalist horror movie database and review platform that focuses on listing the latest horror movie releases, providing movie synopses, user reviews, and discussion sections. The platform is designed to be mobile-optimized and features a dark, horror-themed UI.
+Scream Hive is a minimalist horror movie database and review platform that focuses on listing the latest horror movie releases, providing movie synopses, user reviews, and discussion sections. The platform is designed to be mobile-optimized and features a dark, horror-themed UI.
+
+# DEMO
+
+[Scream Hive Demo](https://screemhive.danielveronese.download)
 
 ## Features
 
