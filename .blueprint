@@ -1,0 +1,30 @@
+created:
+    - database/factories/TagParentFactory.php
+    - database/migrations/2025_03_27_203554_create_tag_parents_table.php
+    - app/Models/TagParent.php
+models:
+    Contact: { name: string }
+    Post\ActingPivot: {  }
+    Post\Embed: {  }
+    Post\Post: {  }
+    Post\PostRating: {  }
+    Post\PostTag: {  }
+    Tag\Acting: {  }
+    Tag\Country: {  }
+    Tag\Director: {  }
+    Tag\Distribution: {  }
+    Tag\Language: {  }
+    Tag\PostTagCustomField: {  }
+    Tag\PostType: {  }
+    Tag\Production: {  }
+    Tag\SubGenre: {  }
+    Tag\Tag: {  }
+    Tag\Writer: {  }
+    Tag\Year: {  }
+    User: { name: string, email: string, email_verified_at: 'timestamp nullable', password: 'string nullable', remember_token: 'string:100 nullable', avatar_url: 'string nullable', theme: "string nullable default:'default'::character varying", theme_color: 'string nullable' }
+    Post: { title: string, slug: string, description: text, release_date: 'date nullable', rating: float, is_published: boolean, published_at: 'datetime nullable', softdeletes: softDeletes, relationships: { belongsToMany: 'Tag:&PostTag', hasMany: 'PostRating, Embeds' } }
+    Embed: { embed: string, type: 'enum:youtube,vimeo', is_published: boolean, published_at: 'datetime nullable', softdeletes: softDeletes, relationships: { belongsTo: Post } }
+    Tag: { name: 'string unique', slug: 'string unique', description: 'text nullable', softdeletes: softDeletes, relationships: { belongsToMany: 'Post:&PostTag' } }
+    PostTag: { id: id, post_id: 'id foreign:posts', tag_id: 'id foreign:tags', type: string, custom: 'json nullable', relationships: { belongsTo: 'Post, Tag' } }
+    PostRating: { post_id: 'id foreign:posts', rating: unsignedInteger, user_id: 'id foreign:users nullable', relationships: { belongsTo: Post } }
+    TagParent: { tag_id: 'id foreign:tags', parent_id: 'id foreign:tags', relationships: { belongsTo: Tag } }

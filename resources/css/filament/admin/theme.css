@@ -1,0 +1,17 @@
+@import "/vendor/filament/filament/resources/css/theme.css";
+
+@config 'tailwind.config.js';
+
+.smaller-editor {
+    min-height: 3rem;
+}
+
+@layer components {
+    /* .fi-input-wrp {
+        @apply bg-black;
+    } */
+
+    /* .fi-input-wrp-input {
+        @apply bg-transparent border-none rounded-none;
+    } */
+}

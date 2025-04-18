@@ -1,0 +1,205 @@
+@font-face {
+    font-family: "EngeHolzschrift";
+    src: url("../fonts/enge-holzschrift-font/EngeHolzschrift-PKW2.ttf")
+        format("truetype");
+    font-weight: normal;
+    font-style: normal;
+    font-display: block;
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@tailwind variants;
+
+/* Plugins */
+@plugin "@tailwindcss/forms";
+
+/* Horror Theme Custom Styles */
+
+[x-cloak] {
+    display: none !important;
+}
+
+@layer base {
+    body {
+        @apply bg-black text-gray-100;
+        /* color: #f8f8f8; */
+        font-family: "Figtree", sans-serif;
+    }
+}
+
+@layer utilities {
+    .scrollbar-hide {
+        -ms-overflow-style: none; /* IE and Edge */
+        scrollbar-width: none; /* Firefox */
+    }
+
+    .scrollbar-hide::-webkit-scrollbar {
+        display: none; /* Chrome, Safari and Opera */
+    }
+}
+
+@layer components {
+    /**
+     * Filament Forms
+     */
+
+    .site .fi-input-wrp {
+        @apply !rounded-none;
+    }
+
+    .site .fi-fo-component-ctn {
+        @apply !gap-1;
+    }
+
+    .site .fi-input-wrp-input * {
+        @apply text-white;
+    }
+
+    .site .fi-input-wrp-input > * {
+        border: 1px solid #4b5563;
+    }
+
+    .site .fi-input-wrp-input textarea,
+    .site .fi-input-wrp-input input {
+        @apply !bg-gray-700 px-4 py-2;
+    }
+
+    .site .fi-fo-field-wrp > .grid {
+        @apply !gap-y-0;
+    }
+
+    .site .comment-section button[type="submit"] {
+        @apply px-6 py-2 text-white bg-red-700 shadow-lg transition-all duration-300 hover:bg-red-600 focus:outline-none mt-1;
+    }
+
+    /**
+     * Horror Theme Custom Styles
+     */
+
+    .site .horror-title {
+        font-family: "Valdero", sans-serif;
+    }
+
+    .site .horror-text {
+        font-family: "Special Elite", cursive;
+    }
+
+    .site .blood-red {
+        /* @apply text-red-800; */
+        color: rgb(193, 0, 0);
+    }
+
+    .site .blood-red-bg {
+        background-color: rgb(193, 0, 0);
+    }
+
+    .site .movie-card-aspect {
+        @apply aspect-[16/9];
+    }
+
+    .site .nav-link {
+        @apply relative transition-all duration-300;
+    }
+
+    .site .nav-link:after {
+        content: "";
+        @apply absolute w-0 h-0.5 bottom-0 left-0 bg-red-800 transition-all duration-300;
+        content: "";
+        position: absolute;
+        width: 0;
+        height: 2px;
+        bottom: -2px;
+        left: 0;
+        transition: width 0.3s ease;
+    }
+
+    .site .nav-link:hover:after {
+        @apply w-full;
+    }
+
+    .site .nav-link:hover {
+        @apply text-red-800;
+        color: #b91c1c;
+    }
+
+    .site .thick-border {
+        @apply border-gray-300;
+    }
+
+    .site .light-border {
+        border-color: #2d2d2d;
+    }
+}
+
+/* Header transition styles */
+header {
+    transition: all 0.3s ease;
+}
+
+.horror-title {
+    font-family: "EngeHolzschrift", sans-serif !important;
+    font-weight: normal;
+    font-style: normal;
+}
+
+header.compact .logo-container {
+    flex: 0;
+    min-width: 120px;
+}
+
+header.compact .horror-title {
+    font-size: 1.5rem;
+    margin-bottom: 0;
+}
+
+header.compact .h-12 {
+    height: 2rem;
+}
+
+/* Row layout for compact header */
+header.compact > div {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 100%;
+    text-align: left;
+}
+
+header.compact .search-bar-container {
+    flex-grow: 1;
+    min-width: 0; /* trick to avoid overflow */
+}
+
+header.compact .nav-container {
+    flex: 0;
+    padding: 0 2.5rem 0 1.5rem;
+}
+
+/* Dropdown menu styles */
+header.compact #dropdown-menu {
+    position: absolute;
+    left: 0;
+    margin-top: 0.5rem;
+    width: 12rem;
+    background-color: black;
+    border: 1px solid rgb(55, 65, 81);
+    border-radius: 0.5rem;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+        0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+header.compact #mobile-menu-button {
+    display: block;
+}
+
+header.compact #desktop-menu {
+    display: none;
+}
+
+@media (min-width: 768px) {
+    header.compact .horror-title {
+        font-size: 2rem;
+    }
+}

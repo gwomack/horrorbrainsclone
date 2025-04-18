@@ -1,0 +1,54 @@
+models:
+  Post:
+    title: string
+    slug: string
+    description: text
+    release_date: date nullable
+    rating: float
+    is_published: boolean
+    published_at: datetime nullable
+    softDeletes
+    relationships:
+      belongsToMany: Tag:&PostTag
+      hasMany: PostRating, Embeds
+
+  Embed:
+    embed: string
+    type: enum:youtube,vimeo
+    is_published: boolean
+    published_at: datetime nullable
+    softDeletes
+    relationships:
+      belongsTo: Post
+
+  Tag:
+    name: string unique
+    slug: string unique
+    description: text nullable
+    softDeletes
+    relationships:
+      belongsToMany: Post:&PostTag
+
+  PostTag:
+    id: id
+    post_id: id foreign:posts
+    tag_id: id foreign:tags
+    type: string
+    custom: json nullable
+    relationships:
+      belongsTo: Post, Tag
+
+  TagParent:
+    tag_id: id foreign:tags
+    parent_id: id foreign:tags
+    relationships:
+      belongsTo: Tag
+
+  PostRating:
+    post_id: id foreign:posts
+    rating: unsignedInteger
+    user_id: id foreign:users nullable
+    relationships:
+      belongsTo: Post
+
+seeders: Post, Tag
