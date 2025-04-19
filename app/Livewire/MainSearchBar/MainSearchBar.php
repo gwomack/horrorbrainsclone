@@ -11,8 +11,6 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\On;
-use Livewire\Attributes\Session;
-use Livewire\Attributes\Url;
 use Livewire\Component;
 
 class MainSearchBar extends Component
@@ -59,20 +57,24 @@ class MainSearchBar extends Component
     public $tags;
 
     /**
+     * The filters
+     *
+     * @var array
+     */
+    protected $filters;
+
+    /**
      * Boot the component
      *
      * @return void
      */
-    public function boot(
-        ?Request $request = null,
-    ) {
+    public function boot(?Request $request = null) {
         $this->urlHandler = new SearchUrlParameters;
 
         $this->selected = $this->selected ?? collect();
 
         $this->tags = $this->tags ?? collect();
 
-        $this->buildSelectedFromRequest($request ?? request());
     }
 
     /**
@@ -80,9 +82,15 @@ class MainSearchBar extends Component
      *
      * @return void
      */
-    public function mount()
-    {
+    public function mount(?Request $request = null) {
+
         $this->searchTags($this->input);
+
+        $request = $request ?? request();
+        $this->buildSelectedFromRequest($request);
+        $this->buildFiltersFromRequest($request);
+
+        // Log::debug(request()->all());
     }
 
     /**
@@ -90,10 +98,8 @@ class MainSearchBar extends Component
      *
      * @return void
      */
-    public function hydrate()
-    {
-        $this->buildSelectedFromRequest($request ?? request());
-
+    public function hydrate(?Request $request = null) {
+        // Log::debug(request()->all());
     }
 
     /**
@@ -111,7 +117,7 @@ class MainSearchBar extends Component
      *
      * @return void
      */
-    public function buildSelectedFromRequest($request = null)
+    public function buildSelectedFromRequest(?Request $request = null)
     {
         $params = $this->urlHandler->getFromRequest($request ?? request());
         // Log::debug('buildSelectedFromRequest', ['params' => $params]);
@@ -124,10 +130,11 @@ class MainSearchBar extends Component
      *
      * @return void
      */
-    public function buildFiltersFromRequest($request = null)
+    public function buildFiltersFromRequest(?Request $request = null)
     {
         $params = $this->urlHandler->getFromRequest($request ?? request());
-        $this->setFilters($this->urlHandler->fromRequestToFilters($params));
+        $this->setFilters($this->urlHandler->fromRequestToFilters($params)->toArray());
+        // Log::debug('buildFiltersFromRequest', ['filters' => $this->filters]);
     }
 
     /**
@@ -563,13 +570,25 @@ class MainSearchBar extends Component
     }
 
     /**
+     * Set the filters
+     *
+     * @return void
+     */
+    protected function setFilters(?array $filters = null)
+    {
+        // Log::debug($filters);
+        $this->filters = $filters ?? [];
+    }
+
+    /**
      * Get the filters
      *
      * @return array
      */
-    protected function getFilters()
+    public function getFilters()
     {
-        return session()->get('main-search-bar.filters') ?: [];
+        // Log::debug('getFilters', ['filters' => $this->filters]);
+        return $this->filters;
     }
 
     /**
@@ -577,8 +596,8 @@ class MainSearchBar extends Component
      *
      * @return void
      */
-    #[On('submitSearch', ['routeName'])]
-    public function submitSearch(?array $routeArr = null)
+    #[On('submitSearch', ['routeName', 'filters'])]
+    public function submitSearch(?array $routeArr = null, array $filters = [])
     {
         if ($this->showDropdown) {
 
@@ -591,7 +610,7 @@ class MainSearchBar extends Component
             $this->dispatchRefresh();
             $this->pushInputToSelected();
             $params = $this->urlHandler->fromSelectedToUrl($this->selected);
-            $params = array_filter(array_merge($this->getFilters(), $params));
+            $params = array_filter(array_merge($filters, $params));
             $params = array_filter(array_merge($routeArr['parameters'], $params));
             // dd($routeArr['name'], $params);
             $this->redirectRoute($routeArr['name'], $params, navigate: true);

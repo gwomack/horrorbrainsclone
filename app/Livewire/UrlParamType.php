@@ -15,6 +15,8 @@ enum UrlParamType: string implements HasLabel
     case ORDER_BY = 'order_by';
     case ORDER_DIRECTION = 'order_direction';
     case SEARCH_TYPE = 'st';
+    case PER_PAGE = 'per_page';
+    case PAGE = 'page';
 
     /**
      * Get the tag type from a value.
@@ -30,6 +32,8 @@ enum UrlParamType: string implements HasLabel
             self::ORDER_BY->value => self::ORDER_BY,
             self::ORDER_DIRECTION->value => self::ORDER_DIRECTION,
             self::SEARCH_TYPE->value => self::SEARCH_TYPE,
+            self::PER_PAGE->value => self::PER_PAGE,
+            self::PAGE->value => self::PAGE,
             default => self::TAG,
         };
     }
@@ -48,6 +52,8 @@ enum UrlParamType: string implements HasLabel
             self::ORDER_BY => 'Order By',
             self::ORDER_DIRECTION => 'Order Direction',
             self::SEARCH_TYPE => 'Search Type',
+            self::PER_PAGE => 'Per Page',
+            self::PAGE => 'Page',
             default => 'Tag',
         };
     }
@@ -78,6 +84,8 @@ enum UrlParamType: string implements HasLabel
             self::ORDER_BY->getLabel() => self::ORDER_BY,
             self::ORDER_DIRECTION->getLabel() => self::ORDER_DIRECTION,
             self::SEARCH_TYPE->getLabel() => self::SEARCH_TYPE,
+            self::PER_PAGE->getLabel() => self::PER_PAGE,
+            self::PAGE->getLabel() => self::PAGE,
             default => self::TAG,
         };
     }

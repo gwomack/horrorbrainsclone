@@ -28,20 +28,22 @@
 
                         <div class="flex gap-1">
                             <div class="flex-1">
-                                <select wire:model="filters.order_by" class="px-4 py-2 w-full text-white bg-gray-800 border-none focus:ring-2 focus:ring-red-500 focus:border-transparent">
+                                <select wire:model="filters.order_by"
+                                    class="px-4 py-2 w-full text-white bg-gray-800 border-none focus:ring-2 focus:ring-red-500 focus:border-transparent">
                                     @foreach ($orderByTypes as $orderByType)
-                                    <option value="{{ $orderByType['id'] }}"
-                                        {{ $orderByType['id'] === ($filters['order_by'] ?? 'release_date') ? 'selected' : '' }}
-                                    >{{ $orderByType['label'] }}</option>
+                                    <option value="{{ $orderByType['id'] }}" {{
+                                        $orderByType['id']===($filters['order_by'] ?? 'release_date' ) ? 'selected' : ''
+                                        }}>{{ $orderByType['label'] }}</option>
                                     @endforeach
                                 </select>
                             </div>
                             <div class="flex-1">
-                                <select wire:model="filters.order_direction" class="px-4 py-2 w-full text-white bg-gray-800 border-none focus:ring-2 focus:ring-red-500 focus:border-transparent">
+                                <select wire:model="filters.order_direction"
+                                    class="px-4 py-2 w-full text-white bg-gray-800 border-none focus:ring-2 focus:ring-red-500 focus:border-transparent">
                                     @foreach ($orderDirectionTypes as $orderDirectionType)
-                                    <option value="{{ $orderDirectionType['id'] }}"
-                                        {{ $orderDirectionType['id'] === ($filters['order_direction'] ?? 'desc') ? 'selected' : '' }}
-                                    >{{ $orderDirectionType['label'] }}</option>
+                                    <option value="{{ $orderDirectionType['id'] }}">
+                                        {{ $orderDirectionType['label'] }}
+                                    </option>
                                     @endforeach
                                 </select>
                             </div>
@@ -58,13 +60,18 @@
                 <div class="space-y-4">
                     <label class="block text-sm font-medium text-gray-300">Search Type</label>
                     <div class="flex gap-x-3 items-center">
-                        <label for="hs-basic-with-description" class="text-sm text-gray-500 dark:text-neutral-400">OR</label>
+                        <label for="hs-basic-with-description"
+                            class="text-sm text-gray-500 dark:text-neutral-400">OR</label>
                         <label for="hs-basic-with-description" class="inline-block relative w-11 h-6 cursor-pointer">
-                        <input type="checkbox" id="hs-basic-with-description" class="sr-only peer" wire:model="filters.st" {{ ($filters['st'] ?? false) ? 'checked' : '' }}>
-                        <span class="absolute inset-0 bg-gray-800 rounded-full transition-colors duration-200 ease-in-out peer-checked:bg-blue-600 dark:bg-neutral-700 dark:peer-checked:bg-blue-500 peer-disabled:opacity-50 peer-disabled:pointer-events-none"></span>
-                        <span class="absolute top-1/2 bg-white rounded-full transition-transform duration-200 ease-in-out -translate-y-1/2 start-0.5 size-5 shadow-xs peer-checked:translate-x-full dark:bg-neutral-400 dark:peer-checked:bg-white"></span>
+                            <input type="checkbox" id="hs-basic-with-description" class="sr-only peer"
+                                wire:model="filters.st" {{ ($filters['st'] ?? false) ? 'checked' : '' }}>
+                            <span
+                                class="absolute inset-0 bg-gray-800 rounded-full transition-colors duration-200 ease-in-out peer-checked:bg-blue-600 dark:bg-neutral-700 dark:peer-checked:bg-blue-500 peer-disabled:opacity-50 peer-disabled:pointer-events-none"></span>
+                            <span
+                                class="absolute top-1/2 bg-white rounded-full transition-transform duration-200 ease-in-out -translate-y-1/2 start-0.5 size-5 shadow-xs peer-checked:translate-x-full dark:bg-neutral-400 dark:peer-checked:bg-white"></span>
                         </label>
-                        <label for="hs-basic-with-description" class="text-sm text-gray-500 dark:text-neutral-400">AND</label>
+                        <label for="hs-basic-with-description"
+                            class="text-sm text-gray-500 dark:text-neutral-400">AND</label>
                     </div>
                 </div>
             </div>

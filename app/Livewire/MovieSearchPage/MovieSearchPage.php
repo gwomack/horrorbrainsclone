@@ -20,16 +20,12 @@ class MovieSearchPage extends Component
 
     const DEFAULT_PER_PAGE = 12;
 
-    const DEFAULT_ORDER_BY = 'release_date';
-
-    const DEFAULT_ORDER_DIRECTION = 'desc';
-
     /**
      * Filter properties
      *
      * @var array|null
      */
-    #[Session('main-search-bar.filters')]
+    // #[Session('main-search-bar.filters')]
     public $filters = null;
 
     /**
@@ -89,7 +85,7 @@ class MovieSearchPage extends Component
      */
     public function render()
     {
-        // dd($this->filters);
+        // Log::debug($this->filters);
 
         return view('livewire.page.movie-search-page', [
             'movies' => $this->movies,
@@ -119,8 +115,13 @@ class MovieSearchPage extends Component
         $this->setTag($params[UrlParamType::TAG->value] ?? null);
         $this->setInput($params[UrlParamType::INPUT->value] ?? null);
 
+        // Log::debug($params);
+
         $this->setFilters(
-            collect($params)->except('tag', 'input', 'perPage', 'page')->toArray()
+            collect($params)->only(
+                'order_by', 'order_direction', 'start_date', 'end_date', 'rating',
+                'per_page', 'page', 'st'
+            )->toArray()
         );
     }
 
@@ -132,6 +133,9 @@ class MovieSearchPage extends Component
     #[Computed(persist: true)]
     public function movies()
     {
+        // Log::debug($this->getOrderBy());
+        // Log::debug($this->getOrderDirection());
+
         $query = $this->getMoviesQuery()
             ->orderBy('title', 'asc');
 
@@ -176,13 +180,21 @@ class MovieSearchPage extends Component
     {
         $post = Post::published()->with(['year', 'genre', 'media']);
 
-        return $post->when($this->getOrderBy() === OrderByType::TRENDING->value, function ($query) use ($post) {
+        $isTrending = $this->getOrderBy() === OrderByType::TRENDING->value;
+        $isComments = $this->getOrderBy() === OrderByType::COMMENTS->value;
+        $isVotes = $this->getOrderBy() === OrderByType::VOTES->value;
+
+        // Log::debug($this->getFilters());
+
+        return $post->when($isTrending, function ($query) use ($post) {
             return $post->trendingPosts();
-        })->when($this->getOrderBy() === OrderByType::COMMENTS->value, function ($query) {
+        })->when(!$isTrending, function ($query) {
+            return $query->orderBy($this->getOrderBy(), $this->getOrderDirection());
+        })->when($isComments, function ($query) {
             return $query->withCount(['comments' => function ($query) {
                 $query->approved();
             }]);
-        })->when($this->getOrderBy() === OrderByType::VOTES->value, function ($query) {
+        })->when($isVotes, function ($query) {
             return $query->withCount('postRatings');
         })->when($this->getStartDate(), function ($query) {
             $query->where('release_date', '>=', $this->getStartDate());
@@ -251,7 +263,7 @@ class MovieSearchPage extends Component
      */
     public function getSearchType()
     {
-        return $this->filters['st'] ?? null;
+        return $this->filters['st'];
     }
 
     /**
@@ -261,7 +273,7 @@ class MovieSearchPage extends Component
      */
     public function getOrderBy()
     {
-        return OrderByType::getValue($this->getFilters()['order_by'] ?? null);
+        return $this->filters['order_by'];
     }
 
     /**
@@ -271,7 +283,7 @@ class MovieSearchPage extends Component
      */
     public function getOrderDirection()
     {
-        return OrderDirectionType::getValue($this->getFilters()['order_direction'] ?? null);
+        return $this->filters['order_direction'];
     }
 
     /**
@@ -281,7 +293,7 @@ class MovieSearchPage extends Component
      */
     public function getStartDate()
     {
-        return $this->getFilters()['start_date'] ?? null;
+        return $this->filters['start_date'];
     }
 
     /**
@@ -291,7 +303,7 @@ class MovieSearchPage extends Component
      */
     public function getEndDate()
     {
-        return $this->getFilters()['end_date'] ?? null;
+        return $this->filters['end_date'];
     }
 
     /**
@@ -301,7 +313,7 @@ class MovieSearchPage extends Component
      */
     public function getRating()
     {
-        return $this->getFilters()['rating'] ?? null;
+        return $this->filters['rating'];
     }
 
     /**
@@ -311,13 +323,7 @@ class MovieSearchPage extends Component
      */
     public function getPerPage()
     {
-        if (isset($this->getFilters()['perPage'])) {
-            if ($this->getFilters()['perPage'] < 1 || $this->getFilters()['perPage'] > self::DEFAULT_PER_PAGE) {
-                return self::DEFAULT_PER_PAGE;
-            }
-        }
-
-        return $this->getFilters()['perPage'] ?? self::DEFAULT_PER_PAGE;
+        return $this->filters['per_page'];
     }
 
     /**
@@ -327,7 +333,7 @@ class MovieSearchPage extends Component
      */
     public function getPage()
     {
-        return $this->getFilters()['page'] ?? self::DEFAULT_PAGE;
+        return $this->filters['page'];
     }
 
     /**
@@ -337,7 +343,7 @@ class MovieSearchPage extends Component
      */
     public function getFilters()
     {
-        return empty($this->filters) ? null : $this->filters;
+        return $this->filters;
     }
 
     /**
@@ -372,7 +378,7 @@ class MovieSearchPage extends Component
     {
         $this->setOrderBy($filters['order_by'] ?? null);
         $this->setOrderDirection($filters['order_direction'] ?? null);
-        $this->setPerPage($filters['perPage'] ?? null);
+        $this->setPerPage($filters['per_page'] ?? null);
         $this->setPage($filters['page'] ?? null);
         $this->setSearchType($filters['st'] ?? null);
         $this->setStartDate($filters['start_date'] ?? null);
@@ -388,7 +394,7 @@ class MovieSearchPage extends Component
      */
     public function setOrderBy($order_by)
     {
-        $this->filters['order_by'] = $order_by;
+        $this->filters['order_by'] = OrderByType::getValue($order_by);
     }
 
     /**
@@ -399,7 +405,7 @@ class MovieSearchPage extends Component
      */
     public function setOrderDirection($order_direction)
     {
-        $this->filters['order_direction'] = $order_direction;
+        $this->filters['order_direction'] = OrderDirectionType::getValue($order_direction);
     }
 
     /**
@@ -432,18 +438,28 @@ class MovieSearchPage extends Component
      */
     public function setSearchType($searchType)
     {
-        $this->filters['st'] = $searchType;
+        $this->filters['st'] = (bool) $searchType;
     }
 
     /**
      * Set the per page
      *
-     * @param  int  $perPage
+     * @param  int|null  $per_page
      * @return void
      */
-    public function setPerPage($perPage)
+    public function setPerPage($per_page)
     {
-        $this->filters['perPage'] = $perPage;
+        // Log::debug($per_page);
+
+        $per_page = (int) $per_page;
+
+        if ($per_page < 1 || $per_page > self::DEFAULT_PER_PAGE) {
+            $per_page = self::DEFAULT_PER_PAGE;
+        }
+
+        // Log::debug($per_page);
+
+        $this->filters['per_page'] = $per_page;
     }
 
     /**
@@ -538,7 +554,7 @@ class MovieSearchPage extends Component
         $this->resetTag();
         $this->unsetFilters();
 
-        $this->dispatch('submitSearch')
+        $this->dispatch('submitSearch', )
             ->to(MainSearchBar::class);
     }
 
@@ -549,9 +565,9 @@ class MovieSearchPage extends Component
      */
     public function applyFilters()
     {
-        $this->unsetPage();
+        // $this->unsetPage();
 
-        $this->dispatch('submitSearch', filters: array_filter($this->getFilters() ?: []))
+        $this->dispatch('submitSearch', filters: $this->getFilters())
             ->to(MainSearchBar::class);
     }
 }

@@ -16,7 +16,7 @@ enum OrderByType: string
 
     case TRENDING = 'trending';
 
-    case COMMENTS = 'post_comments_count';
+    case COMMENTS = 'comments_count';
 
     /**
      * Get the values

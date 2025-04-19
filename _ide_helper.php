@@ -22563,8 +22563,9 @@ namespace AnourValar\EloquentSerialize\Facades {
         /**
          * Pack
          *
-         * @param \Illuminate\Database\Eloquent\Builder $builder
+         * @param \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Relations\Relation $builder
          * @return string 
+         * @throws \RuntimeException
          * @static 
          */
         public static function serialize($builder)
@@ -23725,6 +23726,17 @@ namespace Livewire {
          *
          * @static 
          */
+        public static function findSynth($keyOrTarget, $component)
+        {
+            /** @var \Livewire\LivewireManager $instance */
+            return $instance->findSynth($keyOrTarget, $component);
+        }
+
+        /**
+         * 
+         *
+         * @static 
+         */
         public static function update($snapshot, $diff, $calls)
         {
             /** @var \Livewire\LivewireManager $instance */
@@ -24628,17 +24640,6 @@ namespace Illuminate\Http {
             return \Illuminate\Http\Request::hasValidRelativeSignatureWhileIgnoring($ignoreQuery);
         }
 
-        /**
-         * 
-         *
-         * @see \Inertia\ServiceProvider::registerRequestMacro()
-         * @static 
-         */
-        public static function inertia()
-        {
-            return \Illuminate\Http\Request::inertia();
-        }
-
             }
     }
 
@@ -24649,20 +24650,6 @@ namespace Illuminate\Routing {
      * @mixin \Illuminate\Routing\RouteRegistrar
      */
     class Router {
-        /**
-         * 
-         *
-         * @see \Inertia\ServiceProvider::registerRouterMacro()
-         * @param mixed $uri
-         * @param mixed $component
-         * @param mixed $props
-         * @static 
-         */
-        public static function inertia($uri, $component, $props = [])
-        {
-            return \Illuminate\Routing\Router::inertia($uri, $component, $props);
-        }
-
         /**
          * 
          *
@@ -24731,40 +24718,6 @@ namespace Illuminate\Routing {
         public static function livewire_current()
         {
             return \Illuminate\Routing\UrlGenerator::livewire_current();
-        }
-
-            }
-    }
-
-namespace Illuminate\Testing {
-    /**
-     * 
-     *
-     * @template TResponse of \Symfony\Component\HttpFoundation\Response
-     * @mixin \Illuminate\Http\Response
-     */
-    class TestResponse {
-        /**
-         * 
-         *
-         * @see \Inertia\Testing\TestResponseMacros::assertInertia()
-         * @param \Closure|null $callback
-         * @static 
-         */
-        public static function assertInertia($callback = null)
-        {
-            return \Illuminate\Testing\TestResponse::assertInertia($callback);
-        }
-
-        /**
-         * 
-         *
-         * @see \Inertia\Testing\TestResponseMacros::inertiaPage()
-         * @static 
-         */
-        public static function inertiaPage()
-        {
-            return \Illuminate\Testing\TestResponse::inertiaPage();
         }
 
             }
@@ -25130,6 +25083,336 @@ namespace Illuminate\Database\Eloquent {
         public static function storeExcel($filePath, $disk = null, $writerType = null, $withHeadings = false)
         {
             return \Illuminate\Database\Eloquent\Collection::storeExcel($filePath, $disk, $writerType, $withHeadings);
+        }
+
+            }
+    }
+
+namespace App\Filament\Resources\PostResource\Api\Requests {
+    /**
+     * 
+     *
+     */
+    class CreatePostRequest {
+        /**
+         * 
+         *
+         * @see \Illuminate\Foundation\Providers\FoundationServiceProvider::registerRequestValidation()
+         * @param array $rules
+         * @param mixed $params
+         * @static 
+         */
+        public static function validate($rules, ...$params)
+        {
+            return \App\Filament\Resources\PostResource\Api\Requests\CreatePostRequest::validate($rules, ...$params);
+        }
+
+        /**
+         * 
+         *
+         * @see \Illuminate\Foundation\Providers\FoundationServiceProvider::registerRequestValidation()
+         * @param string $errorBag
+         * @param array $rules
+         * @param mixed $params
+         * @static 
+         */
+        public static function validateWithBag($errorBag, $rules, ...$params)
+        {
+            return \App\Filament\Resources\PostResource\Api\Requests\CreatePostRequest::validateWithBag($errorBag, $rules, ...$params);
+        }
+
+        /**
+         * 
+         *
+         * @see \Illuminate\Foundation\Providers\FoundationServiceProvider::registerRequestSignatureValidation()
+         * @param mixed $absolute
+         * @static 
+         */
+        public static function hasValidSignature($absolute = true)
+        {
+            return \App\Filament\Resources\PostResource\Api\Requests\CreatePostRequest::hasValidSignature($absolute);
+        }
+
+        /**
+         * 
+         *
+         * @see \Illuminate\Foundation\Providers\FoundationServiceProvider::registerRequestSignatureValidation()
+         * @static 
+         */
+        public static function hasValidRelativeSignature()
+        {
+            return \App\Filament\Resources\PostResource\Api\Requests\CreatePostRequest::hasValidRelativeSignature();
+        }
+
+        /**
+         * 
+         *
+         * @see \Illuminate\Foundation\Providers\FoundationServiceProvider::registerRequestSignatureValidation()
+         * @param mixed $ignoreQuery
+         * @param mixed $absolute
+         * @static 
+         */
+        public static function hasValidSignatureWhileIgnoring($ignoreQuery = [], $absolute = true)
+        {
+            return \App\Filament\Resources\PostResource\Api\Requests\CreatePostRequest::hasValidSignatureWhileIgnoring($ignoreQuery, $absolute);
+        }
+
+        /**
+         * 
+         *
+         * @see \Illuminate\Foundation\Providers\FoundationServiceProvider::registerRequestSignatureValidation()
+         * @param mixed $ignoreQuery
+         * @static 
+         */
+        public static function hasValidRelativeSignatureWhileIgnoring($ignoreQuery = [])
+        {
+            return \App\Filament\Resources\PostResource\Api\Requests\CreatePostRequest::hasValidRelativeSignatureWhileIgnoring($ignoreQuery);
+        }
+
+            }
+    /**
+     * 
+     *
+     */
+    class PostRequest {
+        /**
+         * 
+         *
+         * @see \Illuminate\Foundation\Providers\FoundationServiceProvider::registerRequestValidation()
+         * @param array $rules
+         * @param mixed $params
+         * @static 
+         */
+        public static function validate($rules, ...$params)
+        {
+            return \App\Filament\Resources\PostResource\Api\Requests\PostRequest::validate($rules, ...$params);
+        }
+
+        /**
+         * 
+         *
+         * @see \Illuminate\Foundation\Providers\FoundationServiceProvider::registerRequestValidation()
+         * @param string $errorBag
+         * @param array $rules
+         * @param mixed $params
+         * @static 
+         */
+        public static function validateWithBag($errorBag, $rules, ...$params)
+        {
+            return \App\Filament\Resources\PostResource\Api\Requests\PostRequest::validateWithBag($errorBag, $rules, ...$params);
+        }
+
+        /**
+         * 
+         *
+         * @see \Illuminate\Foundation\Providers\FoundationServiceProvider::registerRequestSignatureValidation()
+         * @param mixed $absolute
+         * @static 
+         */
+        public static function hasValidSignature($absolute = true)
+        {
+            return \App\Filament\Resources\PostResource\Api\Requests\PostRequest::hasValidSignature($absolute);
+        }
+
+        /**
+         * 
+         *
+         * @see \Illuminate\Foundation\Providers\FoundationServiceProvider::registerRequestSignatureValidation()
+         * @static 
+         */
+        public static function hasValidRelativeSignature()
+        {
+            return \App\Filament\Resources\PostResource\Api\Requests\PostRequest::hasValidRelativeSignature();
+        }
+
+        /**
+         * 
+         *
+         * @see \Illuminate\Foundation\Providers\FoundationServiceProvider::registerRequestSignatureValidation()
+         * @param mixed $ignoreQuery
+         * @param mixed $absolute
+         * @static 
+         */
+        public static function hasValidSignatureWhileIgnoring($ignoreQuery = [], $absolute = true)
+        {
+            return \App\Filament\Resources\PostResource\Api\Requests\PostRequest::hasValidSignatureWhileIgnoring($ignoreQuery, $absolute);
+        }
+
+        /**
+         * 
+         *
+         * @see \Illuminate\Foundation\Providers\FoundationServiceProvider::registerRequestSignatureValidation()
+         * @param mixed $ignoreQuery
+         * @static 
+         */
+        public static function hasValidRelativeSignatureWhileIgnoring($ignoreQuery = [])
+        {
+            return \App\Filament\Resources\PostResource\Api\Requests\PostRequest::hasValidRelativeSignatureWhileIgnoring($ignoreQuery);
+        }
+
+            }
+    /**
+     * 
+     *
+     */
+    class UpdatePostRequest {
+        /**
+         * 
+         *
+         * @see \Illuminate\Foundation\Providers\FoundationServiceProvider::registerRequestValidation()
+         * @param array $rules
+         * @param mixed $params
+         * @static 
+         */
+        public static function validate($rules, ...$params)
+        {
+            return \App\Filament\Resources\PostResource\Api\Requests\UpdatePostRequest::validate($rules, ...$params);
+        }
+
+        /**
+         * 
+         *
+         * @see \Illuminate\Foundation\Providers\FoundationServiceProvider::registerRequestValidation()
+         * @param string $errorBag
+         * @param array $rules
+         * @param mixed $params
+         * @static 
+         */
+        public static function validateWithBag($errorBag, $rules, ...$params)
+        {
+            return \App\Filament\Resources\PostResource\Api\Requests\UpdatePostRequest::validateWithBag($errorBag, $rules, ...$params);
+        }
+
+        /**
+         * 
+         *
+         * @see \Illuminate\Foundation\Providers\FoundationServiceProvider::registerRequestSignatureValidation()
+         * @param mixed $absolute
+         * @static 
+         */
+        public static function hasValidSignature($absolute = true)
+        {
+            return \App\Filament\Resources\PostResource\Api\Requests\UpdatePostRequest::hasValidSignature($absolute);
+        }
+
+        /**
+         * 
+         *
+         * @see \Illuminate\Foundation\Providers\FoundationServiceProvider::registerRequestSignatureValidation()
+         * @static 
+         */
+        public static function hasValidRelativeSignature()
+        {
+            return \App\Filament\Resources\PostResource\Api\Requests\UpdatePostRequest::hasValidRelativeSignature();
+        }
+
+        /**
+         * 
+         *
+         * @see \Illuminate\Foundation\Providers\FoundationServiceProvider::registerRequestSignatureValidation()
+         * @param mixed $ignoreQuery
+         * @param mixed $absolute
+         * @static 
+         */
+        public static function hasValidSignatureWhileIgnoring($ignoreQuery = [], $absolute = true)
+        {
+            return \App\Filament\Resources\PostResource\Api\Requests\UpdatePostRequest::hasValidSignatureWhileIgnoring($ignoreQuery, $absolute);
+        }
+
+        /**
+         * 
+         *
+         * @see \Illuminate\Foundation\Providers\FoundationServiceProvider::registerRequestSignatureValidation()
+         * @param mixed $ignoreQuery
+         * @static 
+         */
+        public static function hasValidRelativeSignatureWhileIgnoring($ignoreQuery = [])
+        {
+            return \App\Filament\Resources\PostResource\Api\Requests\UpdatePostRequest::hasValidRelativeSignatureWhileIgnoring($ignoreQuery);
+        }
+
+            }
+    }
+
+namespace Illuminate\Foundation\Http {
+    /**
+     * 
+     *
+     */
+    class FormRequest {
+        /**
+         * 
+         *
+         * @see \Illuminate\Foundation\Providers\FoundationServiceProvider::registerRequestValidation()
+         * @param array $rules
+         * @param mixed $params
+         * @static 
+         */
+        public static function validate($rules, ...$params)
+        {
+            return \Illuminate\Foundation\Http\FormRequest::validate($rules, ...$params);
+        }
+
+        /**
+         * 
+         *
+         * @see \Illuminate\Foundation\Providers\FoundationServiceProvider::registerRequestValidation()
+         * @param string $errorBag
+         * @param array $rules
+         * @param mixed $params
+         * @static 
+         */
+        public static function validateWithBag($errorBag, $rules, ...$params)
+        {
+            return \Illuminate\Foundation\Http\FormRequest::validateWithBag($errorBag, $rules, ...$params);
+        }
+
+        /**
+         * 
+         *
+         * @see \Illuminate\Foundation\Providers\FoundationServiceProvider::registerRequestSignatureValidation()
+         * @param mixed $absolute
+         * @static 
+         */
+        public static function hasValidSignature($absolute = true)
+        {
+            return \Illuminate\Foundation\Http\FormRequest::hasValidSignature($absolute);
+        }
+
+        /**
+         * 
+         *
+         * @see \Illuminate\Foundation\Providers\FoundationServiceProvider::registerRequestSignatureValidation()
+         * @static 
+         */
+        public static function hasValidRelativeSignature()
+        {
+            return \Illuminate\Foundation\Http\FormRequest::hasValidRelativeSignature();
+        }
+
+        /**
+         * 
+         *
+         * @see \Illuminate\Foundation\Providers\FoundationServiceProvider::registerRequestSignatureValidation()
+         * @param mixed $ignoreQuery
+         * @param mixed $absolute
+         * @static 
+         */
+        public static function hasValidSignatureWhileIgnoring($ignoreQuery = [], $absolute = true)
+        {
+            return \Illuminate\Foundation\Http\FormRequest::hasValidSignatureWhileIgnoring($ignoreQuery, $absolute);
+        }
+
+        /**
+         * 
+         *
+         * @see \Illuminate\Foundation\Providers\FoundationServiceProvider::registerRequestSignatureValidation()
+         * @param mixed $ignoreQuery
+         * @static 
+         */
+        public static function hasValidRelativeSignatureWhileIgnoring($ignoreQuery = [])
+        {
+            return \Illuminate\Foundation\Http\FormRequest::hasValidRelativeSignatureWhileIgnoring($ignoreQuery);
         }
 
             }
@@ -33293,11 +33576,6 @@ namespace  {
 }
 
 
-namespace Facades\Livewire\Features\SupportFileUploads {
-    /**
-     * @mixin \Livewire\Features\SupportFileUploads\GenerateSignedUploadUrl     */
-    class GenerateSignedUploadUrl extends \Livewire\Features\SupportFileUploads\GenerateSignedUploadUrl {}
-}
 
 
 

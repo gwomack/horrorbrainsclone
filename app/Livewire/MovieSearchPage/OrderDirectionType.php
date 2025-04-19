@@ -32,6 +32,7 @@ enum OrderDirectionType: string
         return match ($value) {
             self::ASC => 'Asc',
             self::DESC => 'Desc',
+            default => 'Desc',
         };
     }
 
