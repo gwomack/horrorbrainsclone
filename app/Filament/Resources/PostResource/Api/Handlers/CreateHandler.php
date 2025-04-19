@@ -101,7 +101,7 @@ class CreateHandler extends Handlers
                         }
 
                         $actModel->parents()->syncWithoutDetaching(
-                            Acting::firstOrCreate(['slug' => TagType::ACTING->value])->getKey()
+                            Tag::firstOrCreate(['slug' => TagType::ACTING->value])->getKey()
                         );
                         $model->acting()->attach($actModel->getKey(), $custom);
                     }
@@ -121,7 +121,7 @@ class CreateHandler extends Handlers
                     }
 
                     $dirModel->parents()->syncWithoutDetaching(
-                        Director::firstOrCreate(['slug' => TagType::DIRECTOR->value])->getKey()
+                        Tag::firstOrCreate(['slug' => TagType::DIRECTOR->value])->getKey()
                     );
                     $model->director()->attach($dirModel->getKey());
                 }
@@ -140,7 +140,7 @@ class CreateHandler extends Handlers
                     }
 
                     $wriModel->parents()->syncWithoutDetaching(
-                        Writer::firstOrCreate(['slug' => TagType::WRITER->value])->getKey()
+                        Tag::firstOrCreate(['slug' => TagType::WRITER->value])->getKey()
                     );
                     $model->writer()->attach($wriModel->getKey());
                 }
@@ -159,7 +159,7 @@ class CreateHandler extends Handlers
                     }
 
                     $prodModel->parents()->syncWithoutDetaching(
-                        Production::firstOrCreate(['slug' => TagType::PRODUCTION->value])->getKey()
+                        Tag::firstOrCreate(['slug' => TagType::PRODUCTION->value])->getKey()
                     );
                     $model->production()->attach($prodModel->getKey());
                 }
@@ -178,7 +178,7 @@ class CreateHandler extends Handlers
                     }
 
                     $distModel->parents()->syncWithoutDetaching(
-                        Distribution::firstOrCreate(['slug' => TagType::DISTRIBUTION->value])->getKey()
+                        Tag::firstOrCreate(['slug' => TagType::DISTRIBUTION->value])->getKey()
                     );
                     $model->distribution()->attach($distModel->getKey());
                 }
@@ -196,6 +196,9 @@ class CreateHandler extends Handlers
                         $counModel = Country::create(['name' => $coun]);
                     }
 
+                    $counModel->parents()->syncWithoutDetaching(
+                        Tag::firstOrCreate(['slug' => TagType::COUNTRY->value])->getKey()
+                    );
                     $model->country()->attach($counModel->getKey());
                 }
             }
@@ -212,6 +215,9 @@ class CreateHandler extends Handlers
                         $langModel = Language::create(['name' => $lang]);
                     }
 
+                    $langModel->parents()->syncWithoutDetaching(
+                        Tag::firstOrCreate(['slug' => TagType::LANGUAGE->value])->getKey()
+                    );
                     $model->language()->attach($langModel->getKey());
                 }
             }
@@ -228,6 +234,9 @@ class CreateHandler extends Handlers
                         $subModel = SubGenre::create(['name' => $sub]);
                     }
 
+                    $subModel->parents()->syncWithoutDetaching(
+                        Tag::firstOrCreate(['slug' => TagType::SUB_GENRE->value])->getKey()
+                    );
                     $model->subGenre()->attach($subModel->getKey());
                 }
             }
@@ -244,6 +253,9 @@ class CreateHandler extends Handlers
                         $genModel = Genre::create(['name' => $gen]);
                     }
 
+                    $genModel->parents()->syncWithoutDetaching(
+                        Tag::firstOrCreate(['slug' => TagType::GENRE->value])->getKey()
+                    );
                     $model->genre()->attach($genModel->getKey());
                 }
             }
@@ -260,6 +272,9 @@ class CreateHandler extends Handlers
                         $yeModel = Year::create(['name' => $ye]);
                     }
 
+                    $yeModel->parents()->syncWithoutDetaching(
+                        Tag::firstOrCreate(['slug' => TagType::YEAR->value])->getKey()
+                    );
                     $model->year()->attach($yeModel->getKey());
                 }
             }
