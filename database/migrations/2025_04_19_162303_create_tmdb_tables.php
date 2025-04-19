@@ -13,14 +13,14 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('tmdb_pages', function (Blueprint $table) {
-            $table->unsignedSmallInteger('id')->primary()->autoIncrement();
-            $table->unsignedSmallInteger('page');
+            $table->unsignedInteger('id')->primary()->autoIncrement();
+            $table->unsignedInteger('page');
             $table->timestamps();
         });
 
         Schema::create('tmdb_total_pages', function (Blueprint $table) {
-            $table->unsignedSmallInteger('id')->primary()->autoIncrement();
-            $table->unsignedSmallInteger('total');
+            $table->unsignedInteger('id')->primary()->autoIncrement();
+            $table->unsignedInteger('total');
             $table->timestamps();
         });
 
