@@ -216,7 +216,7 @@ class CreateHandler extends Handlers
                 }
             }
 
-            if ($writer = $request->get('writers')) {
+            if ($writer = $request->get('writer')) {
                 $writer = Arr::wrap($writer);
 
                 foreach ($writer as $wri) {
