@@ -2,26 +2,27 @@
 
 namespace App\Filament\Resources\PostResource\Api\Handlers;
 
-use App\Filament\Resources\PostResource;
-use App\Filament\Resources\PostResource\Api\Requests\CreatePostRequest;
-use App\Models\Post\EmbedType;
-use App\Models\Tag\Acting;
-use App\Models\Tag\Country;
-use App\Models\Tag\Director;
-use App\Models\Tag\Distribution;
+use App\Models\Tag\Tag;
+use App\Models\Tag\Year;
 use App\Models\Tag\Field;
 use App\Models\Tag\Genre;
-use App\Models\Tag\Language;
-use App\Models\Tag\Production;
-use App\Models\Tag\SubGenre;
-use App\Models\Tag\Tag;
+use App\Models\Tag\Acting;
 use App\Models\Tag\Writer;
-use App\Models\Tag\Year;
+use App\Models\Tag\Country;
+use App\Models\Tag\TagType;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
+use App\Models\Tag\Director;
+use App\Models\Tag\Language;
+use App\Models\Tag\SubGenre;
+use App\Models\Post\EmbedType;
+use App\Models\Tag\Production;
+use App\Models\Tag\Distribution;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Str;
 use Rupadana\ApiService\Http\Handlers;
+use App\Filament\Resources\PostResource;
+use App\Filament\Resources\PostResource\Api\Requests\CreatePostRequest;
 
 class CreateHandler extends Handlers
 {
@@ -99,6 +100,9 @@ class CreateHandler extends Handlers
                             ];
                         }
 
+                        $actModel->parents()->syncWithoutDetaching(
+                            Acting::firstOrCreate(['slug' => TagType::ACTING->value])->getKey()
+                        );
                         $model->acting()->attach($actModel->getKey(), $custom);
                     }
                 }
@@ -116,7 +120,29 @@ class CreateHandler extends Handlers
                         $dirModel = Director::create(['name' => $dir]);
                     }
 
+                    $dirModel->parents()->syncWithoutDetaching(
+                        Director::firstOrCreate(['slug' => TagType::DIRECTOR->value])->getKey()
+                    );
                     $model->director()->attach($dirModel->getKey());
+                }
+            }
+
+            if ($writer = $request->get('writers')) {
+                $writer = Arr::wrap($writer);
+
+                foreach ($writer as $wri) {
+                    $wri = trim($wri);
+                    $slug = Str::slug($wri);
+                    $wriModel = Tag::where('slug', $slug)->first();
+
+                    if (! $wriModel) {
+                        $wriModel = Writer::create(['name' => $wri]);
+                    }
+
+                    $wriModel->parents()->syncWithoutDetaching(
+                        Writer::firstOrCreate(['slug' => TagType::WRITER->value])->getKey()
+                    );
+                    $model->writer()->attach($wriModel->getKey());
                 }
             }
 
@@ -132,6 +158,9 @@ class CreateHandler extends Handlers
                         $prodModel = Production::create(['name' => $prod]);
                     }
 
+                    $prodModel->parents()->syncWithoutDetaching(
+                        Production::firstOrCreate(['slug' => TagType::PRODUCTION->value])->getKey()
+                    );
                     $model->production()->attach($prodModel->getKey());
                 }
             }
@@ -148,6 +177,9 @@ class CreateHandler extends Handlers
                         $distModel = Distribution::create(['name' => $dist]);
                     }
 
+                    $distModel->parents()->syncWithoutDetaching(
+                        Distribution::firstOrCreate(['slug' => TagType::DISTRIBUTION->value])->getKey()
+                    );
                     $model->distribution()->attach($distModel->getKey());
                 }
             }
@@ -213,22 +245,6 @@ class CreateHandler extends Handlers
                     }
 
                     $model->genre()->attach($genModel->getKey());
-                }
-            }
-
-            if ($writer = $request->get('writer')) {
-                $writer = Arr::wrap($writer);
-
-                foreach ($writer as $wri) {
-                    $wri = trim($wri);
-                    $slug = Str::slug($wri);
-                    $wriModel = Tag::where('slug', $slug)->first();
-
-                    if (! $wriModel) {
-                        $wriModel = Writer::create(['name' => $wri]);
-                    }
-
-                    $model->writer()->attach($wriModel->getKey());
                 }
             }
 
