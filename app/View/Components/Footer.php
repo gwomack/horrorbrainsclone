@@ -49,8 +49,9 @@ class Footer extends Component
                     $offset = $randomizer->getInt(0, $count - 1);
 
                     // Use offset to get a random record
-                    $tag = $model::has('posts')
-                        ->offset($offset)
+                    $tag = $model::whereHas('posts', function ($query) {
+                        $query->published();
+                    })->offset($offset)
                         ->limit(1)
                         ->first();
 
