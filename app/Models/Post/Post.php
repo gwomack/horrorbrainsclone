@@ -2,32 +2,33 @@
 
 namespace App\Models\Post;
 
-use App\Models\PostExtra;
-use App\Models\Tag\Acting;
-use App\Models\Tag\Field;
-use App\Models\Tag\Tag;
-use App\Models\Tag\TagType;
 use Filament\Forms;
-use Filament\Forms\Components\Fieldset;
+use App\Models\Tag\Tag;
+use App\Models\PostExtra;
+use App\Models\Tag\Field;
+use App\Models\Tag\Acting;
+use App\Models\Tag\TagType;
+use Spatie\Image\Enums\Fit;
+use Spatie\MediaLibrary\HasMedia;
 use Filament\Forms\Components\Grid;
-use Filament\Forms\Components\Repeater;
-use Filament\Forms\Components\Section;
-use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Casts\Attribute;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Cache;
+use Filament\Forms\Components\Section;
+use Filament\Forms\Components\Fieldset;
+use Filament\Forms\Components\Repeater;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
+use Spatie\MediaLibrary\InteractsWithMedia;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Mokhosh\FilamentRating\Components\Rating;
+use Illuminate\Database\Eloquent\Casts\Attribute;
+use Rupadana\ApiService\Contracts\HasAllowedSorts;
 use Rupadana\ApiService\Contracts\HasAllowedFields;
 use Rupadana\ApiService\Contracts\HasAllowedFilters;
 use Rupadana\ApiService\Contracts\HasAllowedIncludes;
-use Rupadana\ApiService\Contracts\HasAllowedSorts;
-use Spatie\Image\Enums\Fit;
-use Spatie\MediaLibrary\HasMedia;
-use Spatie\MediaLibrary\InteractsWithMedia;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 
 class Post extends Model implements HasAllowedFields, HasAllowedFilters, HasAllowedIncludes, HasAllowedSorts, HasMedia
 {
@@ -118,6 +119,16 @@ class Post extends Model implements HasAllowedFields, HasAllowedFilters, HasAllo
                     ]);
                 }
             }
+        });
+
+        // Clear the cache when the post is saved
+        self::saved(function ($post) {
+            Cache::forget('movie-search-page.movies');
+        });
+
+        // Clear the cache when the post is deleted
+        self::deleted(function ($post) {
+            Cache::forget('movie-search-page.movies');
         });
     }
 
