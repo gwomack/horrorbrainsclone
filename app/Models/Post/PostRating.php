@@ -30,6 +30,8 @@ class PostRating extends Model
             if (Auth::check()) {
                 $model->user_id = $model->user_id ?: Auth::id();
             }
+
+            $model->public_user = $model->public_user ?? getPublicUserChecksum();
         });
 
         // Update the post rating when a rating is saved
