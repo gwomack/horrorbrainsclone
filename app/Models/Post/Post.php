@@ -120,16 +120,6 @@ class Post extends Model implements HasAllowedFields, HasAllowedFilters, HasAllo
                 }
             }
         });
-
-        // Clear the cache when the post is saved
-        self::saved(function ($post) {
-            Cache::forget('movie-search-page.movies');
-        });
-
-        // Clear the cache when the post is deleted
-        self::deleted(function ($post) {
-            Cache::forget('movie-search-page.movies');
-        });
     }
 
     // Which fields can be selected from the database through the query string

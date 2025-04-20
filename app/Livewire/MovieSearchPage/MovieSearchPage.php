@@ -130,7 +130,7 @@ class MovieSearchPage extends Component
      *
      * @var \Illuminate\Pagination\LengthAwarePaginator
      */
-    #[Computed(persist: true, key: 'movie-search-page.movies')]
+    #[Computed(persist: true)]
     public function movies()
     {
         // Log::debug($this->getOrderBy());
