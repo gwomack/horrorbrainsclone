@@ -8,6 +8,8 @@ enum OrderByType: string
 
     case CREATED_AT = 'created_at';
 
+    case PUBLISHED_AT = 'published_at';
+
     case TITLE = 'title';
 
     case RATING = 'rating';
@@ -28,6 +30,7 @@ enum OrderByType: string
         return [
             self::RELEASE_DATE,
             self::CREATED_AT,
+            self::PUBLISHED_AT,
             self::TITLE,
             self::RATING,
             self::VOTES,
@@ -47,6 +50,7 @@ enum OrderByType: string
         return match ($value) {
             self::RELEASE_DATE => 'Release Date',
             self::CREATED_AT => 'Date Added',
+            self::PUBLISHED_AT => 'Published Date',
             self::TITLE => 'Title',
             self::RATING => 'Rating',
             self::VOTES => 'Rating Count',
@@ -65,6 +69,7 @@ enum OrderByType: string
         return match ($value) {
             self::RELEASE_DATE->value => self::RELEASE_DATE->value,
             self::CREATED_AT->value => self::CREATED_AT->value,
+            self::PUBLISHED_AT->value => self::PUBLISHED_AT->value,
             self::TITLE->value => self::TITLE->value,
             self::RATING->value => self::RATING->value,
             self::VOTES->value => self::VOTES->value,
