@@ -10,14 +10,18 @@ use Filament\Forms\Components\Section;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Rupadana\ApiService\Contracts\HasAllowedSorts;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Rupadana\ApiService\Contracts\HasAllowedFields;
+use Rupadana\ApiService\Contracts\HasAllowedFilters;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Rupadana\ApiService\Contracts\HasAllowedIncludes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
-class Tag extends Model implements HasType
+class Tag extends Model implements HasType, HasAllowedFields, HasAllowedFilters, HasAllowedIncludes, HasAllowedSorts
 {
     use HasFactory;
     use SoftDeletes;
@@ -74,6 +78,63 @@ class Tag extends Model implements HasType
             $tag->slug = $tag->slug ?? str()->slug($tag->name);
         });
     }
+
+    // Which fields can be selected from the database through the query string
+    public static function getAllowedFields(): array
+    {
+        return [
+            'id',
+            'name',
+            'slug',
+            'description',
+            'posts_count',
+            'parents_count',
+            'created_at',
+            'updated_at',
+        ];
+    }
+
+    // Which fields can be used to sort the results through the query string
+    public static function getAllowedSorts(): array
+    {
+        return [
+            'id',
+            'name',
+            'slug',
+            'description',
+            'posts_count',
+            'parents_count',
+            'created_at',
+            'updated_at',
+        ];
+    }
+
+    // Which fields can be used to filter the results through the query string
+    public static function getAllowedFilters(): array
+    {
+        return [
+            'id',
+            'name',
+            'slug',
+            'description',
+            'posts_count',
+            'parents_count',
+            'created_at',
+            'updated_at',
+        ];
+    }
+
+    // Which fields can be used to include in the results through the query string
+    public static function getAllowedIncludes(): array
+    {
+        return [
+            'posts',
+            'parents',
+            'posts_count',
+            'parents_count',
+        ];
+    }
+
 
     /**
      * Get the type of the tag.
