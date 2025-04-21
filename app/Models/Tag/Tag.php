@@ -121,6 +121,7 @@ class Tag extends Model implements HasType, HasAllowedFields, HasAllowedFilters,
             'parents_count',
             'created_at',
             'updated_at',
+            'parents.*',
         ];
     }
 
