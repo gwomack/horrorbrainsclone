@@ -181,6 +181,7 @@ class MovieSearchPage extends Component
         $post = Post::published()->with(['year', 'genre', 'media']);
 
         $isTrending = $this->getOrderBy() === OrderByType::TRENDING->value;
+        $isReleaseDate = $this->getOrderBy() === OrderByType::RELEASE_DATE->value;
         $isComments = $this->getOrderBy() === OrderByType::COMMENTS->value;
         $isVotes = $this->getOrderBy() === OrderByType::VOTES->value;
 
@@ -188,6 +189,8 @@ class MovieSearchPage extends Component
 
         return $post->when($isTrending, function ($query) use ($post) {
             return $post->trendingPosts();
+        })->when($isReleaseDate, function ($query) {
+            return $query->orderByRaw("CASE WHEN release_date IS NULL THEN 0 ELSE 1 END {$this->getOrderDirection()}");
         })->when(!$isTrending, function ($query) {
             return $query->orderBy($this->getOrderBy(), $this->getOrderDirection());
         })->when($isComments, function ($query) {
