@@ -22,9 +22,9 @@ class ListTags extends ListRecords
     public function getTabs(): array
     {
         return [
-            'all' => Tab::make('All'),
             'top_parent' => Tab::make('Top Parent')
                 ->modifyQueryUsing(fn (Builder $query) => $query->doesntHave('parents')),
+            'all' => Tab::make('All'),
             'trashed' => Tab::make('Trashed')
                 ->modifyQueryUsing(fn (Builder $query) => $query->onlyTrashed()),
         ];

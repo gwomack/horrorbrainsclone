@@ -21,6 +21,15 @@ class TrendingHomePage extends Tag
                 $query->where('slug', TagType::TRENDING_HOME_PAGE->value);
             });
         });
+
+        // when a new acting tag is created, it should be attached to the acting type
+        static::created(function ($model) {
+            $parent = Tag::where('slug', TagType::TRENDING_HOME_PAGE->value)->first();
+
+            if ($parent) {
+                $model->parents()->attach($parent->getKey());
+            }
+        });
     }
 
     /**

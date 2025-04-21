@@ -22,11 +22,11 @@ class ListPosts extends ListRecords
     public function getTabs(): array
     {
         return [
-            'all' => Tab::make('All'),
             'published' => Tab::make('Published')
-                ->modifyQueryUsing(fn (Builder $query) => $query->published()),
+            ->modifyQueryUsing(fn (Builder $query) => $query->published()),
             'draft' => Tab::make('Draft')
-                ->modifyQueryUsing(fn (Builder $query) => $query->draft()),
+            ->modifyQueryUsing(fn (Builder $query) => $query->draft()),
+            'all' => Tab::make('All'),
             'trashed' => Tab::make('Trashed')
                 ->modifyQueryUsing(fn (Builder $query) => $query->onlyTrashed()),
         ];

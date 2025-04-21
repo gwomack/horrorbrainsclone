@@ -4,6 +4,7 @@ namespace App\Filament\Resources\PostResource\Api\Handlers;
 
 use App\Models\Tag\Tag;
 use App\Models\Tag\Year;
+use App\Models\Post\Post;
 use App\Models\Tag\Field;
 use App\Models\Tag\Genre;
 use App\Models\Tag\Acting;
@@ -20,6 +21,7 @@ use App\Models\Tag\Production;
 use App\Models\Tag\Distribution;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use App\Models\Tag\TrendingHomePage;
 use Rupadana\ApiService\Http\Handlers;
 use App\Filament\Resources\PostResource;
 use App\Filament\Resources\PostResource\Api\Requests\CreatePostRequest;
@@ -66,10 +68,8 @@ class CreateHandler extends Handlers
             }
 
             $model->fill(
-                $request->merge(['description' => $request->get('synopsis')])->except(
-                    'synopsis', 'tmdb_id', 'year', 'production_companies', 'distribution_companies',
-                    'languages', 'countries', 'sub_genres', 'genres', 'writers', 'directors', 'actors',
-                    'youtube_trailers', 'images'
+                $request->merge(['description' => $request->get('synopsis')])->only(
+                    (new Post)->getFillable()
                 )
             );
 
@@ -279,8 +279,27 @@ class CreateHandler extends Handlers
                 }
             }
 
+            if ($thp = $request->get('trending_home_page')) {
+                $thp = Arr::wrap($thp);
+
+                foreach ($thp as $th) {
+                    $th = trim($th);
+                    $slug = Str::slug($th);
+                    $thpModel = Tag::where('slug', $slug)->first();
+
+                    if (! $thpModel) {
+                        $thpModel = TrendingHomePage::create(['name' => $th]);
+                    }
+
+                    $thpModel->parents()->syncWithoutDetaching(
+                        Tag::firstOrCreate(['slug' => TagType::TRENDING_HOME_PAGE->value])->getKey()
+                    );
+                    $model->trendingHomePage()->attach($thpModel->getKey());
+                }
+            }
+
             $postType = Tag::where('slug', 'movie')->first();
-            $model->postType()->attach($postType->getKey());
+            $postType && $model->postType()->attach($postType->getKey());
 
             if ($tmdb_id = $request->get('tmdb_id')) {
                 $model->postExtra()->create([
