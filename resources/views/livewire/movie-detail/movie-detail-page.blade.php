@@ -30,7 +30,7 @@
 
                     <div class="flex items-center space-x-2">
                         <span class="text-gray-500">Release:</span>
-                        <span class="text-gray-300">{{ $post->release_date->format('m/d/Y') }}</span>
+                        <span class="text-gray-300">{{ optional($post->release_date)->format('m/d/Y') }}</span>
                     </div>
                     @if($post->firstYear)
                     <x-tag.tag :tag="$post->firstYear" />
