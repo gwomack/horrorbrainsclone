@@ -12,28 +12,6 @@ use App\Livewire\MovieSearchPage\OrderDirectionType;
     <!-- Featured Tags Section -->
     <section class="pb-6 bg-black border-b light-border">
         <div class="flex overflow-x-auto gap-2 pb-2 scrollbar-hide">
-            {{-- <a href="{{ route('movie.search', ['order_by' => OrderByType::TRENDING->value]) }}"
-                class="flex-none px-6 py-3 border border-red-500 transition-colors duration-300 hover:bg-red-800/30">
-                <div class="flex gap-2 items-center">
-                    <i class="text-red-600 fas fa-fire"></i>
-                    <span class="text-sm font-medium whitespace-nowrap">Trending Now</span>
-                </div>
-            </a>
-            <a href="{{ route('movie.search', ['order_by' => OrderByType::RATING->value, 'order_direction' => OrderDirectionType::DESC->value]) }}"
-                class="flex-none px-6 py-3 border border-gray-700 transition-colors duration-300 bg-gray-800/20 hover:bg-gray-800/30">
-                <div class="flex gap-2 items-center">
-                    <i class="text-yellow-500 fas fa-star"></i>
-                    <span class="text-sm font-medium whitespace-nowrap">Top Rated</span>
-                </div>
-            </a>
-            <a href="{{ route('movie.search', ['start_date' => now()->format('Y-m-d')]) }}"
-                class="flex-none px-6 py-3 border border-gray-700 transition-colors duration-300 bg-gray-800/20 hover:bg-gray-800/30">
-                <div class="flex gap-2 items-center">
-                    <i class="text-gray-400 fas fa-calendar"></i>
-                    <span class="text-sm font-medium whitespace-nowrap">Coming Soon</span>
-                </div>
-            </a> --}}
-
             @foreach ($subGenreTags as $tag)
             <x-tag.home-tag :tag="$tag" />
             @endforeach

@@ -94,7 +94,9 @@ class HomePage extends Component
      */
     protected function getLatestReleases()
     {
-        return Post::published()->latest('release_date')
+        return Post::published()
+            ->whereNotNull('release_date')
+            ->latest('release_date')
             ->with(['year', 'genre'])
             ->limit(3)
             ->get()
