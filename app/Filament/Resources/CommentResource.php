@@ -51,7 +51,7 @@ class CommentResource extends Resource
                     ->alignment(Alignment::Center)
                     ->limit(1),
                 Tables\Columns\TextColumn::make('post.title')
-                    ->url(fn (Comment $record) => route('filament.admin.resources.posts.edit', $record->post->id))
+                    ->url(fn (Comment $record) => $record->post ? route('filament.admin.resources.posts.edit', $record->post->id) : null)
                     ->limit(20)
                     ->searchable(),
                 Tables\Columns\TextColumn::make('name')
