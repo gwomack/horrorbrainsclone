@@ -6,7 +6,7 @@
             </div> --}}
 
 
-            <div class="flex gap-4">
+            <div class="flex gap-4 flex-wrap">
                 <!-- Release Date Range -->
                 <div class="space-y-2">
                     <label class="block text-sm font-medium text-gray-300">Release Date Range</label>
@@ -72,6 +72,20 @@
                         </label>
                         <label for="hs-basic-with-description"
                             class="text-sm text-gray-500 dark:text-neutral-400">AND</label>
+                    </div>
+                </div>
+
+                <div class="space-y-2">
+                    <label class="block text-sm font-medium text-gray-300">Per Page</label>
+                    <div class="flex-1">
+                        <select wire:model="filters.per_page"
+                            class="px-4 py-2 w-full text-white bg-gray-800 border-none focus:ring-2 focus:ring-red-500 focus:border-transparent">
+                            @foreach ($perPageTypes as $perPageType)
+                            <option value="{{ $perPageType['id'] }}" {{ $perPageType['id']===($filters['per_page']
+                                ?? '12' ) ? 'selected' : '' }}>{{
+                                $perPageType['label'] }}</option>
+                            @endforeach
+                        </select>
                     </div>
                 </div>
             </div>

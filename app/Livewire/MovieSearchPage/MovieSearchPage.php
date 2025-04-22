@@ -91,6 +91,7 @@ class MovieSearchPage extends Component
             'movies' => $this->movies,
             'orderByTypes' => $this->orderByTypes,
             'orderDirectionTypes' => $this->orderDirectionTypes,
+            'perPageTypes' => $this->perPageTypes,
         ]);
     }
 
@@ -153,6 +154,17 @@ class MovieSearchPage extends Component
     public function orderByTypes()
     {
         return OrderByType::forSelect();
+    }
+
+    /**
+     * Get the per page types
+     *
+     * @return array
+     */
+    #[Computed(cache: true)]
+    public function perPageTypes()
+    {
+        return PerPageType::forSelect();
     }
 
     /**
@@ -454,15 +466,7 @@ class MovieSearchPage extends Component
     {
         // Log::debug($per_page);
 
-        $per_page = (int) $per_page;
-
-        if ($per_page < 1 || $per_page > self::DEFAULT_PER_PAGE) {
-            $per_page = self::DEFAULT_PER_PAGE;
-        }
-
-        // Log::debug($per_page);
-
-        $this->filters['per_page'] = $per_page;
+        $this->filters['per_page'] = PerPageType::getValue($per_page);
     }
 
     /**
