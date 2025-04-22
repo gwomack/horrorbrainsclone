@@ -18,6 +18,9 @@ enum TagType: string implements HasLabel
     case GENRE = 'genre';
     case SUB_GENRE = 'sub-genre';
     case POST_TYPE = 'post-type';
+    case MOVIE = 'movie';
+    case SHORT = 'short';
+    case DOCUMENTARY = 'documentary';
     case TRENDING_HOME_PAGE = 'trending-home-page';
 
     /**
@@ -38,6 +41,9 @@ enum TagType: string implements HasLabel
             self::GENRE => 'Genre',
             self::SUB_GENRE => 'Sub Genre',
             self::POST_TYPE => 'Post Type',
+            self::MOVIE => 'Movie',
+            self::SHORT => 'Short',
+            self::DOCUMENTARY => 'Documentary',
             self::TRENDING_HOME_PAGE => 'Trending Home Page',
             default => 'Tag',
         };
@@ -60,6 +66,10 @@ enum TagType: string implements HasLabel
             self::YEAR => '<i class="pr-1 fas fa-calendar"></i>',
             self::GENRE => '<i class="pr-1 fas fa-film"></i>',
             self::SUB_GENRE => '<i class="pr-1 fas fa-film"></i>',
+            self::POST_TYPE => '<i class="pr-1 fas fa-file-alt"></i>',
+            self::MOVIE => '<i class="pr-1 fas fa-film"></i>',
+            self::SHORT => '<i class="pr-1 fas fa-film"></i>',
+            self::DOCUMENTARY => '<i class="pr-1 fas fa-film"></i>',
             self::TRENDING_HOME_PAGE => '<i class="pr-1 fas fa-home"></i>',
             default => '<i class="pr-1 fas fa-tag"></i>',
         };
@@ -82,6 +92,10 @@ enum TagType: string implements HasLabel
             self::YEAR->getLabel() => self::YEAR,
             self::GENRE->getLabel() => self::GENRE,
             self::SUB_GENRE->getLabel() => self::SUB_GENRE,
+            self::POST_TYPE->getLabel() => self::POST_TYPE,
+            self::MOVIE->getLabel() => self::MOVIE,
+            self::SHORT->getLabel() => self::SHORT,
+            self::DOCUMENTARY->getLabel() => self::DOCUMENTARY,
             self::TRENDING_HOME_PAGE->getLabel() => self::TRENDING_HOME_PAGE,
             default => self::TAG,
         };

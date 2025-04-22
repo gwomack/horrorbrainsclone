@@ -20,7 +20,7 @@ class SimilarPosts
     {
         $similarPosts = Post::published()->whereNot('id', $this->post->id)->whereHas('tags', function ($query) {
             $query->whereIn('tags.id', $this->post->tags->pluck('id'));
-        })->with('year', 'genre')->inRandomOrder()->limit(8);
+        })->with('subGenre', 'genre')->inRandomOrder()->limit(8);
 
         return $similarPosts;
     }

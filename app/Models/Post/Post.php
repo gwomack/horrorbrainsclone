@@ -8,6 +8,7 @@ use App\Models\PostExtra;
 use App\Models\Tag\Field;
 use App\Models\Tag\Acting;
 use App\Models\Tag\TagType;
+use Illuminate\Support\Str;
 use Spatie\Image\Enums\Fit;
 use Spatie\MediaLibrary\HasMedia;
 use Filament\Forms\Components\Grid;
@@ -241,6 +242,22 @@ class Post extends Model implements HasAllowedFields, HasAllowedFilters, HasAllo
             get: function (mixed $value, array $attributes) {
                 return $this->relationLoaded('year') && ! empty($this->relations['year'])
                     ? $this->relations['year']->first()
+                    : '';
+            }
+        );
+    }
+
+    /**
+     * Get the first sub genre attribute.
+     */
+    protected function firstSubGenre(): Attribute
+    {
+        return Attribute::make(
+            get: function (mixed $value, array $attributes) {
+                return $this->relationLoaded('subGenre') && ! empty($this->relations['subGenre'])
+                    ? tap($this->relations['subGenre']->first(), function ($tag) {
+                        $tag->name = Str::limit($tag->name, 15);
+                    })
                     : '';
             }
         );

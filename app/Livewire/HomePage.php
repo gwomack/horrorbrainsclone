@@ -70,7 +70,7 @@ class HomePage extends Component
     {
         return TrendingHomePage::with('posts')
             ->with(['posts' => function ($query) {
-                $query->with(['year', 'genre'])->published()->orderBy('release_date', 'desc')->limit(8);
+                $query->with('subGenre', 'genre')->published()->orderBy('release_date', 'desc')->limit(8);
             }])
             ->whereHas('posts', function ($query) {
                 $query->published();
@@ -97,11 +97,11 @@ class HomePage extends Component
         return Post::published()
             ->whereNotNull('release_date')
             ->latest('release_date')
-            ->with(['year', 'genre'])
+            ->with(['subGenre', 'genre'])
             ->limit(3)
             ->get()
             ->map(function ($post) {
-                $post->year = optional($post->year->first())->name;
+                $post->subGenre = optional($post->subGenre->first())->name;
                 $post->genre = optional($post->genre->first())->name;
                 $post->description = Str::limit($post->description, 100);
                 $post->title = Str::limit($post->title, 50);
