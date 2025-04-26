@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Horror Brains - Your ultimate resource for horror movies">
+    <meta name="description" content="{{ config('app.name') }} - Your ultimate resource for horror movies">
 
     <title>{{ config('app.name', 'Horror Brains') }} - @yield('title', 'Latest Horror Movies')</title>
 
@@ -28,7 +28,8 @@
         <div class="mx-auto max-w-3xl text-center">
             <div class="logo-container">
                 <a href="/" wire:navigate>
-                    <h1 class="inline-block mb-2 text-4xl horror-title md:text-6xl blood-red">{{ config('app.name', 'Horror
+                    <h1 class="inline-block mb-2 text-4xl horror-title md:text-6xl blood-red">{{ config('app.name',
+                        'Horror
                         Brains') }}</h1>
                 </a>
             </div>
@@ -38,22 +39,24 @@
             <nav class="container mx-auto nav-container">
                 <div class="flex relative justify-center items-center h-10">
                     <div class="hidden space-x-8 md:flex" id="desktop-menu">
-                        <a href="{{ route('movie.search', ['order_by' => 'trending']) }}" class="text-gray-300 hover:text-white">
+                        <a href="{{ route('movie.search', ['order_by' => 'trending']) }}"
+                            class="text-gray-300 hover:text-white">
                             <i class="text-red-600 fas fa-fire"></i>
                             <span class="text-sm font-medium whitespace-nowrap">Trending Now</span>
                         </a>
-                        <a href="{{ route('movie.search', ['order_by' => 'rating', 'order_direction' => 'desc']) }}" class="text-gray-300 hover:text-white">
+                        <a href="{{ route('movie.search', ['order_by' => 'rating', 'order_direction' => 'desc']) }}"
+                            class="text-gray-300 hover:text-white">
                             <i class="text-yellow-500 fas fa-star"></i>
                             <span class="text-sm font-medium whitespace-nowrap">Top Rated</span>
                         </a>
-                        <a href="{{ route('movie.search', ['start_date' => now()->format('Y-m-d')]) }}" class="text-gray-300 hover:text-white">
+                        <a href="{{ route('movie.search', ['start_date' => now()->format('Y-m-d')]) }}"
+                            class="text-gray-300 hover:text-white">
                             <i class="text-gray-400 fas fa-calendar"></i>
                             <span class="text-sm font-medium whitespace-nowrap">Coming Soon</span>
                         </a>
                         <a href="{{ route('aboutus') }}" class="text-gray-300 hover:text-white">About Us</a>
                         @auth
-                        <a href="{{ route('filament.admin.auth.login') }}"
-                            class="text-gray-300 hover:text-white">
+                        <a href="{{ route('filament.admin.auth.login') }}" class="text-gray-300 hover:text-white">
                             <i class="fas fa-user"></i>
                         </a>
                         @endauth
@@ -62,14 +65,21 @@
                         <i class="fas fa-bars"></i>
                     </button>
                     <!-- Dropdown Menu -->
-                    <div id="dropdown-menu" class="hidden absolute right-0 top-full z-50 mt-2 w-48 bg-black rounded-lg border border-gray-700 shadow-lg">
+                    <div id="dropdown-menu"
+                        class="hidden absolute right-0 top-full z-50 mt-2 w-48 bg-black rounded-lg border border-gray-700 shadow-lg">
                         <div class="py-2">
-                            <a href="{{ route('movie.search', ['order_by' => 'trending']) }}" class="block px-4 py-2 text-gray-300 hover:text-white hover:bg-gray-800">Trending Now</a>
-                            <a href="{{ route('movie.search', ['order_by' => 'rating', 'order_direction' => 'desc']) }}" class="block px-4 py-2 text-gray-300 hover:text-white hover:bg-gray-800">Top Rated</a>
-                            <a href="{{ route('movie.search', ['start_date' => now()->format('Y-m-d')]) }}" class="block px-4 py-2 text-gray-300 hover:text-white hover:bg-gray-800">Coming Soon</a>
-                            <a href="{{ route('aboutus') }}" class="block px-4 py-2 text-gray-300 hover:text-white hover:bg-gray-800">About Us</a>
+                            <a href="{{ route('movie.search', ['order_by' => 'trending']) }}"
+                                class="block px-4 py-2 text-gray-300 hover:text-white hover:bg-gray-800">Trending
+                                Now</a>
+                            <a href="{{ route('movie.search', ['order_by' => 'rating', 'order_direction' => 'desc']) }}"
+                                class="block px-4 py-2 text-gray-300 hover:text-white hover:bg-gray-800">Top Rated</a>
+                            <a href="{{ route('movie.search', ['start_date' => now()->format('Y-m-d')]) }}"
+                                class="block px-4 py-2 text-gray-300 hover:text-white hover:bg-gray-800">Coming Soon</a>
+                            <a href="{{ route('aboutus') }}"
+                                class="block px-4 py-2 text-gray-300 hover:text-white hover:bg-gray-800">About Us</a>
                             @auth
-                            <a href="{{ route('filament.admin.auth.login') }}" class="block px-4 py-2 text-gray-300 hover:text-white hover:bg-gray-800">
+                            <a href="{{ route('filament.admin.auth.login') }}"
+                                class="block px-4 py-2 text-gray-300 hover:text-white hover:bg-gray-800">
                                 <i class="mr-2 fas fa-user"></i>Account
                             </a>
                             @endauth

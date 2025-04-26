@@ -29,7 +29,8 @@
                     mainstream slashers to obscure independent gems. We champion unique perspectives and foster
                     discussion, creating a community where your screams, theories, and ratings matter.
                     <br><br>
-                    Beyond the news and insights, Horror Brains offers a powerful way to navigate the vast world of
+                    Beyond the news and insights, {{ config('app.name') }} offers a powerful way to navigate the vast
+                    world of
                     horror. We believe finding your next scare should be intuitive. That's why movies here are
                     meticulously categorized.
                     <br><br>
@@ -41,7 +42,8 @@
                     This detailed system ensures you spend less time searching and more time screaming.
                     <br><br>
                     This sanctuary is built for you, the unwavering horror community. Your engagement, passion, and
-                    contributions are what bring Horror Brains to life (or perhaps, undeath?). Thank you for joining us
+                    contributions are what bring {{ config('app.name') }} to life (or perhaps, undeath?). Thank you for
+                    joining us
                     in this realm where fear and fascination intertwine.
                 </p>
 

@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Horror Brains - Your ultimate resource for horror movies">
+    <meta name="description" content="{{ config('app.name') }} - Your ultimate resource for horror movies">
 
     <title>{{ config('app.name', 'Horror Brains') }} - @yield('title', 'Latest Horror Movies')</title>
 
@@ -20,14 +21,19 @@
     {{-- @filamentStyles --}}
     @vite('resources/css/app.css')
 </head>
+
 <body class="flex flex-col min-h-screen antialiased bg-black">
     <!-- Header -->
     <header class="top-0 z-50 flex-none">
         <section class="py-8">
             <div class="container px-4 mx-auto">
                 <div class="mx-auto max-w-3xl text-center">
-                    <a href="/"><h1 class="mb-2 text-4xl horror-title md:text-6xl blood-red">{{ config('app.name', 'Horror Brains') }}</h1></a>
-                    {{-- <p class="mb-4 text-xl text-gray-300">Your ultimate resource for horror movie enthusiasts</p> --}}
+                    <a href="/">
+                        <h1 class="mb-2 text-4xl horror-title md:text-6xl blood-red">{{ config('app.name', 'Horror
+                            Brains') }}</h1>
+                    </a>
+                    {{-- <p class="mb-4 text-xl text-gray-300">Your ultimate resource for horror movie enthusiasts</p>
+                    --}}
                     <!-- Navigation Menu -->
                     <nav class="">
                         <div class="container px-4 mx-auto">
@@ -65,8 +71,9 @@
         <div class="container px-4 mx-auto">
             <div class="grid grid-cols-1 gap-8 md:grid-cols-4">
                 <div>
-                    <h3 class="mb-4 text-xl horror-title blood-red">Horror Brains</h3>
-                    <p class="text-sm text-gray-400">Your ultimate resource for horror movie enthusiasts, providing up-to-date movie releases, reviews, and discussion opportunities.</p>
+                    <h3 class="mb-4 text-xl horror-title blood-red">{{ config('app.name', 'Horror Brains') }}</h3>
+                    <p class="text-sm text-gray-400">Your ultimate resource for horror movie enthusiasts, providing
+                        up-to-date movie releases, reviews, and discussion opportunities.</p>
                 </div>
 
                 <div>
@@ -99,7 +106,8 @@
                     </div>
                     <p class="mt-4 text-sm text-gray-400">Subscribe to our newsletter for the latest horror updates.</p>
                     <div class="flex mt-2">
-                        <input type="email" placeholder="Your email" class="px-3 py-2 w-full text-sm text-white bg-black border-r-0 thick-border focus:outline-none focus:ring-1 focus:ring-red-700">
+                        <input type="email" placeholder="Your email"
+                            class="px-3 py-2 w-full text-sm text-white bg-black border-r-0 thick-border focus:outline-none focus:ring-1 focus:ring-red-700">
                         <button class="px-3 py-2 text-sm text-white bg-red-800 rounded-r hover:bg-red-700">
                             Subscribe
                         </button>
@@ -108,7 +116,7 @@
             </div>
 
             <div class="pt-6 mt-8 text-sm text-center text-gray-500 border-t light-border">
-                <p>&copy; {{ date('Y') }} Horror Brains. All rights reserved.</p>
+                <p>&copy; {{ date('Y') }} {{ config('app.name', 'Horror Brains') }}. All rights reserved.</p>
             </div>
         </div>
     </footer>
@@ -130,4 +138,5 @@
     {{-- @filamentScripts --}}
     @vite('resources/js/app.js')
 </body>
+
 </html>

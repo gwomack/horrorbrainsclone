@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -19,6 +20,7 @@
     {{-- @filamentStyles --}}
     @vite('resources/css/app.css')
 </head>
+
 <body class="font-sans antialiased bg-black">
     <!-- Navigation -->
     <nav class="bg-black border-b border-gray-800">
@@ -27,7 +29,7 @@
                 <!-- Logo -->
                 <div class="flex-shrink-0">
                     <a href="/" class="text-2xl font-bold text-white">
-                        Horror Brains
+                        {{ config('app.name', 'Horror Brains') }}
                     </a>
                 </div>
 
@@ -42,10 +44,8 @@
                 <!-- Search -->
                 <div class="flex items-center">
                     <form action="/search" method="GET" class="relative">
-                        <input type="text"
-                               name="q"
-                               placeholder="Search movies..."
-                               class="px-4 py-2 w-64 text-white bg-gray-800 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500">
+                        <input type="text" name="q" placeholder="Search movies..."
+                            class="px-4 py-2 w-64 text-white bg-gray-800 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500">
                         <button type="submit" class="absolute right-3 top-1/2 transform -translate-y-1/2">
                             <i class="text-gray-400 fas fa-search"></i>
                         </button>
@@ -65,7 +65,8 @@
         <div class="container px-4 py-8 mx-auto">
             <div class="grid grid-cols-1 gap-8 md:grid-cols-4">
                 <div>
-                    <h3 class="mb-4 text-lg font-semibold text-white">About Horror Brains</h3>
+                    <h3 class="mb-4 text-lg font-semibold text-white">About {{ config('app.name', 'Horror Brains') }}
+                    </h3>
                     <p class="text-gray-400">Your go-to source for horror movie news, reviews, and discussions.</p>
                 </div>
                 <div>
@@ -102,7 +103,7 @@
             </div>
             <div class="pt-8 mt-8 border-t border-gray-800">
                 <p class="text-center text-gray-400">
-                    © {{ date('Y') }} Horror Brains. All rights reserved.
+                    © {{ date('Y') }} {{ config('app.name', 'Horror Brains') }}. All rights reserved.
                 </p>
             </div>
         </div>
@@ -111,4 +112,5 @@
     {{-- @filamentScripts --}}
     @vite('resources/js/app.js')
 </body>
+
 </html>
