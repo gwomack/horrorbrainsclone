@@ -15,21 +15,34 @@
                 </h1>
 
                 <p class="leading-relaxed text-gray-300">
-                    Welcome to Horror Brains – not just another website, but a space pulsating with the dark heart of the horror genre. Born from an undeniable passion shared by true horror aficionados, this platform is fueled by dedication and the insatiable curiosity of enthusiasts like you.
+                    Welcome to {{ config('app.name') }} – not just another website, but a space pulsating with the dark
+                    heart of the horror genre. Born from an undeniable passion shared by true horror aficionados, this
+                    platform is fueled by dedication and the insatiable curiosity of enthusiasts like you.
                     <br><br>
                     We are more than just curators; we are die-hard fans who live and breathe horror.
                     <br><br>
-                    Our mission is simple yet relentless: to keep you on the bleeding edge of horror cinema. We strive to deliver the latest news, the most anticipated releases, and spine-tingling insights, often before anyone else dares to whisper them.
+                    Our mission is simple yet relentless: to keep you on the bleeding edge of horror cinema. We strive
+                    to deliver the latest news, the most anticipated releases, and spine-tingling insights, often before
+                    anyone else dares to whisper them.
                     <br><br>
-                    We aim to be your comprehensive, go-to crypt for all things horror, excavating everything from mainstream slashers to obscure independent gems. We champion unique perspectives and foster discussion, creating a community where your screams, theories, and ratings matter.
+                    We aim to be your comprehensive, go-to crypt for all things horror, excavating everything from
+                    mainstream slashers to obscure independent gems. We champion unique perspectives and foster
+                    discussion, creating a community where your screams, theories, and ratings matter.
                     <br><br>
-                    Beyond the news and insights, Horror Brains offers a powerful way to navigate the vast world of horror. We believe finding your next scare should be intuitive. That's why movies here are meticulously categorized.
+                    Beyond the news and insights, Horror Brains offers a powerful way to navigate the vast world of
+                    horror. We believe finding your next scare should be intuitive. That's why movies here are
+                    meticulously categorized.
                     <br><br>
-                    Explore films by genre, delve into specific sub-genres, discover movies based on unique themes, or even search by other key facets. Our goal is to tag pertinent aspects, allowing you to customize your search and uncover hidden gems or rediscover old favorites based on exactly what chills you seek.
+                    Explore films by genre, delve into specific sub-genres, discover movies based on unique themes, or
+                    even search by other key facets. Our goal is to tag pertinent aspects, allowing you to customize
+                    your search and uncover hidden gems or rediscover old favorites based on exactly what chills you
+                    seek.
                     <br><br>
                     This detailed system ensures you spend less time searching and more time screaming.
                     <br><br>
-                    This sanctuary is built for you, the unwavering horror community. Your engagement, passion, and contributions are what bring Horror Brains to life (or perhaps, undeath?). Thank you for joining us in this realm where fear and fascination intertwine.
+                    This sanctuary is built for you, the unwavering horror community. Your engagement, passion, and
+                    contributions are what bring Horror Brains to life (or perhaps, undeath?). Thank you for joining us
+                    in this realm where fear and fascination intertwine.
                 </p>
 
             </div>
