@@ -36,8 +36,12 @@ class EditPost extends EditRecord
     }
 
     // mutate form data before save
-    public function mutateFormDataBeforeSave(array $data): array
+    // it wont unset from class property $data
+    // data is directly passed to the save method
+    protected function mutateFormDataBeforeSave(array $data): array
     {
+        $data = parent::mutateFormDataBeforeSave($data);
+
         if (empty($data['rating'])) {
             unset($data['rating']);
         }
@@ -45,8 +49,12 @@ class EditPost extends EditRecord
         return $data;
     }
 
-    // mutate form data after save
-    public function afterSave(): void
+    // called before save
+    // after mutateFormDataBeforeSave
+    protected function beforeSave(): void {}
+
+    // called after save
+    protected function afterSave(): void
     {
         if (isset($this->data['rating'])) {
             $this->record->postRatings()->updateOrCreate(

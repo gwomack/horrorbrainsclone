@@ -534,11 +534,9 @@ class Post extends Model implements HasAllowedFields, HasAllowedFilters, HasAllo
                                         ->label('Field')
                                         ->enum(Field::class)
                                         ->options(Field::class)
-                                        ->required()
                                         ->default(Field::AS),
                                     Forms\Components\TextInput::make('custom.value')
                                         ->label('Value')
-                                        ->required()
                                         ->columnSpan(3),
                                 ]),
                         ]),
