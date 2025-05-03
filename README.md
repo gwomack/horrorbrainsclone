@@ -8,7 +8,7 @@ Scream Hive is a minimalist horror movie database and review platform that focus
 
 # DEMO
 
-[Scream Hive Demo](https://screemhive.danielveronese.download)
+[Scream Hive Demo](https://screamhive.danielveronese.download)
 
 ## Features
 
