@@ -2,15 +2,16 @@
 
 namespace App\Livewire\MovieSearchPage;
 
+use Livewire\Component;
+use App\Models\Post\Post;
+use Illuminate\Http\Request;
+use Livewire\WithPagination;
+use App\Livewire\UrlParamType;
+use Livewire\Attributes\Session;
+use Livewire\Attributes\Computed;
+use Illuminate\Support\Facades\Log;
 use App\Livewire\MainSearchBar\MainSearchBar;
 use App\Livewire\MainSearchBar\SearchUrlParameters;
-use App\Livewire\UrlParamType;
-use App\Models\Post\Post;
-use Illuminate\Support\Facades\Log;
-use Livewire\Attributes\Computed;
-use Livewire\Attributes\Session;
-use Livewire\Component;
-use Livewire\WithPagination;
 
 class MovieSearchPage extends Component
 {
@@ -43,6 +44,13 @@ class MovieSearchPage extends Component
     public $input = null;
 
     /**
+     * The request
+     *
+     * @var Request|null
+     */
+    protected Request|null $request = null;
+
+    /**
      * Boot the component
      * called first every time
      *
@@ -56,9 +64,10 @@ class MovieSearchPage extends Component
      *
      * @return void
      */
-    public function mount()
+    public function mount(Request|null $request = null)
     {
         // only build params when page is refreshed
+        $this->request = $request;
         $this->buildParamsFromRequest();
     }
 
@@ -108,10 +117,10 @@ class MovieSearchPage extends Component
      * @param  Request|null  $request
      * @return void
      */
-    public function buildParamsFromRequest($request = null)
+    public function buildParamsFromRequest()
     {
         $this->urlHandler = new SearchUrlParameters;
-        $params = $this->urlHandler->getFromRequest($request ?? request());
+        $params = $this->urlHandler->getFromRequest($this->request ?? request());
 
         $this->setTag($params[UrlParamType::TAG->value] ?? null);
         $this->setInput($params[UrlParamType::INPUT->value] ?? null);
@@ -232,8 +241,8 @@ class MovieSearchPage extends Component
                 $query->where(function ($query) {
                     $input = $this->getInput();
                     foreach ($input as $key => $value) {
-                        $query->where('posts.title', 'like', '%'.$value.'%')
-                            ->orWhere('posts.description', 'like', '%'.$value.'%');
+                        $query->where('posts.title', 'ilike', '%'.$value.'%')
+                            ->orWhere('posts.description', 'ilike', '%'.$value.'%');
                     }
                 });
             } else {
@@ -241,8 +250,8 @@ class MovieSearchPage extends Component
                     $input = $this->getInput();
                     foreach ($input as $key => $value) {
                         $query->orWhere(function ($query) use ($value) {
-                            $query->where('posts.title', 'like', '%'.$value.'%')
-                                ->orWhere('posts.description', 'like', '%'.$value.'%');
+                            $query->where('posts.title', 'ilike', '%'.$value.'%')
+                                ->orWhere('posts.description', 'ilike', '%'.$value.'%');
                         });
                     }
                 });

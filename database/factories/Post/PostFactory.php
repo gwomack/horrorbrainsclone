@@ -26,8 +26,8 @@ class PostFactory extends Factory
             'description' => fake()->text(),
             'release_date' => fake()->date(),
             'rating' => fake()->randomFloat(0, 0, 5),
-            'is_published' => fake()->boolean(),
-            'published_at' => fake()->dateTime(),
+            'is_published' => $isPublished = fake()->boolean(),
+            'published_at' => $isPublished ? fake()->dateTime() : null,
         ];
     }
 }
