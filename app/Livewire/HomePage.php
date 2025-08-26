@@ -68,9 +68,12 @@ class HomePage extends Component
      */
     protected function getTrendingHomePageTags()
     {
-        return TrendingHomePage::with('posts')
-            ->with(['posts' => function ($query) {
-                $query->with('subGenre', 'genre')->published()->orderBy('release_date', 'desc')->limit(8);
+        return TrendingHomePage::
+            with(['posts' => function ($query) {
+                $query->published()
+                ->distinct('post_id')
+                ->with('subGenre', 'genre')
+                ->orderBy('release_date', 'desc')->limit(8);
             }])
             ->whereHas('posts', function ($query) {
                 $query->published();
