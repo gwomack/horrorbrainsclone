@@ -8,9 +8,9 @@ use Illuminate\Support\Facades\URL;
 use Spatie\Sitemap\SitemapGenerator;
 
 // Clean up trending records older than 30 days
-Artisan::command('trending:clean', function () {
-    Trending::where('updated_at', '<', now()->subDays(30))->delete();
-})->purpose('Clean up trending records older than 30 days')->daily();
+// Artisan::command('trending:clean', function () {
+//     Trending::where('updated_at', '<', now()->subDays(30))->delete();
+// })->purpose('Clean up trending records older than 30 days')->daily();
 
 // Generate the sitemap
 Artisan::command('sitemap:generate', function () {

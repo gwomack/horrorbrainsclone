@@ -22,10 +22,10 @@ class AppServiceProvider extends ServiceProvider
         parent::register();
         FilamentView::registerRenderHook('panels::body.end', fn (): string => Blade::render("@vite('resources/js/app.js')"));
 
-        if ($this->app->environment('local')) {
+        // if ($this->app->environment('local')) {
             $this->app->register(\Laravel\Telescope\TelescopeServiceProvider::class);
             $this->app->register(TelescopeServiceProvider::class);
-        }
+        // }
     }
 
     /**

@@ -10,6 +10,7 @@
 .env.laradock
 .env.testing
 .env.backup
+.env.decrypted-production
 .env.keys
 .phpactor.json
 .phpunit.result.cache
