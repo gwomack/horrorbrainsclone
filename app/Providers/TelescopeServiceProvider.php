@@ -59,7 +59,6 @@ class TelescopeServiceProvider extends TelescopeApplicationServiceProvider
             return app()->isLocal() 
             || ($user && (
                 app()->isProduction() 
-                && request()->ip() === env('VPN_IP')
                 && in_array($user->email, [
                     env('SADMIN_EMAIL'),
                 ])
