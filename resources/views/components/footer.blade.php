@@ -10,7 +10,7 @@
             <div>
                 <h4 class="mb-4 font-semibold text-white">Quick Filters</h4>
                 <ul class="space-y-2 text-sm">
-                    <li><a href="{{ route('movie.search', ['order_by' => 'created_at', 'order_direction' => 'desc']) }}" class="text-gray-400 hover:text-white">Latest Added</a></li>
+                    <li><a href="{{ route('movie.search', ['order_by' => 'published_at', 'order_direction' => 'desc']) }}" class="text-gray-400 hover:text-white">Latest Published</a></li>
                     <li><a href="{{ route('movie.search', ['order_by' => 'rating', 'order_direction' => 'desc']) }}" class="text-gray-400 hover:text-white">Top Rated</a></li>
                     <li><a href="{{ route('movie.search', ['order_by' => 'post_comments_count', 'order_direction' => 'desc']) }}" class="text-gray-400 hover:text-white">Most Commented</a></li>
                     <li><a href="{{ route('movie.search', ['start_date' => now()->format('Y-m-d')]) }}" class="text-gray-400 hover:text-white">Coming Soon</a></li>
