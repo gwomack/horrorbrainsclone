@@ -35,5 +35,6 @@ Artisan::command('sitemap:generate', function () {
 
 })->purpose('Generate the sitemap')->daily();
 
-// Prune telescope records older than 30 days
-Schedule::command('telescope:prune --days=30')->daily();
+// Prune telescope records older than 7 days
+Schedule::command('telescope:prune --hours=168')
+    ->purpose('Prune telescope records')->daily();
